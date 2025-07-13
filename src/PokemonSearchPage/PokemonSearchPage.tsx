@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import Search from '../Search/Search';
 import TableView from '../TableView/TableView';
+import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
 export default class PokemonSearchPage extends Component {
   render() {
@@ -8,7 +9,9 @@ export default class PokemonSearchPage extends Component {
     // values saved into localStorage
     return (
       <>
-        <Search />
+        <ErrorBoundary>
+          <Search />
+        </ErrorBoundary>
         <TableView />
       </>
     );

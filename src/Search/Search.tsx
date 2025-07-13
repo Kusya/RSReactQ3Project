@@ -8,11 +8,13 @@ export default class Search extends Component {
   constructor(props: SearchComponentProps) {
     super(props);
     const searchInput = String(localStorage.getItem('searchInput'));
-    this.state = { inputValue: searchInput };
-    //this.handleInputSearchValue = this.handleInputSearchValue.bind(this);
+    this.state = { inputValue: searchInput, isError: false };
+
+    this.causeSimulatedError = this.causeSimulatedError.bind(this);
   }
   state = {
     inputValue: '',
+    isError: false,
   };
 
   handleInputSearchValue = () => {
@@ -25,7 +27,15 @@ export default class Search extends Component {
     });
   };
 
+  causeSimulatedError() {
+    this.setState({ isError: true });
+  }
+
   render() {
+    if (this.state.isError) {
+      // Throwing a real Error object with dynamic state
+      throw new Error(`En error has been occured!`);
+    }
     return (
       <>
         <div>
@@ -34,6 +44,7 @@ export default class Search extends Component {
             onChange={this.handleInputChange}
           ></input>
           <button onClick={this.handleInputSearchValue}>Search</button>
+          <button onClick={this.causeSimulatedError}>Error button</button>
         </div>
       </>
     );
