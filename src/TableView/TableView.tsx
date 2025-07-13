@@ -2,23 +2,46 @@ import { Component } from 'react';
 
 export const fetchData = async () => {
   const response = await fetch(
-    'https://pokeapi.co/api/v2/pokemon?limit=10&offset=0'
+    'https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0'
   );
   if (!response.ok) throw new Error('Error loaging data');
   return await response.json();
 };
 
-export default class TableView extends Component {
+interface TableProps {
+  searchString: string;
+}
+
+export default class TableView extends Component<TableProps> {
+  constructor(props: TableProps) {
+    super(props);
+
+    this.state = {
+      data: Array,
+      loading: true,
+      error: null,
+      searchString: this.props.searchString,
+    };
+  }
   state = {
     data: Array,
     loading: true,
     error: null,
+    searchString: '',
   };
 
   async componentDidMount() {
     try {
-      const data = await fetchData();
-      this.setState({ data: data.results, loading: false });
+      if (this.props.searchString == '') {
+        const data = await fetchData();
+        this.setState({ data: data.results, loading: false });
+      } else {
+        const data = await fetchData();
+        const result = data.results.filter((item) => {
+          item.name.includes(this.props.searchString);
+        });
+        this.setState({ data: result, loading: false });
+      }
     } catch (err: Error) {
       this.setState({ error: err.message, loading: false });
     }

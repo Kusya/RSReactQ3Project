@@ -1,29 +1,31 @@
 import { Component } from 'react';
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-interface SearchComponentProps {}
+interface SearchComponentProps {
+  sendSearchUp: (data: string) => void;
+}
 
-//class MyComponent extends React.Component<MyComponentProps, MyComponentState> {
-export default class Search extends Component {
+export default class Search extends Component<SearchComponentProps> {
   constructor(props: SearchComponentProps) {
     super(props);
     const searchInput = String(localStorage.getItem('searchInput'));
-    this.state = { inputValue: searchInput, isError: false };
+    this.state = { searchString: searchInput, isError: false };
 
+    this.handleInputSearchValue = this.handleInputSearchValue.bind(this);
     this.causeSimulatedError = this.causeSimulatedError.bind(this);
   }
   state = {
-    inputValue: '',
+    searchString: '',
     isError: false,
   };
 
   handleInputSearchValue = () => {
-    localStorage.setItem('searchInput', this.state.inputValue);
+    localStorage.setItem('searchInput', this.state.searchString);
+    this.props.sendSearchUp(this.state.searchString);
   };
 
   handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
-      inputValue: e.currentTarget.value,
+      searchString: e.currentTarget.value,
     });
   };
 
@@ -33,14 +35,13 @@ export default class Search extends Component {
 
   render() {
     if (this.state.isError) {
-      // Throwing a real Error object with dynamic state
       throw new Error(`En error has been occured!`);
     }
     return (
       <>
         <div>
           <input
-            value={this.state.inputValue}
+            value={this.state.searchString}
             onChange={this.handleInputChange}
           ></input>
           <button onClick={this.handleInputSearchValue}>Search</button>

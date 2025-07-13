@@ -3,16 +3,38 @@ import Search from '../Search/Search';
 import TableView from '../TableView/TableView';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-export default class PokemonSearchPage extends Component {
+interface PokePageProps {
+  searchString: string;
+}
+
+export default class PokemonSearchPage extends Component<PokePageProps> {
+  constructor(props) {
+    super(props);
+    const searchInput = String(localStorage.getItem('searchInput'));
+    this.state = { searchString: searchInput };
+
+    this.handleSearchData = this.handleSearchData.bind(this);
+  }
+
+  handleSearchData(data: string) {
+    this.setState({ searchString: data });
+  }
+
+  state = {
+    searchString: '',
+  };
+
   render() {
-    //todo: there should be separate box for search component. maybe some saved values should goes to search params.
-    // values saved into localStorage
     return (
       <>
-        <ErrorBoundary>
-          <Search />
-        </ErrorBoundary>
-        <TableView />
+        <header>
+          <ErrorBoundary>
+            <Search sendSearchUp={this.handleSearchData} />
+          </ErrorBoundary>
+        </header>
+        <main>
+          <TableView searchString={this.state.searchString} />
+        </main>
       </>
     );
   }
