@@ -10,7 +10,7 @@ interface PokePageProps {
 export default class PokemonSearchPage extends Component<PokePageProps> {
   constructor(props: PokePageProps) {
     super(props);
-    const searchInput = String(localStorage.getItem('searchInput'));
+    const searchInput = localStorage.getItem('searchInput') || '';
     this.state = { searchString: searchInput };
 
     this.handleSearchData = this.handleSearchData.bind(this);
