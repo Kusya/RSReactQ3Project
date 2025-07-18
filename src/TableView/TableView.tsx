@@ -22,40 +22,53 @@ export default class TableView extends Component<TableProps> {
     super(props);
 
     this.state = {
-      pokeList: new Array<PokeItem>(),
+      pokeList: [],
       loading: true,
       error: null,
       searchString: this.props.searchString,
     };
   }
   state = {
-    pokeList: new Array<PokeItem>(),
+    pokeList: [],
     loading: true,
     error: null,
     searchString: '',
   };
 
-  async componentDidMount() {
+  loadData = async () => {
+    const searchString = this.state.searchString;
     try {
-      if (this.props.searchString == '') {
-        const data = await fetchData();
-        this.setState({ pokeList: data.results, loading: false });
-      } else {
-        const data = await fetchData();
-        const result = data.results.filter((item: PokeItem) => {
-          item.name.includes(this.props.searchString);
-        });
-        this.setState({ pokeList: result, loading: false });
-      }
+      const data = await fetchData();
+      const filtered = searchString
+        ? data.results.filter((item: PokeItem) =>
+            item.name.includes(searchString.toLowerCase())
+          )
+        : data.results;
+      this.setState({ pokeList: filtered, loading: false });
     } catch (err) {
-      this.setState({ error: err, loading: false });
+      this.setState({
+        error: err instanceof Error ? err.message : 'Error',
+        loading: false,
+      });
+    }
+  };
+
+  async componentDidMount() {
+    this.loadData();
+  }
+
+  componentDidUpdate(prevProps: TableProps) {
+    if (prevProps.searchString !== this.props.searchString) {
+      this.setState({ searchString: this.props.searchString }, () => {
+        this.loadData();
+      });
     }
   }
 
   render() {
     const { pokeList, loading, error } = this.state;
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div id="pokemonTable">Loading...</div>;
     if (error) return <div>Error: {error}</div>;
     if (pokeList == null || pokeList.length <= 0)
       return <div>No items found</div>;
@@ -64,18 +77,22 @@ export default class TableView extends Component<TableProps> {
       <div>
         <h3>Pokemons</h3>
         <table>
-          <tr>
-            <th>Name</th>
-            <th>Url</th>
-          </tr>
-          {pokeList.map((item: PokeItem) => (
-            <tr key={item.name}>
-              <td>{item.name}</td>
-              <td>
-                <a href={item.url}>href</a>
-              </td>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Url</th>
             </tr>
-          ))}
+          </thead>
+          <tbody>
+            {pokeList.map((item: PokeItem) => (
+              <tr key={item.name}>
+                <td>{item.name}</td>
+                <td>
+                  <a href={item.url}>href</a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     );
