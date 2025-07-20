@@ -5,19 +5,10 @@ interface SearchComponentProps {
 }
 
 export default class Search extends Component<SearchComponentProps> {
-  constructor(props: SearchComponentProps) {
-    super(props);
-    const searchInput = String(localStorage.getItem('searchInput'));
-    this.state = { searchString: searchInput, isError: false };
-
-    this.handleInputSearchValue = this.handleInputSearchValue.bind(this);
-    this.causeSimulatedError = this.causeSimulatedError.bind(this);
-  }
   state = {
-    searchString: '',
+    searchString: localStorage.getItem('searchInput') || '',
     isError: false,
   };
-
   handleInputSearchValue = () => {
     localStorage.setItem('searchInput', this.state.searchString);
     this.props.sendSearchUp(this.state.searchString);
@@ -29,9 +20,9 @@ export default class Search extends Component<SearchComponentProps> {
     });
   };
 
-  causeSimulatedError() {
+  causeSimulatedError = () => {
     this.setState({ isError: true });
-  }
+  };
 
   render() {
     if (this.state.isError) {
@@ -41,6 +32,7 @@ export default class Search extends Component<SearchComponentProps> {
       <>
         <div>
           <input
+            name="search-input"
             value={this.state.searchString}
             onChange={this.handleInputChange}
           ></input>
