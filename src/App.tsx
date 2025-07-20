@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div>
-        <PokemonSearchPage searchString=""></PokemonSearchPage>
+        <PokemonSearchPage></PokemonSearchPage>
       </div>
       <div>
         <a href="https://vite.dev" target="_blank" rel="noreferrer">
