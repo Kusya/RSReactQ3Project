@@ -49,6 +49,7 @@ export default class TableView extends Component<TableProps> {
       this.setState({
         error: err instanceof Error ? err.message : 'Error',
         loading: false,
+        pokeList: null,
       });
     }
   };
