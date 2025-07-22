@@ -1,12 +1,5 @@
-import { Component } from 'react';
-
-export const fetchData = async () => {
-  const response = await fetch(
-    'https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0'
-  );
-  if (!response.ok) throw new Error('Error loaging data');
-  return await response.json();
-};
+import { useEffect, useState } from 'react';
+import PokeApiService from '../services/PokemonApiService';
 
 interface TableProps {
   searchString: string;
@@ -17,85 +10,66 @@ type PokeItem = {
   url: string;
 };
 
-export default class TableView extends Component<TableProps> {
-  constructor(props: TableProps) {
-    super(props);
+export default function TableView(props: TableProps) {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [data, setData] = useState([]);
+  const itemsLimit = 100;
+  const page = 1;
 
-    this.state = {
-      pokeList: [],
-      loading: true,
-      error: null,
-      searchString: this.props.searchString,
-    };
-  }
-  state = {
-    pokeList: [],
-    loading: true,
-    error: null,
-    searchString: '',
-  };
-
-  loadData = async () => {
-    const searchString = this.state.searchString;
+  const loadData = async () => {
     try {
-      const data = await fetchData();
-      const filtered = searchString
-        ? data.results.filter((item: PokeItem) =>
-            item.name.includes(searchString.toLowerCase())
-          )
-        : data.results;
-      this.setState({ pokeList: filtered, loading: false });
+      let resultData = [];
+      if (props.searchString) {
+        const data = await PokeApiService.fetchData();
+        resultData = data.results.filter((item: PokeItem) =>
+          item.name.includes(props.searchString.toLowerCase())
+        );
+      } else {
+        const data = await PokeApiService.fetchDataByPage({
+          limit: itemsLimit,
+          pageNumber: page,
+        });
+        resultData = data.results;
+      }
+      setData(resultData);
+      setLoading(false);
     } catch (err) {
-      this.setState({
-        error: err instanceof Error ? err.message : 'Error',
-        loading: false,
-        pokeList: null,
-      });
+      setError(err instanceof Error ? err.message : 'Error');
+      setLoading(false);
+      setData([]);
     }
   };
 
-  async componentDidMount() {
-    this.loadData();
-  }
+  useEffect(() => {
+    loadData();
+  });
 
-  componentDidUpdate(prevProps: TableProps) {
-    if (prevProps.searchString !== this.props.searchString) {
-      this.setState({ searchString: this.props.searchString }, () => {
-        this.loadData();
-      });
-    }
-  }
+  if (loading) return <div id="pokemonTable">Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (data == null || data.length <= 0) return <div>No items found</div>;
 
-  render() {
-    const { pokeList, loading, error } = this.state;
-
-    if (loading) return <div id="pokemonTable">Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-    if (pokeList == null || pokeList.length <= 0)
-      return <div>No items found</div>;
-
-    return (
-      <div>
-        <h3>Pokemons</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Url</th>
+  return (
+    <div>
+      <h3>Pokemons</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Url</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item: PokeItem) => (
+            <tr key={item.name}>
+              <td>{item.name}</td>
+              <td>
+                <a href={item.url}>href</a>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {pokeList.map((item: PokeItem) => (
-              <tr key={item.name}>
-                <td>{item.name}</td>
-                <td>
-                  <a href={item.url}>href</a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
-  }
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
 }
