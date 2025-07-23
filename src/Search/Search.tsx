@@ -1,45 +1,33 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 interface SearchComponentProps {
   sendSearchUp: (data: string) => void;
 }
 
-export default class Search extends Component<SearchComponentProps> {
-  state = {
-    searchString: localStorage.getItem('searchInput') || '',
-    isError: false,
-  };
-  handleInputSearchValue = () => {
-    localStorage.setItem('searchInput', this.state.searchString);
-    this.props.sendSearchUp(this.state.searchString);
+export default function Search(props: SearchComponentProps) {
+  const [searchString, setsearchString] = useState(
+    localStorage.getItem('searchInput') || ''
+  );
+
+  const handleInputSearchValue = () => {
+    localStorage.setItem('searchInput', searchString);
+    props.sendSearchUp(searchString);
   };
 
-  handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      searchString: e.currentTarget.value,
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setsearchString(e.currentTarget.value);
   };
 
-  causeSimulatedError = () => {
-    this.setState({ isError: true });
-  };
-
-  render() {
-    if (this.state.isError) {
-      throw new Error(`En error has been occured!`);
-    }
-    return (
-      <>
-        <div>
-          <input
-            name="search-input"
-            value={this.state.searchString}
-            onChange={this.handleInputChange}
-          ></input>
-          <button onClick={this.handleInputSearchValue}>Search</button>
-          <button onClick={this.causeSimulatedError}>Error button</button>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      <div>
+        <input
+          name="search-input"
+          value={searchString}
+          onChange={handleInputChange}
+        ></input>
+        <button onClick={handleInputSearchValue}>Search</button>
+      </div>
+    </>
+  );
 }
