@@ -1,27 +1,26 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import Search from '../Search/Search';
 import TableView from '../TableView/TableView';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 
-export default class PokemonSearchPage extends Component {
-  state = {
-    searchString: localStorage.getItem('searchInput') || '',
-  };
+export default function PokemonSearchPage() {
+  //todo: specifi searchstr only in there or only in Search component
+  const [searchData, setSearchData] = useState(
+    localStorage.getItem('searchInput') || ''
+  );
 
-  handleSearchData = (data: string) => this.setState({ searchString: data });
+  const handleSearchData = (data: string) => setSearchData(data);
 
-  render() {
-    return (
-      <>
-        <header>
-          <ErrorBoundary>
-            <Search sendSearchUp={this.handleSearchData} />
-          </ErrorBoundary>
-        </header>
-        <main>
-          <TableView searchString={this.state.searchString} />
-        </main>
-      </>
-    );
-  }
+  return (
+    <>
+      <header>
+        <ErrorBoundary>
+          <Search sendSearchUp={handleSearchData} />
+        </ErrorBoundary>
+      </header>
+      <main>
+        <TableView searchString={searchData} />
+      </main>
+    </>
+  );
 }
