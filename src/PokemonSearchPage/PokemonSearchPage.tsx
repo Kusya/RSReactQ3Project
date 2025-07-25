@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import Search from '../components/Search/Search';
 import TableView from '../components/TableView/TableView';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 export default function PokemonSearchPage() {
-  const [searchData, setSearchData] = useState(
-    localStorage.getItem('searchInput') || ''
-  );
+  const [searchData, setSearchData] = useLocalStorage('searchInput', '');
 
   const handleSearchData = (data: string) => {
     setSearchData(data);
-    localStorage.setItem('searchInput', data);
   };
 
   return (
