@@ -10,7 +10,7 @@ beforeEach(() => {
 });
 
 test('Search render field and button, and error button', () => {
-  render(<Search sendSearchUp={() => {}} />);
+  render(<Search searchStr="" sendSearchUp={() => {}} />);
   expect(screen.getByRole('textbox')).toBeInTheDocument();
   const searchElement = screen.getByRole('button', { name: /Search/i });
 
@@ -21,7 +21,7 @@ test('Search render field and button, and error button', () => {
 });
 
 test('click Search calls sendSearchUp with currend value of searchString', async () => {
-  render(<Search sendSearchUp={mockSendSearchUp} />);
+  render(<Search searchStr="" sendSearchUp={mockSendSearchUp} />);
   const input = screen.getByRole('textbox');
   const searchButton = screen.getByRole('button', { name: /search/i });
 
@@ -30,16 +30,4 @@ test('click Search calls sendSearchUp with currend value of searchString', async
   await userEvent.click(searchButton);
 
   expect(mockSendSearchUp).toHaveBeenCalledWith('bulbasaur');
-});
-
-test('save searchString into localStorage on Search click', async () => {
-  render(<Search sendSearchUp={mockSendSearchUp} />);
-  const input = screen.getByRole('textbox');
-  const searchButton = screen.getByRole('button', { name: /search/i });
-
-  await userEvent.clear(input);
-  await userEvent.type(input, 'pikachu');
-  await userEvent.click(searchButton);
-
-  expect(localStorage.getItem('searchInput')).toBe('pikachu');
 });

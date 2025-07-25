@@ -1,16 +1,15 @@
 import { useState } from 'react';
 
 interface SearchComponentProps {
+  searchStr: string;
   sendSearchUp: (data: string) => void;
 }
 
 export default function Search(props: SearchComponentProps) {
-  const [searchString, setsearchString] = useState(
-    localStorage.getItem('searchInput') || ''
-  );
+  //tbd: is this ok to useState(props)?
+  const [searchString, setsearchString] = useState(props.searchStr);
 
   const handleInputSearchValue = () => {
-    localStorage.setItem('searchInput', searchString);
     props.sendSearchUp(searchString);
   };
 
