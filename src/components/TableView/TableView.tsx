@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PokeApiService from '../services/PokemonApiService';
+import PokeApiService from '../../services/PokemonApiService';
 
 interface TableProps {
   searchString: string;

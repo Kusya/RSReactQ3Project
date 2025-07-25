@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TableView from './TableView';
-import { server } from '../mocks/server';
+import { server } from '../../mocks/server';
 import { http, HttpResponse } from 'msw';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
