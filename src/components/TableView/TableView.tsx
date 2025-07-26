@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import PokeApiService from '../../services/PokemonApiService';
 import Pagination from '../Pagination/Pagination';
+import { Link, useSearchParams } from 'react-router-dom';
 
 interface TableProps {
   searchString: string;
@@ -16,8 +17,41 @@ export default function TableView(props: TableProps) {
   const [error, setError] = useState('');
   const [data, setData] = useState([] as PokeItem[]);
   const itemsPerPage = 10;
-  const [page, setPage] = useState(1);
+
   const [totalPages, settotalPages] = useState(10);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState(
+    parseInt(searchParams.get('page') || '1', 10)
+  );
+
+  const validate = () => {
+    if (isNaN(page) || page < 1) {
+      return <div>Incorrect page number</div>;
+    }
+
+    if (page > totalPages) {
+      return (
+        <div>
+          <h1>404 - Page not found</h1>
+          <p>
+            Page {page} not exists. Total pages: {totalPages}.
+          </p>
+          <Link to={`/?page=${totalPages}`}>Go to last page</Link>
+        </div>
+      );
+    }
+  };
+
+  useEffect(() => {
+    validate();
+    if (page === 1) {
+      const { page: _page, ...rest } = Object.fromEntries(searchParams);// eslint-disable-line
+      setSearchParams(rest);
+    } else {
+      setSearchParams({ page: page.toString() });
+    }
+  }, [page]);
 
   useEffect(() => {
     setLoading(true);
