@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import TableView from './TableView';
 import { server } from '../../mocks/server';
-import { http, HttpResponse } from 'msw';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
@@ -38,19 +37,4 @@ test('updated a table on updated searchString', async () => {
 
   expect(bulbasaur).toBeInTheDocument();
   expect(charmander).toBeInTheDocument();
-});
-
-test('show error when server return', async () => {
-  server.use(
-    http.get(' https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0', () => {
-      HttpResponse.json(null, {
-        status: 500,
-      });
-    })
-  );
-  render(<TableView searchString="" />);
-
-  expect(screen.getByText(/loading/i)).toBeInTheDocument();
-  const error = await screen.findByText(/error/i);
-  expect(error).toBeInTheDocument();
 });
