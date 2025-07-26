@@ -1,7 +1,7 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import PokemonSearchPage from './PokemonSearchPage/PokemonSearchPage';
+import PokemonSearchPage from './pages/PokemonSearchPage/PokemonSearchPage';
 
 function App() {
   return (

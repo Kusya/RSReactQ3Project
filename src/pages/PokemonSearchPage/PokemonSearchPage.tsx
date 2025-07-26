@@ -1,7 +1,7 @@
-import Search from '../components/Search/Search';
-import TableView from '../components/TableView/TableView';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
-import useLocalStorage from '../hooks/useLocalStorage';
+import Search from '../../components/Search/Search';
+import TableView from '../../components/TableView/TableView';
+import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
+import useLocalStorage from '../../hooks/useLocalStorage';
 
 export default function PokemonSearchPage() {
   const [searchData, setSearchData] = useLocalStorage('searchInput', '');
