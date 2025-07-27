@@ -46,12 +46,7 @@ export default function CardList(props: CardListProps) {
 
   useEffect(() => {
     validate();
-    if (page === 1) {
-      const { page: _page, ...rest } = Object.fromEntries(searchParams); // eslint-disable-line
-      setSearchParams(rest);
-    } else {
-      setSearchParams({ page: page.toString() });
-    }
+    setSearchParams({ page: page.toString() });
   }, [page]);
 
   useEffect(() => {
@@ -119,15 +114,22 @@ export default function CardList(props: CardListProps) {
         <div className="card-list-sidebar">
           <h2>Pokemons</h2>
           <ul className="card-list">
-            {data.map((item: PokeItem) => (
-              <li key={item.name} className="card-list-item">
-                <Link
-                  to={`details/${item.url.split('/').filter(Boolean).pop()}`}
-                >
-                  <strong>{item.name}</strong>
-                </Link>
-              </li>
-            ))}
+            {data.map((item: PokeItem) => {
+              const id = item.url.split('/').filter(Boolean).pop();
+              const search = new URLSearchParams(searchParams);
+              return (
+                <li key={item.name} className="card-list-item">
+                  <Link
+                    to={{
+                      pathname: `details/${id}`,
+                      search: search.toString(),
+                    }}
+                  >
+                    <strong>{item.name}</strong>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </div>
         <Outlet />

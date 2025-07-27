@@ -6,7 +6,6 @@ interface SearchComponentProps {
 }
 
 export default function Search(props: SearchComponentProps) {
-  //tbd: is this ok to useState(props)?
   const [searchString, setsearchString] = useState(props.searchStr);
 
   const handleInputSearchValue = () => {

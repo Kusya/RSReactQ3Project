@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './Pagination.css';
+import { useSearchParams } from 'react-router-dom';
 
 interface PaginationProps {
   page: number;
@@ -12,7 +13,11 @@ export default function Pagination({
   sendPageUp,
   totalPages,
 }: PaginationProps) {
-  const [page, setPage] = useState(initialPage);
+  const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(
+    parseInt(searchParams.get('page') || String(initialPage), 10)
+  );
+
   const pageNumbers = Array<number>();
   const siblings = 1;
   const boundaries = 2;
