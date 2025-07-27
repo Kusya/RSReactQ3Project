@@ -30,6 +30,7 @@ export default function PokemonDetails() {
   const { id } = useParams();
   const item = { id: 'test' };
   const [details, setDetails] = useState({} as PokemonDetails);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -55,12 +56,15 @@ export default function PokemonDetails() {
         setLoading(false);
       } catch (err) {
         console.log('Error: ' + err);
+        setError('Failed to load Pokémon');
+        setLoading(false);
       }
     };
     loadData();
   }, [id]);
 
   if (loading) return <div>Loading...</div>;
+  if (error) return <div data-testid="error">Error: {error}</div>;
   return (
     <div className="pokemon-details">
       {item ? (
