@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import PokeApiService from '../../services/PokemonApiService';
 import Pagination from '../Pagination/Pagination';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import './CardList.css';
 
 interface CardListProps {
   searchString: string;
@@ -114,25 +115,21 @@ export default function CardList(props: CardListProps) {
 
   return (
     <div>
-      <h3>Pokemons</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Url</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item: PokeItem) => (
-            <tr key={item.name}>
-              <td>{item.name}</td>
-              <td>
-                <a href={item.url}>href</a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="card-list-layout">
+        <div className="card-list-sidebar">
+          <h2>Pokemons</h2>
+          <ul className="card-list">
+            {data.map((item: PokeItem) => (
+              <li key={item.name} className="card-list-item">
+                <button onClick={() => {}} className="card-list-button">
+                  <strong>{item.name}</strong>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Outlet />
+      </div>
       <Pagination
         page={page}
         sendPageUp={(pageNum) => {
