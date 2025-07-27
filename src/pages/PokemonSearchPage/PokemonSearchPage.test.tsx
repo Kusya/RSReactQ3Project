@@ -1,9 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import PokemonSearchPage from './PokemonSearchPage';
 import userEvent from '@testing-library/user-event';
+import { BrowserRouter } from 'react-router-dom';
 
 test('PokemonSearchPage render check', () => {
-  render(<PokemonSearchPage />);
+  render(
+    <BrowserRouter>
+      <PokemonSearchPage />
+    </BrowserRouter>
+  );
 
   expect(screen.getByRole('textbox')).toBeInTheDocument();
   expect(screen.getByText(/search/i)).toBeInTheDocument();
@@ -11,7 +16,11 @@ test('PokemonSearchPage render check', () => {
 });
 
 test('updating searchString and pass it into CardList', async () => {
-  render(<PokemonSearchPage />);
+  render(
+    <BrowserRouter>
+      <PokemonSearchPage />
+    </BrowserRouter>
+  );
 
   expect(screen.getByText('Loading...')).toBeInTheDocument();
 
@@ -23,7 +32,11 @@ test('updating searchString and pass it into CardList', async () => {
 });
 
 test('save searchString into localStorage on Search click', async () => {
-  render(<PokemonSearchPage />);
+  render(
+    <BrowserRouter>
+      <PokemonSearchPage />
+    </BrowserRouter>
+  );
   const input = screen.getByRole('textbox');
   const searchButton = screen.getByRole('button', { name: /search/i });
 
