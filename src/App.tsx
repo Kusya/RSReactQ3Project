@@ -1,13 +1,24 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import PokemonSearchPage from './PokemonSearchPage/PokemonSearchPage';
+import PokemonSearchPage from './pages/PokemonSearchPage/PokemonSearchPage';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import About from './pages/About';
+import NotFound from './pages/NotFound';
+import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 
 function App() {
   return (
-    <>
+    <Router>
       <div>
-        <PokemonSearchPage></PokemonSearchPage>
+        <Routes>
+          <Route path="/" element={<PokemonSearchPage />}>
+            <Route path="/details/:id" element={<PokemonDetails />} />
+            <Route path="details" element={<div>...</div>} />
+          </Route>
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
       <div>
         <a href="https://vite.dev" target="_blank" rel="noreferrer">
@@ -17,7 +28,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-    </>
+    </Router>
   );
 }
 

@@ -1,0 +1,45 @@
+.pokemon-details {
+  flex: 1;
+  border-left: 2px solid #eee;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  min-width: 30vw;
+}
+
+.pokemon-details h2 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.pokemon-details img {
+  text-align: center;
+}
+
+.pokemon-details p {
+  line-height: 1.6;
+  color: #34495e;
+  text-align: left;
+}
+.pokemon-details ul {
+  text-align: left;
+}
+
+.pokemon-details-placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+.pokemon-close-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pokemon-close-button:hover {
+  background-color: #5a6268;
+}
