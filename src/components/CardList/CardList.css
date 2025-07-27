@@ -11,6 +11,7 @@
   border-right: 1px solid #ccc;
   overflow-y: auto;
   background-color: #f8f9fa;
+  min-width: 30vw;
 }
 
 .card-list-sidebar h2 {

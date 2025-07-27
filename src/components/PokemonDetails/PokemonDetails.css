@@ -4,6 +4,7 @@
   padding: 2rem;
   background-color: #f9f9f9;
   overflow-y: auto;
+  min-width: 30vw;
 }
 
 .pokemon-details h2 {
