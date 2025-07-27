@@ -1,6 +1,6 @@
 .card-list-layout {
   display: flex;
-  height: calc(100vh - 2rem);
+  height: calc(80vh - 2rem);
   margin-top: 2rem;
   font-family: Arial, sans-serif;
 }
@@ -26,7 +26,7 @@
 }
 
 .card-list-item {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .card-list-button {
@@ -53,8 +53,24 @@
   color: #1a1a1a;
 }
 
-.card-list-button p {
+.card-list-item a {
   margin: 0.25rem 0 0;
   font-size: 0.9em;
   color: #555;
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.card-list-item a:hover {
+  background-color: #f0f8ff;
+  border-color: #87ceeb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

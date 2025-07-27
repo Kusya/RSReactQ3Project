@@ -14,6 +14,11 @@ class PokeApiService {
     if (!response.ok) throw new Error('Error loaging data');
     return await response.json();
   };
+  fetchItemById = async (id: string) => {
+    const response = await fetch(`${pokeUrl}/${id}/`);
+    if (!response.ok) throw new Error('Error loaging data');
+    return await response.json();
+  };
 }
 
 export default new PokeApiService();

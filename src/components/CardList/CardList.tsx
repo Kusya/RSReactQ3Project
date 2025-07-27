@@ -121,9 +121,11 @@ export default function CardList(props: CardListProps) {
           <ul className="card-list">
             {data.map((item: PokeItem) => (
               <li key={item.name} className="card-list-item">
-                <button onClick={() => {}} className="card-list-button">
+                <Link
+                  to={`details/${item.url.split('/').filter(Boolean).pop()}`}
+                >
                   <strong>{item.name}</strong>
-                </button>
+                </Link>
               </li>
             ))}
           </ul>

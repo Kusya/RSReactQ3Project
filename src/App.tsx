@@ -5,13 +5,17 @@ import PokemonSearchPage from './pages/PokemonSearchPage/PokemonSearchPage';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
+import PokemonDetails from './components/PokemonDetails/PokemonDetails';
 
 function App() {
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<PokemonSearchPage />} />
+          <Route path="/" element={<PokemonSearchPage />}>
+            <Route path="/details/:id" element={<PokemonDetails />} />
+            <Route path="details" element={<div>Select pokemon</div>} />
+          </Route>
           <Route path="/about" element={<About />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
