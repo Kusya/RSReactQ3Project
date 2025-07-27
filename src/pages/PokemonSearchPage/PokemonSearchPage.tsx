@@ -1,5 +1,5 @@
 import Search from '../../components/Search/Search';
-import TableView from '../../components/TableView/TableView';
+import CardList from '../../components/CardList/CardList';
 import ErrorBoundary from '../../components/ErrorBoundary/ErrorBoundary';
 import useLocalStorage from '../../hooks/useLocalStorage';
 
@@ -18,7 +18,7 @@ export default function PokemonSearchPage() {
         </ErrorBoundary>
       </header>
       <main>
-        <TableView searchString={searchData} />
+        <CardList searchString={searchData} />
       </main>
     </>
   );

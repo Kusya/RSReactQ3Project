@@ -10,7 +10,7 @@ test('PokemonSearchPage render check', () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test('updating searchString and pass it into TableView', async () => {
+test('updating searchString and pass it into CardList', async () => {
   render(<PokemonSearchPage />);
 
   expect(screen.getByText('Loading...')).toBeInTheDocument();

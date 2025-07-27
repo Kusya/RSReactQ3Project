@@ -3,7 +3,7 @@ import PokeApiService from '../../services/PokemonApiService';
 import Pagination from '../Pagination/Pagination';
 import { Link, useSearchParams } from 'react-router-dom';
 
-interface TableProps {
+interface CardListProps {
   searchString: string;
 }
 
@@ -12,7 +12,7 @@ type PokeItem = {
   url: string;
 };
 
-export default function TableView(props: TableProps) {
+export default function CardList(props: CardListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [data, setData] = useState([] as PokeItem[]);
@@ -46,7 +46,7 @@ export default function TableView(props: TableProps) {
   useEffect(() => {
     validate();
     if (page === 1) {
-      const { page: _page, ...rest } = Object.fromEntries(searchParams);// eslint-disable-line
+      const { page: _page, ...rest } = Object.fromEntries(searchParams); // eslint-disable-line
       setSearchParams(rest);
     } else {
       setSearchParams({ page: page.toString() });
