@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export default function useLocalStorage(key: string, initialValue: string) {
-  const [state, setstate] = useState(() => {
+  const [state, setState] = useState(() => {
     try {
       return (localStorage.getItem(key) as string) || initialValue;
     } catch {
@@ -15,5 +15,5 @@ export default function useLocalStorage(key: string, initialValue: string) {
       console.error('Error writing to local storage' + error);
     }
   }, [state]);
-  return [state, setstate] as const;
+  return [state, setState] as const;
 }

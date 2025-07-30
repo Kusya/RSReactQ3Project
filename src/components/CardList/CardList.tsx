@@ -16,7 +16,7 @@ type PokeItem = {
 export default function CardList(props: CardListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [data, setData] = useState([] as PokeItem[]);
+  const [data, setData] = useState<PokeItem[]>([]);
   const itemsPerPage = 10;
 
   const [totalPages, settotalPages] = useState(10);
@@ -53,14 +53,14 @@ export default function CardList(props: CardListProps) {
     setLoading(true);
     const getPageCount = async () => {
       try {
-        const data = await PokeApiService.fetchData();
-        const resultData = !props.searchString
-          ? data.results
-          : data.results.filter((item: PokeItem) =>
-              item.name.includes(props.searchString.toLowerCase())
+        const fetchedPokemonData = await PokeApiService.fetchData();
+        const pokemonData = !props.searchString
+          ? fetchedPokemonData.results
+          : fetchedPokemonData.results.filter((pokemon: PokeItem) =>
+              pokemon.name.includes(props.searchString.toLowerCase())
             );
 
-        settotalPages(Math.ceil(resultData.length / itemsPerPage));
+        settotalPages(Math.ceil(pokemonData.length / itemsPerPage));
         setPage(1);
         setLoading(false);
       } catch (err) {
