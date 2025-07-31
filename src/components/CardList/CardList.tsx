@@ -4,6 +4,7 @@ import Pagination from '../Pagination/Pagination';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import './CardList.css';
 import { ITEMS_PER_PAGE } from '../../app/constants';
+import { PokemonCheckbox } from '../../features/PokemonList/PokemonCheckbox';
 
 interface CardListProps {
   searchString: string;
@@ -107,6 +108,7 @@ export default function CardList(props: CardListProps) {
   if (loading) return <div id="pokemonTable">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (data == null || data.length <= 0) return <div>No items found</div>;
+  //todo: id || '0' made null checking
   return (
     <div>
       <div className="card-list-layout">
@@ -118,6 +120,7 @@ export default function CardList(props: CardListProps) {
               const search = new URLSearchParams(searchParams);
               return (
                 <li key={item.name} className="card-list-item">
+                  <PokemonCheckbox id={id || '0'}></PokemonCheckbox>
                   <Link
                     to={{
                       pathname: `details/${id}`,
