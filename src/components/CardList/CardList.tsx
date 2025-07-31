@@ -3,6 +3,7 @@ import PokeApiService from '../../services/PokemonApiService';
 import Pagination from '../Pagination/Pagination';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import './CardList.css';
+import { ITEMS_PER_PAGE } from '../../app/constants';
 
 interface CardListProps {
   searchString: string;
@@ -17,7 +18,6 @@ export default function CardList(props: CardListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [data, setData] = useState<PokeItem[]>([]);
-  const itemsPerPage = 10;
 
   const [totalPages, settotalPages] = useState(10);
 
@@ -60,7 +60,7 @@ export default function CardList(props: CardListProps) {
               pokemon.name.includes(props.searchString.toLowerCase())
             );
 
-        settotalPages(Math.ceil(pokemonData.length / itemsPerPage));
+        settotalPages(Math.ceil(pokemonData.length / ITEMS_PER_PAGE));
         setPage(1);
         setLoading(false);
       } catch (err) {
@@ -80,12 +80,12 @@ export default function CardList(props: CardListProps) {
           resultData = data.results.filter((item: PokeItem) =>
             item.name.includes(props.searchString.toLowerCase())
           );
-          const startIndex = (page - 1) * itemsPerPage;
-          const endIndex = startIndex + itemsPerPage;
+          const startIndex = (page - 1) * ITEMS_PER_PAGE;
+          const endIndex = startIndex + ITEMS_PER_PAGE;
           resultData = resultData.slice(startIndex, endIndex);
         } else {
           const data = await PokeApiService.fetchDataByPage({
-            limit: itemsPerPage,
+            limit: ITEMS_PER_PAGE,
             pageNumber: page,
           });
           resultData = data.results;
@@ -107,7 +107,6 @@ export default function CardList(props: CardListProps) {
   if (loading) return <div id="pokemonTable">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (data == null || data.length <= 0) return <div>No items found</div>;
-
   return (
     <div>
       <div className="card-list-layout">
