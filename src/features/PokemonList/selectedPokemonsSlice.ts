@@ -27,10 +27,13 @@ export const selectedPokemonsSlice = createSlice({
         state.selectedItems.splice(index, 1);
       }
     },
+    removeAll(state) {
+      state.selectedItems.length = 0;
+    },
   },
 });
 
-export const { addItem, removeItem } = selectedPokemonsSlice.actions;
+export const { addItem, removeItem, removeAll } = selectedPokemonsSlice.actions;
 
 export const selectCount = (state: RootState) => state.selectedPokemons;
 

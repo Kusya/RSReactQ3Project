@@ -5,6 +5,7 @@ import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import './CardList.css';
 import { ITEMS_PER_PAGE } from '../../../app/constants';
 import { PokemonCheckbox } from '../../../features/PokemonList/PokemonCheckbox';
+import SelectedMenu from '../SelectedItemsMenu';
 
 interface CardListProps {
   searchString: string;
@@ -136,6 +137,7 @@ export default function CardList(props: CardListProps) {
         </div>
         <Outlet />
       </div>
+      <SelectedMenu></SelectedMenu>
       <Pagination
         page={currentPage}
         sendPageUp={(page) => {
