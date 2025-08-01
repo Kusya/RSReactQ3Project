@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import PokeApiService from '../../services/PokemonApiService';
-import Pagination from '../Pagination/Pagination';
+import PokeApiService from '../../../services/PokemonApiService';
+import Pagination from '../../../components/Pagination/Pagination';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import './CardList.css';
-import { ITEMS_PER_PAGE } from '../../app/constants';
-import { PokemonCheckbox } from '../../features/PokemonList/PokemonCheckbox';
+import { ITEMS_PER_PAGE } from '../../../app/constants';
+import { PokemonCheckbox } from '../../../features/PokemonList/PokemonCheckbox';
 
 interface CardListProps {
   searchString: string;
@@ -23,21 +23,21 @@ export default function CardList(props: CardListProps) {
   const [totalPages, settotalPages] = useState(10);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(
+  const [currentPage, setPage] = useState(
     parseInt(searchParams.get('page') || '1', 10)
   );
 
   const validate = () => {
-    if (isNaN(page) || page < 1) {
+    if (isNaN(currentPage) || currentPage < 1) {
       return <div>Incorrect page number</div>;
     }
 
-    if (page > totalPages) {
+    if (currentPage > totalPages) {
       return (
         <div>
           <h1>404 - Page not found</h1>
           <p>
-            Page {page} not exists. Total pages: {totalPages}.
+            Page {currentPage} not exists. Total pages: {totalPages}.
           </p>
           <Link to={`/?page=${totalPages}`}>Go to last page</Link>
         </div>
@@ -47,8 +47,8 @@ export default function CardList(props: CardListProps) {
 
   useEffect(() => {
     validate();
-    setSearchParams({ page: page.toString() });
-  }, [page]);
+    setSearchParams({ page: currentPage.toString() });
+  }, [currentPage]);
 
   useEffect(() => {
     setLoading(true);
@@ -81,13 +81,13 @@ export default function CardList(props: CardListProps) {
           resultData = data.results.filter((item: PokeItem) =>
             item.name.includes(props.searchString.toLowerCase())
           );
-          const startIndex = (page - 1) * ITEMS_PER_PAGE;
+          const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
           const endIndex = startIndex + ITEMS_PER_PAGE;
           resultData = resultData.slice(startIndex, endIndex);
         } else {
           const data = await PokeApiService.fetchDataByPage({
             limit: ITEMS_PER_PAGE,
-            pageNumber: page,
+            pageNumber: currentPage,
           });
           resultData = data.results;
         }
@@ -103,7 +103,7 @@ export default function CardList(props: CardListProps) {
       }
     };
     loadData();
-  }, [props.searchString, page]);
+  }, [props.searchString, currentPage]);
 
   if (loading) return <div id="pokemonTable">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -137,9 +137,9 @@ export default function CardList(props: CardListProps) {
         <Outlet />
       </div>
       <Pagination
-        page={page}
-        sendPageUp={(pageNum) => {
-          setPage(pageNum);
+        page={currentPage}
+        sendPageUp={(page) => {
+          setPage(page);
         }}
         totalPages={totalPages}
       />

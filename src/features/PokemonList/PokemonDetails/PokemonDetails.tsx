@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import './PokemonDetails.css';
 import { useEffect, useState } from 'react';
-import PokeApiService from '../../services/PokemonApiService';
+import PokeApiService from '../../../services/PokemonApiService';
 
 interface PokemonDetails {
   id: number;

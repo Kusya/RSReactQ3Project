@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import CardList from './CardList';
-import { server } from '../../mocks/server';
+import { server } from '../../../mocks/server';
 import { BrowserRouter } from 'react-router-dom';
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));

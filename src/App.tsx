@@ -1,11 +1,11 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
-import PokemonSearchPage from './pages/PokemonSearchPage/PokemonSearchPage';
+import PokemonSearchPage from './features/PokemonList/PokemonSearchPage/PokemonSearchPage';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
-import PokemonDetails from './components/PokemonDetails/PokemonDetails';
+import PokemonDetails from './features/PokemonList/PokemonDetails/PokemonDetails';
 
 function App() {
   return (
