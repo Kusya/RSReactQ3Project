@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeAll } from './selectedPokemonsSlice';
 import PokeApiService from '../../services/PokemonApiService';
-import type { foreinStats, PokemonDetails } from '../../types/PokemonApiTypes';
+import type { foreinStats } from '../../types/PokemonApiTypes';
+import saveAs from 'file-saver';
 
 export default function SelectedMenu() {
   const [error, setError] = useState<string | null>(null);
@@ -13,23 +14,29 @@ export default function SelectedMenu() {
 
   const loadData = async () => {
     try {
-      const result = selected.forEach(async (id) => {
+      const stringArray: string[] = [
+        `id,name,stat1,stat2,stat3,stat4,stat5,stat6,image,height,weight\n`,
+      ];
+      for (const id of selected) {
         let resultString = '';
         if (id) {
           const data = await PokeApiService.fetchItemById(id);
-          const stats = data.stats.map((stat: foreinStats) => (
-             `${stat.stat.name}: ${stat.base_stat}`
-          ));
-          resultString += `${data.id}; ${data.name}; ${stats.toString()}; ${data.sprites.front_default}; ${data.height}; ${data.weight};`;
+          const stats = data.stats.map(
+            (stat: foreinStats) => `${stat.stat.name}: ${stat.base_stat}`
+          );
+          resultString += `${data.id},${data.name},${stats.toString()},${data.sprites.front_default},${data.height},${data.weight}\n`;
         } else {
           console.error('Id is not defined for details to be shown.');
         }
-        return console.log(resultString);
+        stringArray.push(resultString);
+      }
+      const file = new File(stringArray, `${selected.length}_items.csv`, {
+        type: 'text/csv;charset=utf-8',
       });
+      saveAs(file);
     } catch (err) {
       console.error('Error: ' + err);
       setError('Failed to load data for downloading.');
-      //setLoading(false);
     }
   };
 
