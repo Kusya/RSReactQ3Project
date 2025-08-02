@@ -2,30 +2,11 @@ import { Link, useParams } from 'react-router-dom';
 import './PokemonDetails.css';
 import { useEffect, useState } from 'react';
 import PokeApiService from '../../../services/PokemonApiService';
+import type {
+  foreinStats,
+  PokemonDetails,
+} from '../../../types/PokemonApiTypes';
 
-interface PokemonDetails {
-  id: number;
-  name: string;
-  imageUrl: string;
-  height: number;
-  weight: number;
-  stats: Array<PokeStat>;
-}
-
-interface PokeStat {
-  name: string;
-  stat: number;
-}
-
-interface foreinStats {
-  base_stat: number;
-  effort: number;
-  stat: foreinStat;
-}
-interface foreinStat {
-  name: string;
-  url: string;
-}
 export default function PokemonDetails() {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
