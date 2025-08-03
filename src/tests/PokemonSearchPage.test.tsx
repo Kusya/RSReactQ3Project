@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react';
-import PokemonSearchPage from './PokemonSearchPage';
+import { screen } from '@testing-library/react';
+import PokemonSearchPage from '../features/PokemonList/PokemonSearchPage/PokemonSearchPage';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { renderWithProviders } from './testUtils';
 
 test('PokemonSearchPage render check', () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
@@ -15,15 +16,12 @@ test('PokemonSearchPage render check', () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test('updating searchString and pass it into CardList', async () => {
-  render(
+test('update data when input value in the searchString', async () => {
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
   );
-
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-
   const input = screen.getByRole('textbox');
   await userEvent.type(input, 'char');
 
@@ -32,7 +30,7 @@ test('updating searchString and pass it into CardList', async () => {
 });
 
 test('save searchString into localStorage on Search click', async () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>

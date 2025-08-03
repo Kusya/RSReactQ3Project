@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { server } from '../../mocks/server';
+import { server } from '../../../tests/mocks/server';
 import PokemonDetails from './PokemonDetails';
 
 const renderWithRouter = (id: string = '25') => {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CustomButton from '../CustomButton/CustomButton';
 
 interface SearchComponentProps {
   searchStr: string;
@@ -24,7 +25,7 @@ export default function Search(props: SearchComponentProps) {
           value={searchString}
           onChange={handleInputChange}
         ></input>
-        <button onClick={handleInputSearchValue}>Search</button>
+        <CustomButton handleClick={handleInputSearchValue}>Search</CustomButton>
       </div>
     </>
   );

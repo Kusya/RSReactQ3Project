@@ -11,7 +11,8 @@ type State = {
 export default class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    const initialState: State = { hasError: false };
+    this.state = initialState;
   }
 
   static getDerivedStateFromError(): State {
@@ -23,7 +24,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    if ((this.state as State).hasError) {
+    if (this.state.hasError) {
       return <h1>Something went wrong!</h1>;
     }
 
