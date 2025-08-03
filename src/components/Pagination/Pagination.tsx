@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Pagination.css';
 import { useSearchParams } from 'react-router-dom';
+import { ThemeContext } from '../../app/context';
 
 interface PaginationProps {
   page: number;
@@ -17,6 +18,7 @@ export default function Pagination({
   const [page, setPage] = useState(
     parseInt(searchParams.get('page') || String(initialPage), 10)
   );
+  const theme = useContext(ThemeContext);
 
   const pageNumbers = Array<number>();
   const siblings = 1;
@@ -81,7 +83,7 @@ export default function Pagination({
           return (
             <button
               key={i}
-              className={`page-item ${page === i ? 'active' : ''}`}
+              className={`page-item ${page === i ? 'active' : ''} ${theme}`}
               onClick={() => handleInputPage(i)}
               aria-label={`Go to page ${i}`}
               aria-current={page === i ? 'page' : undefined}

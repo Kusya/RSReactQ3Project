@@ -4,6 +4,7 @@ import { removeAll } from './selectedPokemonsSlice';
 import PokeApiService from '../../services/PokemonApiService';
 import type { foreinStats } from '../../types/PokemonApiTypes';
 import saveAs from 'file-saver';
+import CustomButton from '../../components/CustomButton/CustomButton';
 
 export default function SelectedMenu() {
   const [error, setError] = useState<string | null>(null);
@@ -46,20 +47,20 @@ export default function SelectedMenu() {
       {selected.length > 0 ? (
         <div>
           Items selected: {selected.length}
-          <button
-            onClick={() => {
+          <CustomButton
+            handleClick={() => {
               dispatch(removeAll());
             }}
           >
             Unselect All
-          </button>
-          <button
-            onClick={() => {
+          </CustomButton>
+          <CustomButton
+            handleClick={() => {
               loadData();
             }}
           >
             Download
-          </button>
+          </CustomButton>
         </div>
       ) : (
         <div></div>

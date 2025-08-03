@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { ThemeContext } from './../../app/context';
 import sunLogo from './../../assets/sun-icon.svg';
 import moonLogo from './../../assets/moon-icon.svg';
+import CustomButton from '../CustomButton/CustomButton';
 
 interface ThemeButtonProps {
   sendSearchUp: (data: string) => void;
@@ -18,9 +19,9 @@ export default function ThemeButton(props: ThemeButtonProps) {
   return (
     <>
       <div className={theme}>
-        <button onClick={toggleTheme}>
+        <CustomButton handleClick={toggleTheme}>
           <img src={logo} className="logo" alt="Vite logo" />
-        </button>
+        </CustomButton>
       </div>
     </>
   );

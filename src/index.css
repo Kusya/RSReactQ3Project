@@ -64,6 +64,62 @@ button:focus-visible {
   background-color: #ffffff;
 }
 
+.dark input {
+  background-color: #4f4f50;
+  color: #ffffff;
+  border: 1px solid #929292;
+}
+.light input {
+  background-color: rgb(233, 232, 232);
+  color: #213547;
+  border: 1px solid #89898a;
+}
+
+input[type='checkbox'] {
+  appearance: none; /* Hides the default checkbox */
+  -webkit-appearance: none; /* For Safari */
+  /* Add more styles for the custom checkbox base */
+  width: 1em;
+  height: 1em;
+  border: 2px solid #ccc;
+  border-radius: 3px;
+}
+input[type='checkbox']:checked {
+  background-color: #007bff; /* Example: Blue background when checked */
+  border-color: #007bff;
+}
+
+input[type='checkbox']:checked::after {
+  content: '';
+  display: block;
+  width: 0.3em;
+  height: 0.7em;
+  margin-left: 0.1em;
+  margin-top: -0.1em;
+}
+.light [type='checkbox']:checked::after {
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.dark [type='checkbox']:checked::after {
+  border: solid rgb(48, 47, 47);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* .dark input[type="checkbox"] {
+  accent-color: #007bff; 
+  background-color: #4f4f50;
+  color: #ffffff;
+  border: 1px solid  #929292;
+}
+.light input[type="checkbox"] {
+  background-color: rgb(233, 232, 232);
+  color: #213547;
+  border: 1px solid  #89898a;
+} */
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
