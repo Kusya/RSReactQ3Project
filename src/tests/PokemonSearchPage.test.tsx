@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import PokemonSearchPage from './PokemonSearchPage';
+import PokemonSearchPage from '../features/PokemonList/PokemonSearchPage/PokemonSearchPage';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 
