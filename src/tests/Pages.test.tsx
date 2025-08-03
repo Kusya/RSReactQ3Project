@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import About from './About';
-import NotFound from './NotFound';
+import About from './../pages/About';
+import NotFound from './../pages/NotFound';
+import { renderWithProviders } from './testUtils';
 
 test('PokemonSearchPage render check', () => {
   render(
@@ -15,7 +16,7 @@ test('PokemonSearchPage render check', () => {
 });
 
 test('PokemonSearchPage render check', () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <NotFound />
     </BrowserRouter>

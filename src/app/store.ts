@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import selectedPokemonReducer from '../features/PokemonList/selectedPokemonsSlice';
 
 export const store = configureStore({
@@ -6,6 +6,17 @@ export const store = configureStore({
     selectedPokemons: selectedPokemonReducer,
   },
 });
+
+const rootReducer = combineReducers({
+  selectedPokemons: selectedPokemonReducer,
+});
+
+export const setupStore = (preloadedState?: Partial<RootState>) => {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+};
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import PokemonSearchPage from '../features/PokemonList/PokemonSearchPage/PokemonSearchPage';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
+import { renderWithProviders } from './testUtils';
 
 test('PokemonSearchPage render check', () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
@@ -16,7 +17,7 @@ test('PokemonSearchPage render check', () => {
 });
 
 test('updating searchString and pass it into CardList', async () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
@@ -32,7 +33,7 @@ test('updating searchString and pass it into CardList', async () => {
 });
 
 test('save searchString into localStorage on Search click', async () => {
-  render(
+  renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
