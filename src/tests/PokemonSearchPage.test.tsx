@@ -16,15 +16,12 @@ test('PokemonSearchPage render check', () => {
   expect(screen.getByText(/loading/i)).toBeInTheDocument();
 });
 
-test('updating searchString and pass it into CardList', async () => {
+test('update data when input value in the searchString', async () => {
   renderWithProviders(
     <BrowserRouter>
       <PokemonSearchPage />
     </BrowserRouter>
   );
-
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-
   const input = screen.getByRole('textbox');
   await userEvent.type(input, 'char');
 

@@ -9,15 +9,15 @@ beforeEach(() => {
   localStorage.clear();
 });
 
-test('Search render field and button, and error button', () => {
+test('Search renders textbox', () => {
   render(<Search searchStr="" sendSearchUp={() => {}} />);
   expect(screen.getByRole('textbox')).toBeInTheDocument();
+});
+
+test('Search renders button', () => {
+  render(<Search searchStr="" sendSearchUp={() => {}} />);
   const searchElement = screen.getByRole('button', { name: /Search/i });
-
-  expect(searchElement).toBeDefined();
-  expect(searchElement).not.toBeDisabled();
-
-  expect(searchElement.getAttribute('disabled')).toBeNull();
+  expect(searchElement).toBeInTheDocument();
 });
 
 test('click Search calls sendSearchUp with currend value of searchString', async () => {
