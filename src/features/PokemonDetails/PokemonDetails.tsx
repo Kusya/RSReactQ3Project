@@ -1,11 +1,11 @@
 import { Link, useParams } from 'react-router-dom';
 import './PokemonDetails.css';
 import { useEffect, useState } from 'react';
-import PokeApiService from '../../../services/PokemonApiService';
+import PokeApiService from './../../services/PokemonApiService';
 import type {
   foreinStats,
   PokemonDetails,
-} from '../../../types/PokemonApiTypes';
+} from './../../types/PokemonApiTypes';
 
 export default function PokemonDetails() {
   const [loading, setLoading] = useState(true);

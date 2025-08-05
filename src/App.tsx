@@ -1,9 +1,9 @@
 import './App.css';
-import PokemonSearchPage from './features/PokemonList/PokemonSearchPage/PokemonSearchPage';
+import PokemonSearchPage from './features/PokemonSearchPage/PokemonSearchPage';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
-import PokemonDetails from './features/PokemonList/PokemonDetails/PokemonDetails';
+import PokemonDetails from './features/PokemonDetails/PokemonDetails';
 import { useState } from 'react';
 import { ThemeContext } from './app/context';
 import ThemeButton from './components/ThemeButton/ThemeButton';

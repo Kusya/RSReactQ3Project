@@ -8,15 +8,12 @@
 .card-list-sidebar {
   flex: 1;
   padding: 1rem;
-  /* border-right: 1px solid #ccc; */
   overflow-y: auto;
-  /* background-color: #f8f9fa; */
   min-width: 30vw;
 }
 
 .card-list-sidebar h2 {
   margin-top: 0;
-  /* color: #333; */
   font-size: 1.5rem;
 }
 
