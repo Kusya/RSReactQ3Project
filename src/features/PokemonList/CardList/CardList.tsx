@@ -4,17 +4,13 @@ import Pagination from '../../../components/Pagination/Pagination';
 import { Link, Outlet, useSearchParams } from 'react-router-dom';
 import './CardList.css';
 import { ITEMS_PER_PAGE } from '../../../app/constants';
-import { PokemonCheckbox } from '../../../features/PokemonList/PokemonCheckbox';
 import SelectedMenu from '../SelectedItemsMenu';
+import PokemonCard from '../Card/PokemonCard';
+import type { PokeItem } from '../Pokemontypes';
 
 interface CardListProps {
   searchString: string;
 }
-
-type PokeItem = {
-  name: string;
-  url: string;
-};
 
 export default function CardList(props: CardListProps) {
   const [loading, setLoading] = useState(true);
@@ -109,30 +105,15 @@ export default function CardList(props: CardListProps) {
   if (loading) return <div id="pokemonTable">Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (data == null || data.length <= 0) return <div>No items found</div>;
-  //todo: id || '0' made null checking
   return (
     <div>
       <div className="card-list-layout">
         <div className="card-list-sidebar">
           <h2>Pokemons</h2>
           <ul className="card-list">
-            {data.map((item: PokeItem) => {
-              const id = item.url.split('/').filter(Boolean).pop();
-              const search = new URLSearchParams(searchParams);
-              return (
-                <li key={item.name} className="card-list-item">
-                  <PokemonCheckbox id={id || '0'}></PokemonCheckbox>
-                  <Link
-                    to={{
-                      pathname: `details/${id}`,
-                      search: search.toString(),
-                    }}
-                  >
-                    <strong>{item.name}</strong>
-                  </Link>
-                </li>
-              );
-            })}
+            {data.map((item: PokeItem) => (
+              <PokemonCard key={item.name} item={item} />
+            ))}
           </ul>
         </div>
         <Outlet />
