@@ -1,72 +1,42 @@
 import { Link, useParams } from 'react-router-dom';
 import './PokemonDetails.css';
-import { useEffect, useState } from 'react';
-import PokeApiService from './../../services/PokemonApiService';
-import type {
-  foreinStats,
-  PokemonDetails,
-} from './../../types/PokemonApiTypes';
+import { useGetPokemonByIdQuery } from './../../services/PokemonApiService';
+import type { PokemonDetails } from './../../types/PokemonApiTypes';
 
 export default function PokemonDetails() {
-  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const [details, setDetails] = useState<PokemonDetails>();
-  const [error, setError] = useState<string | null>(null);
+  if (!id) return 'no loaded data';
+  const { data, isError, error, isLoading } = useGetPokemonByIdQuery(id);// eslint-disable-line
 
-  useEffect(() => {
-    setLoading(true);
-    const loadData = async () => {
-      try {
-        if (id) {
-          const data = await PokeApiService.fetchItemById(id);
-          const stats = data.stats.map((stat: foreinStats) => ({
-            name: stat.stat.name,
-            stat: stat.base_stat,
-          }));
-          const resultDetails: PokemonDetails = {
-            name: data.name,
-            stats: stats,
-            id: data.id,
-            imageUrl: data.sprites.front_default,
-            height: data.height,
-            weight: data.weight,
-          };
-          setDetails(resultDetails);
-        } else {
-          console.error('Id is not defined for details to be shown.');
-        }
-        setLoading(false);
-      } catch (err) {
-        console.error('Error: ' + err);
-        setError('Failed to load Pokémon.');
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, [id]);
+  if (isLoading) return <div>Loading...</div>;
+  if (isError)
+    return error instanceof Error ? (
+      <div data-testid="error">Error: {error.message}</div>
+    ) : (
+      <div data-testid="error">something went wrong</div>
+    );
+  if (!data) return 'no loaded data';
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div data-testid="error">Error: {error}</div>;
   return (
     <div className="pokemon-details">
-      {details ? (
+      {data ? (
         <>
-          <h2>{details.name}</h2>
-          <img src={details.imageUrl}></img>
+          <h2>{data.name}</h2>
+          <img src={data.sprites.front_default}></img>
 
           <p>Stats:</p>
           <ul>
-            {details.stats
-              ? details.stats.map((stat) => (
-                  <li key={stat.name}>
-                    {stat.name}: {stat.stat}
+            {data.stats
+              ? data.stats.map((stat) => (
+                  <li key={stat.stat.name}>
+                    {stat.stat.name}: {stat.base_stat}
                   </li>
                 ))
               : 'no stats'}
           </ul>
 
-          <p>Height: {details.height}</p>
-          <p>Weight: {details.weight}</p>
+          <p>Height: {data.height}</p>
+          <p>Weight: {data.weight}</p>
 
           <Link to={`/details`}>Close</Link>
         </>

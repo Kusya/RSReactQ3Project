@@ -1,10 +1,13 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import CardList from './CardList';
 import { server } from '../../../tests/mocks/server';
 import { BrowserRouter } from 'react-router-dom';
 import { renderWithProviders } from '../../../tests/testUtils';
 import SelectedMenu from '../SelectedItemsMenu';
 import userEvent from '@testing-library/user-event';
+import saveAs from 'file-saver';
+
+import { describe, it, expect, vi, beforeEach } from 'vitest';// eslint-disable-line
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
@@ -132,4 +135,39 @@ test('renders selected count and buttons when items are selected', async () => {
   await userEvent.click(unselectBtn);
 
   expect(screen.queryByText(/Items selected/)).not.toBeInTheDocument();
+});
+
+describe('DownloadButton', () => {
+  //const saveAs = vi.fn();
+
+  // beforeEach(() => {
+  //   saveAs.mockClear();
+  // });
+
+  it('renders selected count and buttons when items are selected', async () => {
+    renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="" />
+      </BrowserRouter>
+    );
+    const bulbasaur = await screen.findByText('bulbasaur');
+    expect(bulbasaur).toBeInTheDocument();
+    const checkboxes = await screen.getAllByRole('checkbox');
+    await userEvent.click(checkboxes[0]);
+
+    expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
+
+    const downloadBtn = await screen.getByRole('button', {
+      name: /Download/,
+    });
+    expect(downloadBtn).toBeInTheDocument();
+
+    // Mock console.error
+    //vi.spyOn(saveAs, 'error').mockImplementation(() => {});
+    await userEvent.click(downloadBtn);
+
+    await waitFor(() => {
+      expect(saveAs).toHaveBeenCalled();
+    });
+  });
 });

@@ -7,15 +7,13 @@ export default function PokemonSearchPage() {
   const [searchData, setSearchData] = useLocalStorage('searchInput', '');
 
   return (
-    <>
+    <ErrorBoundary>
       <header>
-        <ErrorBoundary>
-          <Search searchStr={searchData} sendSearchUp={setSearchData} />
-        </ErrorBoundary>
+        <Search searchStr={searchData} sendSearchUp={setSearchData} />
       </header>
       <main>
         <CardList searchString={searchData} />
       </main>
-    </>
+    </ErrorBoundary>
   );
 }

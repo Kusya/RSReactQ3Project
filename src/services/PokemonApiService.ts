@@ -1,24 +1,39 @@
-import type PageParams from '../types/PageParams';
-const pokeUrl = 'https://pokeapi.co/api/v2/pokemon';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import type { PageParams } from '../types/PageParams';
+import type {
+  externalPokemonDetails,
+  PokeItem,
+} from '../types/PokemonApiTypes';
 
-class PokeApiService {
-  fetchData = async () => {
-    const response = await fetch(pokeUrl + '?limit=10000&offset=0');
-    if (!response.ok) throw new Error('Error loaging data');
-    return await response.json();
-  };
-  fetchDataByPage = async ({ limit = 10, pageNumber = 1 }: PageParams) => {
-    const response = await fetch(
-      pokeUrl + `?limit=${limit}&offset=${(pageNumber - 1) * limit}`
-    );
-    if (!response.ok) throw new Error('Error loaging data');
-    return await response.json();
-  };
-  fetchItemById = async (id: string) => {
-    const response = await fetch(`${pokeUrl}/${id}/`);
-    if (!response.ok) throw new Error('Error loaging data');
-    return await response.json();
-  };
-}
+const pokeUrl = 'https://pokeapi.co/api/v2/';
+export type foreignPokeData = {
+  count: number;
+  results: PokeItem[];
+};
 
-export default new PokeApiService();
+export const pokemonApi = createApi({
+  reducerPath: 'pokemonApi',
+  baseQuery: fetchBaseQuery({ baseUrl: pokeUrl }),
+  endpoints: (builder) => ({
+    getPokemonByName: builder.query<externalPokemonDetails, string>({
+      query: (name) => `pokemon/${name}`,
+    }),
+    getPokemonById: builder.query<externalPokemonDetails, string>({
+      query: (id) => `pokemon/${id}`,
+    }),
+    getPokemonList: builder.query<foreignPokeData, void>({ // eslint-disable-line
+      query: () => `pokemon/?limit=10000&offset=0`,
+    }),
+    getPokemonsByPage: builder.query<PokeItem[], PageParams>({
+      query: ({ limit = 10, pageNumber = 1 }: PageParams) =>
+        `pokemon/?limit=${limit}&offset=${(pageNumber - 1) * limit}`,
+    }),
+  }),
+});
+
+export const {
+  useGetPokemonByNameQuery,
+  useGetPokemonByIdQuery,
+  useGetPokemonListQuery,
+  useGetPokemonsByPageQuery,
+} = pokemonApi;

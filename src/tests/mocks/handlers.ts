@@ -4,6 +4,7 @@ export const handlers = [
   http.get('https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0', () => {
     return HttpResponse.json({
       results: [
+        { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/ ' },
         { name: 'bulbasaur', url: ' https://pokeapi.co/api/v2/pokemon/1/ ' },
         { name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/ ' },
         { name: 'squirtle', url: 'https://pokeapi.co/api/v2/pokemon/7/ ' },

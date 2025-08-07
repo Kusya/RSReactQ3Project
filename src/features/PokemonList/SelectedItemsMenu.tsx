@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { removeAll } from './selectedPokemonsSlice';
-import PokeApiService from '../../services/PokemonApiService';
+import { useGetPokemonByIdQuery } from './../../services/PokemonApiService';
 import type { foreinStats } from '../../types/PokemonApiTypes';
 import saveAs from 'file-saver';
 import CustomButton from '../../components/CustomButton/CustomButton';
@@ -21,7 +21,8 @@ export default function SelectedMenu() {
       for (const id of selected) {
         let resultString = '';
         if (id) {
-          const data = await PokeApiService.fetchItemById(id);
+          const { data } = useGetPokemonByIdQuery(id); // eslint-disable-line
+          if (!data) return console.error('No data for id=' + id);
           const stats = data.stats.map(
             (stat: foreinStats) => `${stat.stat.name}: ${stat.base_stat}`
           );
