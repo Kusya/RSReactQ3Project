@@ -58,3 +58,7 @@ export type externalAbilities = {
   is_hidden: boolean;
   slot: number;
 };
+export type foreignPokeData = {
+  count: number;
+  results: PokeItem[];
+};

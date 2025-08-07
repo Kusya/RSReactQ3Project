@@ -1,13 +1,14 @@
-import { Link, useParams } from 'react-router-dom';
 import './PokemonDetails.css';
-import { useGetPokemonByIdQuery } from './../../services/PokemonApiService';
+import { useGetPokemonByNameQuery } from './../../services/PokemonApiService';
 import type { PokemonDetails } from './../../types/PokemonApiTypes';
 
-export default function PokemonDetails() {
-  const { id } = useParams();
-  if (!id) return 'no loaded data';
-  const { data, isError, error, isLoading } = useGetPokemonByIdQuery(id);// eslint-disable-line
-
+interface PokemonDetailsProps {
+  name: string;
+}
+export default function PokemonDetails(props: PokemonDetailsProps) {
+  const { data, isError, error, isLoading } = useGetPokemonByNameQuery(
+    props.name
+  );
   if (isLoading) return <div>Loading...</div>;
   if (isError)
     return error instanceof Error ? (
@@ -15,7 +16,12 @@ export default function PokemonDetails() {
     ) : (
       <div data-testid="error">something went wrong</div>
     );
-  if (!data) return 'no loaded data';
+  if (!data)
+    return (
+      <div className="pokemon-details">
+        No data loaded for pokemon {props.name}. Please try again.
+      </div>
+    );
 
   return (
     <div className="pokemon-details">
@@ -37,8 +43,6 @@ export default function PokemonDetails() {
 
           <p>Height: {data.height}</p>
           <p>Weight: {data.weight}</p>
-
-          <Link to={`/details`}>Close</Link>
         </>
       ) : (
         <div className="pokemon-details-placeholder">Select element</div>

@@ -12,7 +12,6 @@ export default function PokemonCard(props: PokemonCardProps) {
   const { data, isError, error, isLoading, isUninitialized } =
     useGetPokemonByNameQuery(props.item.name);
 
-  const id = props.item.url.split('/').filter(Boolean).pop();
   const search = new URLSearchParams(searchParams);
   if (isLoading || isUninitialized)
     return <div className="card-list-item"> Loading...</div>;
@@ -31,7 +30,7 @@ export default function PokemonCard(props: PokemonCardProps) {
 
       <Link
         to={{
-          pathname: `details/${id}`,
+          pathname: `details/${data.name}`,
           search: search.toString(),
         }}
       >

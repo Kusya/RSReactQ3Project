@@ -2,18 +2,16 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { PageParams } from '../types/PageParams';
 import type {
   externalPokemonDetails,
+  foreignPokeData,
   PokeItem,
 } from '../types/PokemonApiTypes';
+import { POKEMON_URL } from '../app/constants';
 
-const pokeUrl = 'https://pokeapi.co/api/v2/';
-export type foreignPokeData = {
-  count: number;
-  results: PokeItem[];
-};
+
 
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
-  baseQuery: fetchBaseQuery({ baseUrl: pokeUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl: POKEMON_URL }),
   endpoints: (builder) => ({
     getPokemonByName: builder.query<externalPokemonDetails, string>({
       query: (name) => `pokemon/${name}`,
