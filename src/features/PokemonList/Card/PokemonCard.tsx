@@ -2,6 +2,10 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { PokemonCheckbox } from '../PokemonCheckbox';
 import type { PokeItem } from '../Pokemontypes';
 import { useGetPokemonByNameQuery } from '../../../services/PokemonApiService';
+import type {
+  PokemonDetails,
+  foreinStats,
+} from '../../../types/PokemonApiTypes';
 
 interface PokemonCardProps {
   item: PokeItem;
@@ -24,9 +28,22 @@ export default function PokemonCard(props: PokemonCardProps) {
     );
   if (!data) return 'no loaded data';
 
+  const stats = data.stats.map((stat: foreinStats) => ({
+    name: stat.stat.name,
+    stat: stat.base_stat,
+  }));
+  const mappedPokemon: PokemonDetails = {
+    id: data.id,
+    name: data.name,
+    stats: stats,
+    imageUrl: data.sprites.front_default,
+    height: data.height,
+    weight: data.weight,
+  };
+
   return (
     <li key={data.name} className="card-list-item">
-      <PokemonCheckbox id={data.id.toString()}></PokemonCheckbox>
+      <PokemonCheckbox pokemon={mappedPokemon}></PokemonCheckbox>
 
       <Link
         to={{

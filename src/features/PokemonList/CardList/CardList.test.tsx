@@ -7,7 +7,7 @@ import SelectedMenu from '../SelectedItemsMenu';
 import userEvent from '@testing-library/user-event';
 import saveAs from 'file-saver';
 
-import { describe, it, expect, vi, beforeEach } from 'vitest';// eslint-disable-line
+import { describe, it, expect, vi, beforeEach } from 'vitest'; // eslint-disable-line
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());

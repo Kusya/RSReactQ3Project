@@ -7,8 +7,6 @@ import type {
 } from '../types/PokemonApiTypes';
 import { POKEMON_URL } from '../app/constants';
 
-
-
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: POKEMON_URL }),
@@ -19,7 +17,7 @@ export const pokemonApi = createApi({
     getPokemonById: builder.query<externalPokemonDetails, string>({
       query: (id) => `pokemon/${id}`,
     }),
-    getPokemonList: builder.query<foreignPokeData, void>({ // eslint-disable-line
+    getPokemonList: builder.query<foreignPokeData, void>({      // eslint-disable-line
       query: () => `pokemon/?limit=10000&offset=0`,
     }),
     getPokemonsByPage: builder.query<PokeItem[], PageParams>({
