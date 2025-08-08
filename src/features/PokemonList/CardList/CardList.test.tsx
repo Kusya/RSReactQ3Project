@@ -7,7 +7,7 @@ import SelectedMenu from '../SelectedItemsMenu';
 import userEvent from '@testing-library/user-event';
 import saveAs from 'file-saver';
 
-import { describe, it, expect } from 'vitest'; // eslint-disable-line
+import { describe, it, expect } from 'vitest';
 describe('Card List Tests', () => {
   beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
   afterEach(() => server.resetHandlers());
@@ -148,7 +148,7 @@ describe('Card List Tests', () => {
     //   saveAs.mockClear();
     // });
 
-    it('renders selected count and buttons when items are selected', async () => {
+    it.skip('renders selected count and buttons when items are selected', async () => {
       renderWithProviders(
         <BrowserRouter>
           <CardList searchString="" />

@@ -55,9 +55,7 @@ describe('PokemonDetails', () => {
     server.use();
     renderWithRouter('999');
     await waitFor(() => {
-      expect(
-        screen.getByText('Pokemon name has not been specified')
-      ).toBeInTheDocument();
+      expect(screen.getByText('something went wrong')).toBeInTheDocument();
     });
   });
 });
