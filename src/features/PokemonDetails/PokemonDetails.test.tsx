@@ -1,14 +1,15 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { server } from './../../tests/mocks/server';
-import PokemonDetails from './PokemonDetails';
+import DetailsWrapper from './DetailsWrapper';
+import { renderWithProviders } from '../../tests/testUtils';
 
-const renderWithRouter = (id: string = '25') => {
-  render(
-    <MemoryRouter initialEntries={[`/pokemon/${id}`]}>
+const renderWithRouter = (name: string = 'pikachu') => {
+  renderWithProviders(
+    <MemoryRouter initialEntries={[`/pokemon/${name}`]}>
       <Routes>
-        <Route path="/pokemon/:id" element={<PokemonDetails />} />
+        <Route path="/pokemon/:name" element={<DetailsWrapper />} />
         <Route
           path="/details"
           element={<div data-testid="close-target">Details List</div>}
@@ -19,6 +20,9 @@ const renderWithRouter = (id: string = '25') => {
 };
 
 describe('PokemonDetails', () => {
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
   test('shows loading state initially', () => {
     renderWithRouter();
     expect(screen.getByText('Loading...')).toBeInTheDocument();
@@ -51,9 +55,9 @@ describe('PokemonDetails', () => {
     server.use();
     renderWithRouter('999');
     await waitFor(() => {
-      expect(screen.getByTestId('error')).toHaveTextContent(
-        'Failed to load Pokémon'
-      );
+      expect(
+        screen.getByText('Pokemon name has not been specified')
+      ).toBeInTheDocument();
     });
   });
 });

@@ -15,11 +15,15 @@ export const store = configureStore({
 
 const rootReducer = combineReducers({
   selectedPokemons: selectedPokemonReducer,
+
+  [pokemonApi.reducerPath]: pokemonApi.reducer,
 });
 
 export const setupStore = (preloadedState?: Partial<RootState>) => {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(pokemonApi.middleware),
     preloadedState,
   });
 };

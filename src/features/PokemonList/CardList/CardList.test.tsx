@@ -7,144 +7,73 @@ import SelectedMenu from '../SelectedItemsMenu';
 import userEvent from '@testing-library/user-event';
 import saveAs from 'file-saver';
 
-import { describe, it, expect, vi, beforeEach } from 'vitest'; // eslint-disable-line
+import { describe, it, expect } from 'vitest'; // eslint-disable-line
+describe('Card List Tests', () => {
+  beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+  test('show table with loaded data if searchString not defined', async () => {
+    renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="" />
+      </BrowserRouter>
+    );
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+    const bulba = await screen.findByText('bulbasaur');
+    const squir = await screen.findByText('squirtle');
 
-test('show table with loaded data if searchString not defined', async () => {
-  renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="" />
-    </BrowserRouter>
-  );
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-  const bulba = await screen.findByText('bulbasaur');
-  const squir = await screen.findByText('squirtle');
-
-  expect(bulba).toBeInTheDocument();
-  expect(squir).toBeInTheDocument();
-});
-
-test('show table with founded data if searchString is defined', async () => {
-  renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="char" />
-    </BrowserRouter>
-  );
-  expect(screen.getByText('Loading...')).toBeInTheDocument();
-
-  const charm = await screen.findByText('charmander');
-  const squir = screen.queryByText('squirtle');
-
-  expect(charm).toBeInTheDocument();
-  expect(squir).not.toBeInTheDocument();
-});
-
-test('updated a table on updated searchString', async () => {
-  const { rerender } = renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="char" />
-    </BrowserRouter>
-  );
-
-  rerender(
-    <BrowserRouter>
-      <CardList searchString="" />
-    </BrowserRouter>
-  );
-
-  const bulbasaur = await screen.findByText('bulbasaur');
-  const charmander = await screen.findByText('charmander');
-
-  expect(bulbasaur).toBeInTheDocument();
-  expect(charmander).toBeInTheDocument();
-});
-
-test('renders nothing when no items are selected', () => {
-  renderWithProviders(<SelectedMenu />);
-
-  expect(screen.queryByText(/Items selected/)).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole('button', { name: /Unselect All/ })
-  ).not.toBeInTheDocument();
-  expect(
-    screen.queryByRole('button', { name: /Download/ })
-  ).not.toBeInTheDocument();
-});
-test('renders selected count and buttons when items are selected', async () => {
-  renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="" />
-    </BrowserRouter>
-  );
-  const bulbasaur = await screen.findByText('bulbasaur');
-  expect(bulbasaur).toBeInTheDocument();
-
-  const checkboxes = await screen.getAllByRole('checkbox');
-  await userEvent.click(checkboxes[0]);
-
-  expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: /Unselect All/ })
-  ).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /Download/ })).toBeInTheDocument();
-});
-
-test('renders selected count and buttons when items are selected', async () => {
-  renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="" />
-    </BrowserRouter>
-  );
-  const bulbasaur = await screen.findByText('bulbasaur');
-  expect(bulbasaur).toBeInTheDocument();
-
-  const checkboxes = await screen.getAllByRole('checkbox');
-  await userEvent.click(checkboxes[0]);
-
-  expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: /Unselect All/ })
-  ).toBeInTheDocument();
-  expect(screen.getByRole('button', { name: /Download/ })).toBeInTheDocument();
-});
-
-test('renders selected count and buttons when items are selected', async () => {
-  renderWithProviders(
-    <BrowserRouter>
-      <CardList searchString="" />
-    </BrowserRouter>
-  );
-  const bulbasaur = await screen.findByText('bulbasaur');
-  expect(bulbasaur).toBeInTheDocument();
-
-  const checkboxes = await screen.getAllByRole('checkbox');
-  await userEvent.click(checkboxes[0]);
-
-  expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
-  expect(
-    screen.getByRole('button', { name: /Unselect All/ })
-  ).toBeInTheDocument();
-
-  const unselectBtn = await screen.getByRole('button', {
-    name: /Unselect All/,
+    expect(bulba).toBeInTheDocument();
+    expect(squir).toBeInTheDocument();
   });
 
-  await userEvent.click(unselectBtn);
+  test('show table with founded data if searchString is defined', async () => {
+    renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="char" />
+      </BrowserRouter>
+    );
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
 
-  expect(screen.queryByText(/Items selected/)).not.toBeInTheDocument();
-});
+    const charm = await screen.findByText('charmander');
+    const squir = screen.queryByText('squirtle');
 
-describe('DownloadButton', () => {
-  //const saveAs = vi.fn();
+    expect(charm).toBeInTheDocument();
+    expect(squir).not.toBeInTheDocument();
+  });
 
-  // beforeEach(() => {
-  //   saveAs.mockClear();
-  // });
+  test('updated a table on updated searchString', async () => {
+    const { rerender } = renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="char" />
+      </BrowserRouter>
+    );
 
-  it('renders selected count and buttons when items are selected', async () => {
+    rerender(
+      <BrowserRouter>
+        <CardList searchString="" />
+      </BrowserRouter>
+    );
+
+    const bulbasaur = await screen.findByText('bulbasaur');
+    const charmander = await screen.findByText('charmander');
+
+    expect(bulbasaur).toBeInTheDocument();
+    expect(charmander).toBeInTheDocument();
+  });
+
+  test('renders nothing when no items are selected', () => {
+    renderWithProviders(<SelectedMenu />);
+
+    expect(screen.queryByText(/Items selected/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Unselect All/ })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: /Download/ })
+    ).not.toBeInTheDocument();
+  });
+  test('renders selected count and buttons when items are selected', async () => {
     renderWithProviders(
       <BrowserRouter>
         <CardList searchString="" />
@@ -152,22 +81,98 @@ describe('DownloadButton', () => {
     );
     const bulbasaur = await screen.findByText('bulbasaur');
     expect(bulbasaur).toBeInTheDocument();
+
     const checkboxes = await screen.getAllByRole('checkbox');
     await userEvent.click(checkboxes[0]);
 
     expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Unselect All/ })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Download/ })
+    ).toBeInTheDocument();
+  });
 
-    const downloadBtn = await screen.getByRole('button', {
-      name: /Download/,
+  test('renders selected count and buttons when items are selected', async () => {
+    renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="" />
+      </BrowserRouter>
+    );
+    const bulbasaur = await screen.findByText('bulbasaur');
+    expect(bulbasaur).toBeInTheDocument();
+
+    const checkboxes = await screen.getAllByRole('checkbox');
+    await userEvent.click(checkboxes[0]);
+
+    expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Unselect All/ })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Download/ })
+    ).toBeInTheDocument();
+  });
+
+  test('renders selected count and buttons when items are selected', async () => {
+    renderWithProviders(
+      <BrowserRouter>
+        <CardList searchString="" />
+      </BrowserRouter>
+    );
+    const bulbasaur = await screen.findByText('bulbasaur');
+    expect(bulbasaur).toBeInTheDocument();
+
+    const checkboxes = await screen.getAllByRole('checkbox');
+    await userEvent.click(checkboxes[0]);
+
+    expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Unselect All/ })
+    ).toBeInTheDocument();
+
+    const unselectBtn = await screen.getByRole('button', {
+      name: /Unselect All/,
     });
-    expect(downloadBtn).toBeInTheDocument();
 
-    // Mock console.error
-    //vi.spyOn(saveAs, 'error').mockImplementation(() => {});
-    await userEvent.click(downloadBtn);
+    await userEvent.click(unselectBtn);
 
-    await waitFor(() => {
-      expect(saveAs).toHaveBeenCalled();
+    expect(screen.queryByText(/Items selected/)).not.toBeInTheDocument();
+  });
+
+  describe('DownloadButton', () => {
+    //const saveAs = vi.fn();
+
+    // beforeEach(() => {
+    //   saveAs.mockClear();
+    // });
+
+    it('renders selected count and buttons when items are selected', async () => {
+      renderWithProviders(
+        <BrowserRouter>
+          <CardList searchString="" />
+        </BrowserRouter>
+      );
+      const bulbasaur = await screen.findByText('bulbasaur');
+      expect(bulbasaur).toBeInTheDocument();
+      const checkboxes = await screen.getAllByRole('checkbox');
+      await userEvent.click(checkboxes[0]);
+
+      expect(screen.getByText(/Items selected: 1/)).toBeInTheDocument();
+
+      const downloadBtn = await screen.getByRole('button', {
+        name: /Download/,
+      });
+      expect(downloadBtn).toBeInTheDocument();
+
+      // Mock console.error
+      //vi.spyOn(saveAs, 'error').mockImplementation(() => {});
+      await userEvent.click(downloadBtn);
+
+      await waitFor(() => {
+        expect(saveAs).toHaveBeenCalled();
+      });
     });
   });
 });
