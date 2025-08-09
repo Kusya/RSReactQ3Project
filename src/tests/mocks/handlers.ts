@@ -1,17 +1,18 @@
 import { http, HttpResponse } from 'msw';
+import { POKEMON_URL } from './../../app/constants';
 
 export const handlers = [
-  http.get('https://pokeapi.co/api/v2/pokemon?limit=1000&offset=0', () => {
+  http.get(POKEMON_URL + 'pokemon?limit=1000&offset=0', () => {
     return HttpResponse.json({
       results: [
-        { name: 'pikachu', url: 'https://pokeapi.co/api/v2/pokemon/25/ ' },
-        { name: 'bulbasaur', url: ' https://pokeapi.co/api/v2/pokemon/1/ ' },
-        { name: 'charmander', url: 'https://pokeapi.co/api/v2/pokemon/4/ ' },
-        { name: 'squirtle', url: 'https://pokeapi.co/api/v2/pokemon/7/ ' },
+        { name: 'pikachu', url: POKEMON_URL + 'pokemon/25/ ' },
+        { name: 'bulbasaur', url: POKEMON_URL + 'pokemon/1/ ' },
+        { name: 'charmander', url: POKEMON_URL + 'pokemon/4/ ' },
+        { name: 'squirtle', url: POKEMON_URL + 'pokemon/7/ ' },
       ],
     });
   }),
-  http.get('https://pokeapi.co/api/v2/pokemon/:name', ({ params }) => {
+  http.get(POKEMON_URL + 'pokemon/:name', ({ params }) => {
     const { name } = params;
 
     if (name === 'pikachu') {
@@ -28,12 +29,12 @@ export const handlers = [
           {
             base_stat: 90,
             effort: 3,
-            stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' },
+            stat: { name: 'speed', url: POKEMON_URL + 'stat/6/' },
           },
           {
             base_stat: 55,
             effort: 0,
-            stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' },
+            stat: { name: 'attack', url: POKEMON_URL + 'stat/2/' },
           },
         ],
       });
@@ -52,12 +53,12 @@ export const handlers = [
           {
             base_stat: 90,
             effort: 3,
-            stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' },
+            stat: { name: 'speed', url: POKEMON_URL + 'stat/6/' },
           },
           {
             base_stat: 55,
             effort: 0,
-            stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' },
+            stat: { name: 'attack', url: POKEMON_URL + 'stat/2/' },
           },
         ],
       });
@@ -76,12 +77,12 @@ export const handlers = [
           {
             base_stat: 90,
             effort: 3,
-            stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' },
+            stat: { name: 'speed', url: POKEMON_URL + 'stat/6/' },
           },
           {
             base_stat: 55,
             effort: 0,
-            stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' },
+            stat: { name: 'attack', url: POKEMON_URL + 'stat/2/' },
           },
         ],
       });
@@ -100,12 +101,12 @@ export const handlers = [
           {
             base_stat: 90,
             effort: 3,
-            stat: { name: 'speed', url: 'https://pokeapi.co/api/v2/stat/6/' },
+            stat: { name: 'speed', url: POKEMON_URL + 'stat/6/' },
           },
           {
             base_stat: 55,
             effort: 0,
-            stat: { name: 'attack', url: 'https://pokeapi.co/api/v2/stat/2/' },
+            stat: { name: 'attack', url: POKEMON_URL + 'stat/2/' },
           },
         ],
       });
@@ -114,7 +115,7 @@ export const handlers = [
     return new HttpResponse(null, { status: 404 });
   }),
   http.get(
-    'https://pokeapi.co/api/v2/pokemon/999',
+    POKEMON_URL + 'pokemon/999',
     () => new HttpResponse(null, { status: 404 })
   ),
 ];

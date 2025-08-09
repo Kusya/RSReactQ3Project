@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from './../components/ErrorBoundary/ErrorBoundary';
 
 test('ErrorBoundary render with some content', () => {
   render(
