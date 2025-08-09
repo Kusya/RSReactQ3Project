@@ -20,7 +20,7 @@ export default function ThemeButton(props: ThemeButtonProps) {
     <>
       <div className={theme}>
         <CustomButton handleClick={toggleTheme}>
-          <img src={logo} className="logo" alt="Vite logo" />
+          <img src={logo} className="logo" alt="Theme logo" />
         </CustomButton>
       </div>
     </>
