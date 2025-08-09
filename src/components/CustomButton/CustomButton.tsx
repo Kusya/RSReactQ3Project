@@ -19,7 +19,7 @@ export default function CustomButton({
 
   return (
     <>
-      <button className={btnClassName} onClick={onClick} {...props}>
+      <button className={btnClassName} onClick={onClick}>
         {children}
       </button>
     </>

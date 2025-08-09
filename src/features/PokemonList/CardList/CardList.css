@@ -1,7 +1,5 @@
 .card-list-layout {
   display: flex;
-  height: calc(80vh - 2rem);
-  margin-top: 2rem;
   font-family: Arial, sans-serif;
 }
 
@@ -19,12 +17,14 @@
 
 .card-list {
   list-style: none;
+  max-width: 400px;
+
   padding: 0;
   margin: 0;
 }
 
 .card-list-item {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   width: 100%;
@@ -51,13 +51,12 @@
 
 .card-list-item a strong {
   font-size: 1.1rem;
-  margin: 0.75rem;
+  margin: 0.55rem 0.55rem 0.55rem 0;
 }
 
 .card-list-item a {
   display: flex;
   margin: 0 0.25rem;
-  font-size: 0.9em;
   width: 100%;
   text-align: left;
   border: 1px solid #ddd;
@@ -76,5 +75,5 @@
 .card-list-item img {
   width: 3rem;
   height: 3rem;
-  margin: 0.25rem;
+  margin: 0 0.25rem;
 }

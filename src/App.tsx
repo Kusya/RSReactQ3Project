@@ -5,8 +5,8 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { useState } from 'react';
 import { ThemeContext } from './app/context';
-import ThemeButton from './components/ThemeButton/ThemeButton';
 import DetailsWrapper from './features/PokemonDetails/DetailsWrapper';
+import MenuLayout from './components/MenuLayout';
 
 function App() {
   const [theme, setTheme] = useState('dark');
@@ -15,8 +15,7 @@ function App() {
     <>
       <ThemeContext value={theme}>
         <Router>
-          <div className={theme}>
-            <ThemeButton sendSearchUp={setTheme} />
+          <MenuLayout sendThemeUp={setTheme}>
             <Routes>
               <Route path="/" element={<PokemonSearchPage />}>
                 <Route path="/details/:name" element={<DetailsWrapper />} />
@@ -25,7 +24,7 @@ function App() {
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </div>
+          </MenuLayout>
         </Router>
       </ThemeContext>
     </>

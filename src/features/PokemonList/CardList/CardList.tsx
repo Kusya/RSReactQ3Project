@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useGetPokemonListQuery } from './../../../services/PokemonApiService';
 import Pagination from '../../../components/Pagination/Pagination';
-import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import './CardList.css';
 import { ITEMS_PER_PAGE } from '../../../app/constants';
 import SelectedMenu from '../SelectedItemsMenu';
@@ -103,14 +103,12 @@ export default function CardList(props: CardListProps) {
     <div>
       <div className="card-list-layout">
         <div className="card-list-sidebar">
-          <h2>Pokemons</h2>
           <ul className="card-list">
             {showData.map((item: PokeItem) => (
               <PokemonCard key={item.name} item={item} />
             ))}
           </ul>
         </div>
-        <Outlet />
       </div>
       <SelectedMenu></SelectedMenu>
       <Pagination
