@@ -1,4 +1,4 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import CardList from './CardList';
 import { server } from '../../../tests/mocks/server';
 import { BrowserRouter } from 'react-router-dom';
@@ -142,13 +142,15 @@ describe('Card List Tests', () => {
   });
 
   describe('DownloadButton', () => {
-    //const saveAs = vi.fn();
+    beforeEach(() => {
+      vi.mock('file-saver', () => {
+        return {
+          default: vi.fn(),
+        };
+      });
+    });
 
-    // beforeEach(() => {
-    //   saveAs.mockClear();
-    // });
-
-    it.skip('renders selected count and buttons when items are selected', async () => {
+    it('check that saveAs method has been called', async () => {
       renderWithProviders(
         <BrowserRouter>
           <CardList searchString="" />
@@ -165,14 +167,9 @@ describe('Card List Tests', () => {
         name: /Download/,
       });
       expect(downloadBtn).toBeInTheDocument();
-
-      // Mock console.error
-      //vi.spyOn(saveAs, 'error').mockImplementation(() => {});
       await userEvent.click(downloadBtn);
 
-      await waitFor(() => {
-        expect(saveAs).toHaveBeenCalled();
-      });
+      expect(saveAs).toHaveBeenCalledTimes(1);
     });
   });
 });
