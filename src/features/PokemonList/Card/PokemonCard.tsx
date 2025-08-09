@@ -13,11 +13,11 @@ interface PokemonCardProps {
 
 export default function PokemonCard(props: PokemonCardProps) {
   const [searchParams] = useSearchParams();
-  const { data, isError, error, isLoading, isUninitialized } =
+  const { data, isError, error, isLoading, isFetching, isUninitialized } =
     useGetPokemonByNameQuery(props.item.name);
 
   const search = new URLSearchParams(searchParams);
-  if (isLoading || isUninitialized)
+  if (isLoading || isUninitialized || isFetching)
     return <div className="card-list-item"> Loading...</div>;
 
   if (isError)

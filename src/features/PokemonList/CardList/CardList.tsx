@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useGetPokemonListQuery } from './../../../services/PokemonApiService';
 import Pagination from '../../../components/Pagination/Pagination';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -7,6 +7,10 @@ import { ITEMS_PER_PAGE } from '../../../app/constants';
 import SelectedMenu from '../SelectedItemsMenu';
 import PokemonCard from '../Card/PokemonCard';
 import type { PokeItem } from '../../../types/Pokemontypes';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import refresh from './../../../assets/refresh-icon.svg';
+import refreshWt from './../../../assets/refresh-icon-white.svg';
+import { ThemeContext } from '../../../app/context';
 
 interface CardListProps {
   searchString: string;
@@ -22,6 +26,7 @@ export default function CardList(props: CardListProps) {
   const [currentPage, setPage] = useState(
     parseInt(searchParams.get('page') || '1', 10)
   );
+  const theme = useContext(ThemeContext);
 
   const {
     data: rawData,
@@ -29,6 +34,8 @@ export default function CardList(props: CardListProps) {
     error,
     isLoading,
     isUninitialized,
+    isFetching,
+    refetch,
   } = useGetPokemonListQuery();
 
   const validate = () => {
@@ -77,7 +84,7 @@ export default function CardList(props: CardListProps) {
 
   useEffect(() => {
     getPageCount();
-  }, [props.searchString, rawData]);
+  }, [props.searchString, rawData, refetch]);
   useEffect(() => {
     validate();
     setSearchParams({ page: currentPage.toString() });
@@ -85,7 +92,7 @@ export default function CardList(props: CardListProps) {
     loadData();
   }, [currentPage, filteredData]);
 
-  if (isLoading || isUninitialized)
+  if (isLoading || isUninitialized || isFetching)
     return (
       <div id="pokemonTable" className="card-list">
         Loading...
@@ -118,6 +125,14 @@ export default function CardList(props: CardListProps) {
         }}
         totalPages={totalPages}
       />
+      <CustomButton handleClick={refetch}>
+        <img
+          src={theme === 'dark' ? refreshWt : refresh}
+          className="logo"
+          alt="Refresh list"
+          title="Refresh list"
+        ></img>
+      </CustomButton>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import { POKEMON_URL } from '../app/constants';
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: POKEMON_URL }),
+  keepUnusedDataFor: 30,
   endpoints: (builder) => ({
     getPokemonByName: builder.query<externalPokemonDetails, string>({
       query: (name) => `pokemon/${name}`,
