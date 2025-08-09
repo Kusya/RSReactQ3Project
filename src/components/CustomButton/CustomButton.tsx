@@ -18,10 +18,8 @@ export default function CustomButton({
   const btnClassName = theme + '-button';
 
   return (
-    <>
-      <button className={btnClassName} onClick={onClick}>
-        {children}
-      </button>
-    </>
+    <button className={btnClassName} onClick={onClick}>
+      {children}
+    </button>
   );
 }

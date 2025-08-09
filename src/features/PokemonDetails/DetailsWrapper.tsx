@@ -14,7 +14,9 @@ export default function DetailsWrapper() {
   return (
     <div>
       <PokemonDetails name={name} />
-      <Link to={`/details`}>Close</Link>
+      <Link className="text-red-300 p-4" to={`/details`}>
+        Close details
+      </Link>
     </div>
   );
 }

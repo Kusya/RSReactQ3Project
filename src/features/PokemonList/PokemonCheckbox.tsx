@@ -21,9 +21,5 @@ export function PokemonCheckbox(props: CheckboxProps) {
     }
   };
 
-  return (
-    <div>
-      <input type="checkbox" checked={isChecked} onChange={toggleItem} />
-    </div>
-  );
+  return <input type="checkbox" checked={isChecked} onChange={toggleItem} />;
 }

@@ -15,7 +15,6 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
@@ -109,7 +108,7 @@ input[type='checkbox']:checked::after {
 }
 
 /* .dark input[type="checkbox"] {
-  accent-color: #007bff; 
+  accent-color: #007bff;
   background-color: #4f4f50;
   color: #ffffff;
   border: 1px solid  #929292;
