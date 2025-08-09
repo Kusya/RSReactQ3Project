@@ -1,9 +1,9 @@
 import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import { server } from './../../tests/mocks/server';
-import DetailsWrapper from './DetailsWrapper';
-import { renderWithProviders } from '../../tests/testUtils';
+import { server } from './mocks/server';
+import DetailsWrapper from './../features/PokemonDetails/DetailsWrapper';
+import { renderWithProviders } from './testUtils';
 
 const renderWithRouter = (name: string = 'pikachu') => {
   renderWithProviders(

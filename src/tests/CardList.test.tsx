@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react';
-import CardList from './CardList';
-import { server } from '../../../tests/mocks/server';
+import CardList from '../features/PokemonList/CardList/CardList';
+import { server } from './mocks/server';
 import { BrowserRouter } from 'react-router-dom';
-import { renderWithProviders } from '../../../tests/testUtils';
-import SelectedMenu from '../SelectedItemsMenu';
+import { renderWithProviders } from './testUtils';
+import SelectedMenu from '../features/PokemonList/SelectedItemsMenu';
 import userEvent from '@testing-library/user-event';
 import saveAs from 'file-saver';
 
