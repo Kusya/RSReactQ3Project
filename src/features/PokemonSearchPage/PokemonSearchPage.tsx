@@ -12,7 +12,6 @@ export default function PokemonSearchPage() {
     <ErrorBoundary>
       <div className="card-list-layout">
         <div>
-          <strong>Pokemons</strong>
           <Search searchStr={searchData} sendSearchUp={setSearchData} />
           <CardList searchString={searchData} />
         </div>

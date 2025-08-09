@@ -41,7 +41,7 @@ export default function SelectedMenu() {
 
   if (error) return <div data-testid="error">Error: {error}</div>;
   return (
-    <div>
+    <>
       {selected.length > 0 ? (
         <div>
           Items selected: {selected.length}
@@ -63,6 +63,6 @@ export default function SelectedMenu() {
       ) : (
         <div></div>
       )}
-    </div>
+    </>
   );
 }

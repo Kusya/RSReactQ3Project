@@ -101,8 +101,8 @@ export default function CardList(props: CardListProps) {
   if (!showData) return <div>No items found</div>;
   return (
     <div>
-      <div className="card-list-layout">
-        <div className="card-list-sidebar">
+      <div className="card-list-layout pl-2">
+        <div className="card-list-sidebar p-2">
           <ul className="card-list">
             {showData.map((item: PokeItem) => (
               <PokemonCard key={item.name} item={item} />

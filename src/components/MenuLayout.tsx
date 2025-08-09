@@ -15,8 +15,12 @@ export default function MenuLayout({
   return (
     <div className={theme}>
       <header>
-        <ThemeButton sendThemeUp={props.sendThemeUp} />
-        <Link to="/about">About</Link>
+        <nav className="flex justify-end p-1">
+          <ThemeButton sendThemeUp={props.sendThemeUp} />
+          <Link to="/about" className="px-4">
+            About
+          </Link>
+        </nav>
       </header>
       <main>{children}</main>
     </div>

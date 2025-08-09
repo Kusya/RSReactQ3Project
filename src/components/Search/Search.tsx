@@ -18,15 +18,15 @@ export default function Search(props: SearchComponentProps) {
   };
 
   return (
-    <>
-      <div>
-        <input
-          name="search-input"
-          value={searchString}
-          onChange={handleInputChange}
-        ></input>
-        <CustomButton handleClick={handleInputSearchValue}>Search</CustomButton>
-      </div>
-    </>
+    <div className="flex">
+      <input
+        name="search-input"
+        className="ml-4 pl-2 rounded-md"
+        placeholder="Enter pokemon"
+        value={searchString}
+        onChange={handleInputChange}
+      ></input>
+      <CustomButton handleClick={handleInputSearchValue}>Search</CustomButton>
+    </div>
   );
 }

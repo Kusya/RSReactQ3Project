@@ -5,7 +5,6 @@
 
 .card-list-sidebar {
   flex: 1;
-  padding: 1rem;
   overflow-y: auto;
   min-width: 30vw;
 }
