@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { PokemonCheckbox } from '../PokemonCheckbox';
-import type { PokeItem } from '../Pokemontypes';
+import type { PokeItem } from '../../../types/Pokemontypes';
 import { useGetPokemonByNameQuery } from '../../../services/PokemonApiService';
 import type {
   PokemonDetails,

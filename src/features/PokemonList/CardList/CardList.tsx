@@ -6,7 +6,7 @@ import './CardList.css';
 import { ITEMS_PER_PAGE } from '../../../app/constants';
 import SelectedMenu from '../SelectedItemsMenu';
 import PokemonCard from '../Card/PokemonCard';
-import type { PokeItem } from '../Pokemontypes';
+import type { PokeItem } from '../../../types/Pokemontypes';
 
 interface CardListProps {
   searchString: string;
