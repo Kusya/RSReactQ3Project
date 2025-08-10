@@ -11,6 +11,8 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import refresh from './../../../assets/refresh-icon.svg';
 import refreshWt from './../../../assets/refresh-icon-white.svg';
 import { ThemeContext } from '../../../app/context';
+import { useDispatch } from 'react-redux';
+import { pokemonApi } from './../../../services/PokemonApiService';
 
 interface CardListProps {
   searchString: string;
@@ -37,6 +39,12 @@ export default function CardList(props: CardListProps) {
     isFetching,
     refetch,
   } = useGetPokemonListQuery();
+
+  const dispatch = useDispatch();
+  const forceRefresh = () => {
+    refetch();
+    dispatch(pokemonApi.util.invalidateTags(['Details']));
+  };
 
   const validate = () => {
     if (isNaN(currentPage) || currentPage < 1) {
@@ -84,7 +92,7 @@ export default function CardList(props: CardListProps) {
 
   useEffect(() => {
     getPageCount();
-  }, [props.searchString, rawData, refetch]);
+  }, [props.searchString, rawData]);
   useEffect(() => {
     validate();
     setSearchParams({ page: currentPage.toString() });
@@ -125,7 +133,7 @@ export default function CardList(props: CardListProps) {
         }}
         totalPages={totalPages}
       />
-      <CustomButton aria-label="refresh" handleClick={refetch}>
+      <CustomButton aria-label="refresh" handleClick={forceRefresh}>
         <img
           src={theme === 'dark' ? refreshWt : refresh}
           className="logo"

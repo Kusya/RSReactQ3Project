@@ -10,16 +10,19 @@ import { POKEMON_URL } from '../app/constants';
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',
   baseQuery: fetchBaseQuery({ baseUrl: POKEMON_URL }),
+  tagTypes: ['Pokemon', 'Details'],
   keepUnusedDataFor: 30,
   endpoints: (builder) => ({
     getPokemonByName: builder.query<externalPokemonDetails, string>({
       query: (name) => `pokemon/${name}`,
+      providesTags: (name) => [{ type: 'Details', name }],
     }),
     getPokemonById: builder.query<externalPokemonDetails, string>({
       query: (id) => `pokemon/${id}`,
     }),
     getPokemonList: builder.query<foreignPokeData, void>({
       query: () => `pokemon/?limit=10000&offset=0`,
+      providesTags: () => [{ type: 'Pokemon', id: 'LIST' }],
     }),
     getPokemonsByPage: builder.query<PokeItem[], PageParams>({
       query: ({ limit = 10, pageNumber = 1 }: PageParams) =>

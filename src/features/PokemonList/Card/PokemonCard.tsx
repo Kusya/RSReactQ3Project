@@ -17,6 +17,7 @@ export default function PokemonCard(props: PokemonCardProps) {
     useGetPokemonByNameQuery(props.item.name);
 
   const search = new URLSearchParams(searchParams);
+
   if (isLoading || isUninitialized || isFetching)
     return <div className="card-list-item"> Loading...</div>;
 
