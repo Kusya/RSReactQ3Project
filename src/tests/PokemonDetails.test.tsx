@@ -4,9 +4,11 @@ import userEvent from '@testing-library/user-event';
 import { server } from './mocks/server';
 import DetailsWrapper from './../features/PokemonDetails/DetailsWrapper';
 import { renderWithProviders } from './testUtils';
+import { http, HttpResponse } from 'msw';
+import { POKEMON_URL } from '../app/constants';
 
 const renderWithRouter = (name: string = 'pikachu') => {
-  renderWithProviders(
+  return renderWithProviders(
     <MemoryRouter initialEntries={[`/pokemon/${name}`]}>
       <Routes>
         <Route path="/pokemon/:name" element={<DetailsWrapper />} />
@@ -57,5 +59,66 @@ describe('PokemonDetails', () => {
     await waitFor(() => {
       expect(screen.getByText('something went wrong')).toBeInTheDocument();
     });
+  });
+});
+
+describe('Pokemon details query tests', () => {
+  const spy = vi.fn();
+  afterEach(() => spy.mockClear());
+
+  test('uses cache and does not refetch immediately', async () => {
+    let callCount = 0;
+    const originalHandler = http.get(`${POKEMON_URL}pokemon/pikachu`, () => {
+      spy();
+      callCount++;
+      return HttpResponse.json({
+        id: 25,
+        name: 'pikachu',
+        height: 4,
+        weight: 60,
+        sprites: { front_default: 'https://...' },
+        stats: [{ base_stat: 90, stat: { name: 'speed' } }],
+      });
+    });
+    server.use(originalHandler);
+
+    renderWithRouter();
+    await screen.findByText(/pikachu/i);
+    expect(spy).toHaveBeenCalledTimes(callCount);
+    expect(callCount).toBe(1);
+
+    renderWithRouter();
+    expect(spy).toHaveBeenCalledTimes(callCount);
+    expect(callCount).toBe(1);
+  });
+
+  test('manual refetch calls for api', async () => {
+    let callCount = 0;
+    const originalHandler = http.get(`${POKEMON_URL}pokemon/pikachu`, () => {
+      spy();
+      callCount++;
+      return HttpResponse.json({
+        id: 25,
+        name: 'pikachu',
+        height: 4,
+        weight: 60,
+        sprites: { front_default: 'https://...' },
+        stats: [{ base_stat: 90, stat: { name: 'speed' } }],
+      });
+    });
+    server.use(originalHandler);
+
+    renderWithRouter();
+    await screen.findByText(/pikachu/i);
+    expect(callCount).toBe(2);
+    expect(spy).toHaveBeenCalledTimes(callCount);
+
+    renderWithRouter();
+    expect(spy).toHaveBeenCalledTimes(callCount);
+    expect(callCount).toBe(2);
+    const refetchButton = screen.getByRole('button', { name: /refresh/i });
+    await userEvent.click(refetchButton);
+
+    await waitFor(() => expect(callCount).toBe(6));
   });
 });

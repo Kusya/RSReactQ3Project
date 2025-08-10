@@ -50,8 +50,7 @@ export default function PokemonDetails(props: PokemonDetailsProps) {
 
           <p>Height: {data.height}</p>
           <p>Weight: {data.weight}</p>
-          <CustomButton handleClick={refetch}>
-            {' '}
+          <CustomButton aria-label="refresh" handleClick={refetch}>
             <img
               src={theme === 'dark' ? refreshWt : refresh}
               className="logo"

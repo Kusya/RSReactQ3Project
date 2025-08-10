@@ -125,7 +125,7 @@ export default function CardList(props: CardListProps) {
         }}
         totalPages={totalPages}
       />
-      <CustomButton handleClick={refetch}>
+      <CustomButton aria-label="refresh" handleClick={refetch}>
         <img
           src={theme === 'dark' ? refreshWt : refresh}
           className="logo"
