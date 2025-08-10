@@ -49,7 +49,7 @@ export default function Pagination({
 
     const shouldShowRightEllipsis = page + siblings < totalPages - boundaries;
     if (shouldShowRightEllipsis) {
-      pageNumbers.push(-1);
+      pageNumbers.push(-2);
     }
 
     for (
@@ -73,9 +73,10 @@ export default function Pagination({
   return (
     <div>
       {pageNumbers.map((i) => {
-        if (i == -1) {
+        if (i < 0) {
+          const ikey = i + 'ellipsis';
           return (
-            <span key="right-ellipsis" className="ellipsis">
+            <span key={ikey} className="ellipsis">
               ...
             </span>
           );

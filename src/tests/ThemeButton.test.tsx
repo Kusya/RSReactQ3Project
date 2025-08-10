@@ -8,26 +8,26 @@ type Theme = 'light' | 'dark';
 
 const renderWithTheme = (
   theme: Theme,
-  sendSearchUp: (theme: string) => void
+  sendThemeUp: (theme: string) => void
 ) => {
   return render(
     <ThemeContext.Provider value={theme}>
-      <ThemeButton sendSearchUp={sendSearchUp} />
+      <ThemeButton sendThemeUp={sendThemeUp} />
     </ThemeContext.Provider>
   );
 };
 
 describe('ThemeButton', () => {
-  const sendSearchUp = vi.fn();
+  const sendThemeUp = vi.fn();
 
   beforeEach(() => {
-    sendSearchUp.mockClear();
+    sendThemeUp.mockClear();
   });
 
   it('renders moon logo and light-button class in light theme', () => {
-    renderWithTheme('light', sendSearchUp);
+    renderWithTheme('light', sendThemeUp);
 
-    const img = screen.getByAltText('Vite logo');
+    const img = screen.getByAltText('Theme logo');
     expect(img).toBeInTheDocument();
 
     const button = screen.getByRole('button');
@@ -36,9 +36,9 @@ describe('ThemeButton', () => {
   });
 
   it('renders sun logo and dark-button class in dark theme', () => {
-    renderWithTheme('dark', sendSearchUp);
+    renderWithTheme('dark', sendThemeUp);
 
-    const img = screen.getByAltText('Vite logo');
+    const img = screen.getByAltText('Theme logo');
     expect(img).toBeInTheDocument();
 
     const button = screen.getByRole('button');
@@ -47,29 +47,29 @@ describe('ThemeButton', () => {
   });
 
   it('calls sendSearchUp with "dark" when toggling from light', async () => {
-    renderWithTheme('light', sendSearchUp);
+    renderWithTheme('light', sendThemeUp);
     const button = screen.getByRole('button');
 
     await userEvent.click(button);
 
-    expect(sendSearchUp).toHaveBeenCalledTimes(1);
-    expect(sendSearchUp).toHaveBeenCalledWith('dark');
+    expect(sendThemeUp).toHaveBeenCalledTimes(1);
+    expect(sendThemeUp).toHaveBeenCalledWith('dark');
   });
 
   it('calls sendSearchUp with "light" when toggling from dark', async () => {
-    renderWithTheme('dark', sendSearchUp);
+    renderWithTheme('dark', sendThemeUp);
     const button = screen.getByRole('button');
 
     await userEvent.click(button);
 
-    expect(sendSearchUp).toHaveBeenCalledTimes(1);
-    expect(sendSearchUp).toHaveBeenCalledWith('light');
+    expect(sendThemeUp).toHaveBeenCalledTimes(1);
+    expect(sendThemeUp).toHaveBeenCalledWith('light');
   });
 
   it('renders the image inside the button', () => {
-    renderWithTheme('light', sendSearchUp);
+    renderWithTheme('light', sendThemeUp);
 
-    const img = screen.getByAltText('Vite logo');
+    const img = screen.getByAltText('Theme logo');
     const button = screen.getByRole('button');
 
     expect(button).toContainElement(img);

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export default function About() {
   return (
     <div>
@@ -13,6 +15,7 @@ export default function About() {
       <p>Done with popular tools such as react+vite+typescript.</p>
       <p>Routing implemented with a help of react router </p>
       <p>Test information: vitest + rtl + msw </p>
+      <Link to="/">Go Back</Link>
     </div>
   );
 }

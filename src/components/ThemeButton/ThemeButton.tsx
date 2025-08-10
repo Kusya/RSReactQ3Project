@@ -5,14 +5,14 @@ import moonLogo from './../../assets/moon-icon.svg';
 import CustomButton from '../CustomButton/CustomButton';
 
 interface ThemeButtonProps {
-  sendSearchUp: (data: string) => void;
+  sendThemeUp: (data: string) => void;
 }
 
 export default function ThemeButton(props: ThemeButtonProps) {
   const theme = useContext(ThemeContext);
   const toggleTheme = () => {
     const toggled = theme == 'dark' ? 'light' : 'dark';
-    props.sendSearchUp(toggled);
+    props.sendThemeUp(toggled);
   };
   const logo = theme == 'dark' ? sunLogo : moonLogo;
 
@@ -20,7 +20,7 @@ export default function ThemeButton(props: ThemeButtonProps) {
     <>
       <div className={theme}>
         <CustomButton handleClick={toggleTheme}>
-          <img src={logo} className="logo" alt="Vite logo" />
+          <img src={logo} className="logo" alt="Theme logo" />
         </CustomButton>
       </div>
     </>

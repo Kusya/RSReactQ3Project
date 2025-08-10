@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
+import type { PokemonDetails } from '../../types/PokemonApiTypes';
 
 export interface SelectedPokemonsState {
-  selectedItems: string[];
+  selectedItems: PokemonDetails[];
 }
 const initialState: SelectedPokemonsState = {
   selectedItems: [],
@@ -13,18 +14,20 @@ export const selectedPokemonsSlice = createSlice({
   name: 'selected',
   initialState,
   reducers: {
-    addItem(state, action: PayloadAction<string>) {
-      const itemId = action.payload;
-      const index = state.selectedItems.indexOf(itemId);
-      if (index === -1) {
-        state.selectedItems.push(itemId);
+    addItem(state, action: PayloadAction<PokemonDetails>) {
+      const itemId = action.payload.id;
+      const index = state.selectedItems.find((item) => item.id === itemId);
+      if (index === undefined) {
+        state.selectedItems.push(action.payload);
       }
     },
-    removeItem(state, action: PayloadAction<string>) {
-      const itemId = action.payload;
-      const index = state.selectedItems.indexOf(itemId);
-      if (index !== -1) {
-        state.selectedItems.splice(index, 1);
+    removeItem(state, action: PayloadAction<PokemonDetails>) {
+      const itemId = action.payload.id;
+      const pokemon = state.selectedItems.find((item) => item.id === itemId);
+      if (pokemon !== undefined) {
+        state.selectedItems = state.selectedItems.filter(
+          (obj) => obj.id !== pokemon.id
+        );
       }
     },
     removeAll(state) {
