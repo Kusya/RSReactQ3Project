@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react';
 import './Pagination.css';
 import { useSearchParams } from 'react-router-dom';
-import { ThemeContext } from '../../app/context';
+import { ThemeContext } from '../../shared/context';
 
 interface PaginationProps {
   page: number;

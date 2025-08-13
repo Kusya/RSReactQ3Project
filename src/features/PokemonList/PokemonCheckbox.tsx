@@ -1,5 +1,5 @@
 import { addItem, removeItem } from './selectedPokemonsSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks';
 import type { PokemonDetails } from '../../types/PokemonApiTypes';
 
 interface CheckboxProps {

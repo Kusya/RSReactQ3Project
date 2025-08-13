@@ -3,16 +3,17 @@ import { useGetPokemonListQuery } from './../../../services/PokemonApiService';
 import Pagination from '../../../components/Pagination/Pagination';
 import { Link, useSearchParams } from 'react-router-dom';
 import './CardList.css';
-import { ITEMS_PER_PAGE } from '../../../app/constants';
+import { ITEMS_PER_PAGE } from '../../../shared/constants';
 import SelectedMenu from '../SelectedItemsMenu';
 import PokemonCard from '../Card/PokemonCard';
 import type { PokeItem } from '../../../types/Pokemontypes';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import refresh from './../../../assets/refresh-icon.svg';
 import refreshWt from './../../../assets/refresh-icon-white.svg';
-import { ThemeContext } from '../../../app/context';
+import { ThemeContext } from '../../../shared/context';
 import { useDispatch } from 'react-redux';
 import { pokemonApi } from './../../../services/PokemonApiService';
+import React from 'react';
 
 interface CardListProps {
   searchString: string;
