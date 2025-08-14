@@ -1,4 +1,10 @@
 import React from 'react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Pokemon',
+  description: 'Pokemon store',
+};
 
 export default function RootLayout({
   children,
@@ -7,15 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <title>Pokemon Info</title>
-        <link href="/src/style.css" rel="stylesheet" />
-      </head>
       <body>
-        <div id="root"></div>
-        <script type="module" src="/src/main.tsx">
-          {children}
-        </script>
+        <div id="root"> {children}</div>
+        <script type="module" src="/src/main.tsx"></script>
       </body>
     </html>
   );

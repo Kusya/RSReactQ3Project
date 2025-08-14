@@ -4,7 +4,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { useState } from 'react';
-import { ThemeContext } from './app/context';
+import { ThemeContext } from './shared/context';
 import DetailsWrapper from './features/PokemonDetails/DetailsWrapper';
 import MenuLayout from './components/MenuLayout';
 

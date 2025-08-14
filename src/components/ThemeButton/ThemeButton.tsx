@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from './../../app/context';
+import { ThemeContext } from './../../shared/context';
 import sunLogo from './../../assets/sun-icon.svg';
 import moonLogo from './../../assets/moon-icon.svg';
 import CustomButton from '../CustomButton/CustomButton';

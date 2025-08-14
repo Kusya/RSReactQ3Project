@@ -1,6 +1,6 @@
 import { useContext, type ReactNode } from 'react';
 import ThemeButton from './ThemeButton/ThemeButton';
-import { ThemeContext } from '../app/context';
+import { ThemeContext } from '../shared/context';
 import { Link } from 'react-router-dom';
 
 interface MenuLayoutComponentProps {
