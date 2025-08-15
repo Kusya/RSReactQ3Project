@@ -136,7 +136,7 @@ export default function CardList(props: CardListProps) {
       />
       <CustomButton aria-label="refresh" handleClick={forceRefresh}>
         <img
-          src={theme === 'dark' ? refreshWt : refresh}
+          src={theme === 'dark' ? refreshWt.src : refresh.src}
           className="logo"
           alt="Refresh list"
           title="Refresh list"
