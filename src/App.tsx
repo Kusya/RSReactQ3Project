@@ -7,12 +7,14 @@ import { useState } from 'react';
 import { ThemeContext } from './shared/context';
 import DetailsWrapper from './features/PokemonDetails/DetailsWrapper';
 import MenuLayout from './components/MenuLayout';
+import { Provider } from 'react-redux';
+import { store } from './shared/store';
 
 function App() {
   const [theme, setTheme] = useState('dark');
 
   return (
-    <>
+    <Provider store={store}>
       <ThemeContext value={theme}>
         <Router>
           <MenuLayout sendThemeUp={setTheme}>
@@ -27,7 +29,7 @@ function App() {
           </MenuLayout>
         </Router>
       </ThemeContext>
-    </>
+    </Provider>
   );
 }
 
