@@ -1,0 +1,59 @@
+'use client';
+// import { PokemonCheckbox } from '../PokemonCheckbox';
+import type { PokeItem } from './../../types/Pokemontypes';
+import type {
+  PokemonDetails,
+  foreinStats,
+} from './../../types/PokemonApiTypes';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import PokeApiService from './../service/api';
+
+interface PokemonCardProps {
+  item: PokeItem;
+}
+
+export default function PokemonCard(props: PokemonCardProps) {
+  const searchParams = useSearchParams();
+
+  const [details, setDetails] = useState({} as PokemonDetails);
+
+  const search = searchParams?.get('search');
+
+  useEffect(() => {
+    const loadData = async () => {
+      const data = await PokeApiService.fetchItemByName(props.item.name);
+      const stats = data.stats.map((stat: foreinStats) => ({
+        name: stat.stat.name,
+        stat: stat.base_stat,
+      }));
+      setDetails({
+        name: data.name,
+        stats: stats,
+        id: data.id,
+        imageUrl: data.sprites.front_default,
+        height: data.height,
+        weight: data.weight,
+      } as PokemonDetails);
+    };
+    loadData();
+  }, [props.item.name]);
+  if (!details) return 'no loaded data';
+
+  return (
+    <li key={details.name} className="card-list-item">
+      {/* <PokemonCheckbox pokemon={details}></PokemonCheckbox> */}
+
+      <Link
+        href={{
+          pathname: `details/${details.name}`,
+          search: search?.toString(),
+        }}
+      >
+        <img src={details.imageUrl}></img>
+        <strong>{props.item.name}</strong>
+      </Link>
+    </li>
+  );
+}

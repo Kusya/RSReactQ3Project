@@ -1,0 +1,78 @@
+.card-list-layout {
+  display: flex;
+  font-family: Arial, sans-serif;
+}
+
+.card-list-sidebar {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 30vw;
+}
+
+.card-list-sidebar h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.card-list {
+  list-style: none;
+  max-width: 400px;
+
+  padding: 0;
+  margin: 0;
+}
+
+.card-list-item {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.card-list-button {
+  width: 100%;
+  text-align: left;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.card-list-button:hover {
+  background-color: #f0f8ff;
+  border-color: #87ceeb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-list-item a strong {
+  font-size: 1.1rem;
+  margin: 0.55rem 0.55rem 0.55rem 0;
+}
+
+.card-list-item a {
+  display: flex;
+  margin: 0 0.25rem;
+  width: 100%;
+  text-align: left;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.card-list-item a:hover {
+  background-color: #f0f8ff;
+  border-color: #87ceeb;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.card-list-item img {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 0.25rem;
+}

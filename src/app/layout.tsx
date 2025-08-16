@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import Menu from './components/Menu';
 
 export const metadata: Metadata = {
   title: 'Pokemon',
@@ -14,6 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <header>
+          <Menu />
+        </header>
         <div id="root"> {children}</div>
       </body>
     </html>
