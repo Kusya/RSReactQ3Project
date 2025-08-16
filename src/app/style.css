@@ -1,1 +1,5 @@
 @import 'tailwindcss';
+
+.about-page-layout {
+  white-space: pre-line;
+}

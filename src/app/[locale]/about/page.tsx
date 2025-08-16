@@ -1,22 +1,25 @@
 import React from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 
 export default function About() {
+  const t = useTranslations('AboutPage');
   return (
-    <div>
-      <h1>This is About page</h1>
+    <div className="about-page-layout">
+      <h1>{t('title')}</h1>
       <p> </p>
-      <p>Author information: Veronika Dementey. Github: Kusya</p>
+      <p>{t('author')}</p>
       <p>
-        This project is creating in accordance to{' '}
-        <a href="https://rs.school/courses/reactjs">React course</a>
+        {t('project')}{' '}
+        <Link href="https://rs.school/courses/reactjs" className="px-4">
+          {t('project_link_text')}
+        </Link>
       </p>
       <p> </p>
-      <p>Pokemon search application</p>
-      <p>Done with popular tools such as react+vite+typescript.</p>
-      <p>Routing implemented with a help of react router </p>
-      <p>Test information: vitest + rtl + msw </p>
-      <Link href="/">Go Back</Link>
+      <p>{t('project_info')}</p>
+      <p>
+        <Link href="/">{t('go_back_link')}</Link>
+      </p>
     </div>
   );
 }
