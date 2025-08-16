@@ -14,6 +14,7 @@ import Link from 'next/link';
 
 interface CardListProps {
   searchString: string;
+  data: Array<object>;
 }
 
 export default function Cardlist(props: CardListProps) {

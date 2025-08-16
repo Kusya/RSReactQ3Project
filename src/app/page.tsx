@@ -1,10 +1,5 @@
-import React from 'react';
+import { redirect } from 'next/navigation';
 
-import PokemonSearchPage from './components/Main';
-import PokeApiService from './service/api';
-
-export default async function App() {
-  const data = await PokeApiService.fetchData();
-  const posts = await data.result;
-  return <PokemonSearchPage data={posts} />;
+export default function RootPage() {
+  redirect('/en');
 }

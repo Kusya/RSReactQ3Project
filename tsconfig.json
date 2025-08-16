@@ -1,5 +1,12 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@components/*": ["src/app/components/*"],
+      "@service/*": ["src/app/service/*"],
+      "@/*": ["src/*"]
+    },
+
     "plugins": [
       {
         "name": "next"
