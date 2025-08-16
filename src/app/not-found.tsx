@@ -1,0 +1,12 @@
+import Link from 'next/link';
+import React from 'react';
+
+export default function NotFound() {
+  return (
+    <div>
+      <h1>404 — Page not found!</h1>
+      <p>It seems you are following wrong link :)</p>
+      <Link href="/">Go To Start Page</Link>
+    </div>
+  );
+}
