@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import selectedPokemonReducer from '../features/PokemonList/selectedPokemonsSlice';
 
-import { pokemonApi } from './../services/PokemonApiService';
+import { pokemonApi } from '../services/PokemonApiService';
 import { setupListeners } from '@reduxjs/toolkit/query';
 
 export const store = configureStore({

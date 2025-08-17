@@ -1,7 +1,8 @@
+'use client';
 import { useContext, useEffect, useState } from 'react';
 import './Pagination.css';
-import { useSearchParams } from 'react-router-dom';
 import { ThemeContext } from '../../shared/context';
+import { useSearchParams } from 'next/navigation';
 
 interface PaginationProps {
   page: number;
@@ -14,9 +15,9 @@ export default function Pagination({
   sendPageUp,
   totalPages,
 }: PaginationProps) {
-  const [searchParams] = useSearchParams();
+  const searchParams = useSearchParams();
   const [page, setPage] = useState(
-    parseInt(searchParams.get('page') || String(initialPage), 10)
+    parseInt(String(initialPage) || searchParams?.get('page') || '1', 10)
   );
   const theme = useContext(ThemeContext);
 
@@ -71,7 +72,7 @@ export default function Pagination({
   createArrayOfPagesBySelectedPattern();
 
   return (
-    <div>
+    <div className="flex justify-center">
       {pageNumbers.map((i) => {
         if (i < 0) {
           const ikey = i + 'ellipsis';

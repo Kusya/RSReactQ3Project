@@ -1,0 +1,29 @@
+{
+  "HomePage": {
+    "title": "Покемоны",
+    "about": "О себе"
+  },
+  "AboutPage": {
+    "title": "Это страница О Себе",
+    "author": "Автор: Дементей Вероника. Гит: Kusya",
+    "project": "Проект выполнен для ",
+    "project_link_text": "React course",
+    "project_info": "Приложение поиска покемонов \n Сделано с использованием популярных библиотек react+vite+typescript.\n Роутинг настроен с помощью Next. \n Для тестов использовалось: vitest + rtl + msw",
+    "go_back_link": "Назад"
+  },
+  "NotFoundPage": {
+    "title": "404 — Страница не найдена!",
+    "text": "Видимо вы перешли по неправильной ссылке :)",
+    "link_text": "Назад на начало"
+  },
+
+  "SelectedMenu": {
+    "items_test": "Выбрано",
+    "unselect_btn": "Убрать выделение",
+    "load_placeholder": "Имя файла...",
+    "load_btn": "Загрузить"
+  },
+  "Search": {
+    "btn_text": "Найти"
+  }
+}

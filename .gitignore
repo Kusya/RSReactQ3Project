@@ -26,3 +26,8 @@ dist-ssr
 *.patch
 #tests
 coverage/*
+
+# Nextjs files
+.next
+next-env.d.ts
+dist

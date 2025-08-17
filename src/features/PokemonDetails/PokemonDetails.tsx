@@ -6,7 +6,7 @@ import refresh from './../../assets/refresh-icon.svg';
 import refreshWt from './../../assets/refresh-icon-white.svg';
 
 import { useContext } from 'react';
-import { ThemeContext } from '../../app/context';
+import { ThemeContext } from '../../shared/context';
 
 interface PokemonDetailsProps {
   name: string;

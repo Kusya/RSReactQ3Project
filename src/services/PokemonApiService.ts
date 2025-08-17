@@ -5,7 +5,7 @@ import type {
   foreignPokeData,
   PokeItem,
 } from '../types/PokemonApiTypes';
-import { POKEMON_URL } from '../app/constants';
+import { POKEMON_URL } from '../shared/constants';
 
 export const pokemonApi = createApi({
   reducerPath: 'pokemonApi',

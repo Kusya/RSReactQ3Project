@@ -1,4 +1,4 @@
-import { addItem, removeItem } from './selectedPokemonsSlice';
+import { addItem, removeItem } from './../lib/features/selected/selectedSlice';
 import { useAppDispatch, useAppSelector } from '../../shared/hooks';
 import type { PokemonDetails } from '../../types/PokemonApiTypes';
 

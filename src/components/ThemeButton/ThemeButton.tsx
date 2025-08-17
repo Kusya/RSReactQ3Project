@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeContext } from './../../app/context';
+import { ThemeContext } from './../../shared/context';
 import sunLogo from './../../assets/sun-icon.svg';
 import moonLogo from './../../assets/moon-icon.svg';
 import CustomButton from '../CustomButton/CustomButton';
@@ -20,7 +20,7 @@ export default function ThemeButton(props: ThemeButtonProps) {
     <>
       <div className={theme}>
         <CustomButton handleClick={toggleTheme}>
-          <img src={logo} className="logo" alt="Theme logo" />
+          <img src={logo.src} className="logo" alt="Theme logo" />
         </CustomButton>
       </div>
     </>

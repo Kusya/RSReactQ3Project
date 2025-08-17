@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../shared/store';
-import type { PokemonDetails } from '../../types/PokemonApiTypes';
+import type { RootState } from '../../store';
+import type { PokemonDetails } from '../../../../types/PokemonApiTypes';
 
 export interface SelectedPokemonsState {
   selectedItems: PokemonDetails[];

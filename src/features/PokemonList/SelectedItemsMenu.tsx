@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../shared/hooks';
 import { removeAll } from './selectedPokemonsSlice';
 import type { PokeStat } from '../../types/PokemonApiTypes';
 import saveAs from 'file-saver';

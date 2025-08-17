@@ -4,15 +4,17 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { useState } from 'react';
-import { ThemeContext } from './app/context';
+import { ThemeContext } from './shared/context';
 import DetailsWrapper from './features/PokemonDetails/DetailsWrapper';
 import MenuLayout from './components/MenuLayout';
+import { Provider } from 'react-redux';
+import { store } from './shared/store';
 
 function App() {
   const [theme, setTheme] = useState('dark');
 
   return (
-    <>
+    <Provider store={store}>
       <ThemeContext value={theme}>
         <Router>
           <MenuLayout sendThemeUp={setTheme}>
@@ -27,7 +29,7 @@ function App() {
           </MenuLayout>
         </Router>
       </ThemeContext>
-    </>
+    </Provider>
   );
 }
 
