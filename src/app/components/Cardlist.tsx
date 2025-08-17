@@ -1,5 +1,5 @@
 'use client';
-// import SelectedMenu from './SelectedItemsMenu';
+import SelectedMenu from './SelectedItemsMenu';
 import PokemonCard from './Card';
 import type { PokeItem } from './../../types/Pokemontypes';
 import React from 'react';
@@ -9,8 +9,8 @@ interface CardListProps {
 }
 
 export default function Cardlist(props: CardListProps) {
-  
-  if (props.pagedList == null || props.pagedList.length <= 0) return <div>No items found</div>;
+  if (props.pagedList == null || props.pagedList.length <= 0)
+    return <div>No items found</div>;
   return (
     <>
       <div className="card-list-layout pl-2">
@@ -22,7 +22,7 @@ export default function Cardlist(props: CardListProps) {
           </ul>
         </div>
       </div>
-      {/* <SelectedMenu></SelectedMenu> */}
+      <SelectedMenu></SelectedMenu>
     </>
   );
 }

@@ -19,15 +19,17 @@ export default function Search(props: SearchComponentProps) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex border-solid border-gray-300 rounded-md mx-4">
       <input
         name="search-input"
-        className="ml-4 pl-2 rounded-md"
+        className="mx-2"
         placeholder="Enter pokemon"
         value={searchString}
         onChange={handleInputChange}
       ></input>
-      <button onClick={handleInputSearchValue}>Search</button>
+      <button className="mx-2" onClick={handleInputSearchValue}>
+        Search
+      </button>
     </div>
   );
 }

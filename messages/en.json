@@ -15,5 +15,11 @@
     "title": "404 — Page not found!",
     "text": "It seems you are following wrong link :)",
     "link_text": "Go To Start Page"
+  },
+  "SelectedMenu": {
+    "items_test": "Items selected",
+    "unselect_btn": "Unselect All",
+    "load_placeholder": "Insert file name",
+    "load_btn": "Load"
   }
 }

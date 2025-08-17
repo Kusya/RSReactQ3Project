@@ -1,5 +1,5 @@
 'use client';
-// import { PokemonCheckbox } from '../PokemonCheckbox';
+import { PokemonCheckbox } from './PokemonCheckbox';
 import type { PokeItem } from './../../types/Pokemontypes';
 import type {
   PokemonDetails,
@@ -44,7 +44,7 @@ export default function PokemonCard(props: PokemonCardProps) {
 
   return (
     <li key={details.name} className="card-list-item">
-      {/* <PokemonCheckbox pokemon={details}></PokemonCheckbox> */}
+      <PokemonCheckbox pokemon={details}></PokemonCheckbox>
 
       <Link
         href={{

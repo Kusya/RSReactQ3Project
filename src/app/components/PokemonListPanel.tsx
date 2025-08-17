@@ -22,7 +22,6 @@ export default function PokemonListPanel(props: PokemonListPanelProps) {
   const [data, setData] = useState(filteredList);
 
   const onSearch = (searchString: string) => {
-    debugger
     setSearchData(searchString);
     const pokemonData = !searchString
       ? props.pokemonList

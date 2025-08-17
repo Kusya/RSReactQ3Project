@@ -10,6 +10,8 @@ import React from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
+import { Provider } from 'react-redux';
+import { store } from '../lib/store';
 
 interface PagedlistProps {
   filteredPokeList: Array<PokeItem>;
@@ -109,14 +111,16 @@ export default function Pagedlist(props: PagedlistProps) {
   if (data == null || data.length <= 0) return <div>No items found</div>;
   return (
     <div>
-      <Cardlist pagedList={data} />
-      <Pagination
-        page={currentPage}
-        sendPageUp={(page) => {
-          setPageInQueryString(page);
-        }}
-        totalPages={totalPages}
-      />
+      <Provider store={store}>
+        <Cardlist pagedList={data} />
+        <Pagination
+          page={currentPage}
+          sendPageUp={(page) => {
+            setPageInQueryString(page);
+          }}
+          totalPages={totalPages}
+        />
+      </Provider>
     </div>
   );
 }
