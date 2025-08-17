@@ -1,6 +1,5 @@
-import React from 'react';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
+import { Link } from './../../../i18n/navigation';
 
 export default function About() {
   const t = useTranslations('AboutPage');

@@ -1,12 +1,13 @@
-import Link from 'next/link';
-import React from 'react';
+'use client';
 
-export default function NotFound() {
+import Error from 'next/error';
+
+export default function GlobalNotFound() {
   return (
-    <div>
-      <h1>404 — Page not found!</h1>
-      <p>It seems you are following wrong link :)</p>
-      <Link href="/">Go To Start Page</Link>
-    </div>
+    <html lang="en">
+      <body>
+        <Error statusCode={404} />;
+      </body>
+    </html>
   );
 }

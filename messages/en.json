@@ -10,5 +10,10 @@
     "project_link_text": "React course",
     "project_info": "Pokemon search application \n Done with popular tools such as react+vite+typescript.\n Routing implemented with a help of react router. \n Test information: vitest + rtl + msw",
     "go_back_link": "Go Back"
+  },
+  "NotFoundPage": {
+    "title": "404 — Page not found!",
+    "text": "It seems you are following wrong link :)",
+    "link_text": "Go To Start Page"
   }
 }
