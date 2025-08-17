@@ -4,6 +4,9 @@ const withNextIntl = createNextIntlPlugin();
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['raw.githubusercontent.com', 'localhost'],
+  },
   distDir: './dist',
 };
 

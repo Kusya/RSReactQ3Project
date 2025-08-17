@@ -10,7 +10,7 @@ import React from 'react';
 import PokeApiService from './../service/api';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 
 interface CardListProps {
   searchString: string;

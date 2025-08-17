@@ -7,8 +7,9 @@ import type {
 } from './../../types/PokemonApiTypes';
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import PokeApiService from './../service/api';
+import Image from 'next/image';
 
 interface PokemonCardProps {
   item: PokeItem;
@@ -51,7 +52,17 @@ export default function PokemonCard(props: PokemonCardProps) {
           search: search?.toString(),
         }}
       >
-        <img src={details.imageUrl}></img>
+        {details.imageUrl ? (
+          <Image
+            width={30}
+            height={30}
+            alt="Picture of the pokemon"
+            src={details.imageUrl}
+          ></Image>
+        ) : (
+          <p>...</p>
+        )}
+
         <strong>{props.item.name}</strong>
       </Link>
     </li>
