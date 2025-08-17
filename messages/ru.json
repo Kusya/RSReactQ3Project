@@ -22,5 +22,8 @@
     "unselect_btn": "Убрать выделение",
     "load_placeholder": "Имя файла...",
     "load_btn": "Загрузить"
+  },
+  "Search": {
+    "btn_text": "Найти"
   }
 }

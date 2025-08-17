@@ -72,7 +72,7 @@ export default function Pagination({
   createArrayOfPagesBySelectedPattern();
 
   return (
-    <div>
+    <div className="flex justify-center">
       {pageNumbers.map((i) => {
         if (i < 0) {
           const ikey = i + 'ellipsis';

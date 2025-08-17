@@ -3,7 +3,11 @@ import PagedList from './PagedList';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { PokeItem } from '../../types/PokemonApiTypes';
 import Search from './Search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import PokemonDetails from './PokemonDetails';
+import { PokemonDetails as detailsType } from '@/types/PokemonApiTypes';
+import { fetchPokemon } from '../actions/fetchPokemon';
 
 interface PokemonListPanelProps {
   pokemonList: Array<PokeItem>;
@@ -31,10 +35,38 @@ export default function PokemonListPanel(props: PokemonListPanelProps) {
     setData(pokemonData);
   };
 
+  const searchParams = useSearchParams();
+  const detailsName = searchParams?.get('details');
+
+  const [details, setDetails] = useState<detailsType>();
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (detailsName) {
+        const result = await fetchPokemon(detailsName);
+        setDetails(result);
+      }
+    };
+    loadData();
+  }, [detailsName]);
+
+  const onDetailsAppear = (data: detailsType) => {
+    setDetails(data);
+  };
+
   return (
-    <>
-      <Search searchStr={searchData} sendSearchUp={onSearch} />
-      <PagedList filteredPokeList={data} />
-    </>
+    <div className="flex">
+      <div>
+        <Search searchStr={searchData} sendSearchUp={onSearch} />
+        <PagedList filteredPokeList={data} sendDetailsUp={onDetailsAppear} />
+      </div>
+      {details ? (
+        <div>
+          <PokemonDetails data={details} />
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </div>
   );
 }

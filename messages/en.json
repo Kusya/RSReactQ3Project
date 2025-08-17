@@ -21,5 +21,8 @@
     "unselect_btn": "Unselect All",
     "load_placeholder": "Insert file name",
     "load_btn": "Load"
+  },
+  "Search": {
+    "btn_text": "Search"
   }
 }

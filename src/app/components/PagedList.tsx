@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import Pagination from './Pagination';
 import './CardList.css';
 import { ITEMS_PER_PAGE } from './../../shared/constants';
-// import SelectedMenu from './SelectedItemsMenu';
 import Cardlist from './Cardlist';
 import type { PokeItem } from './../../types/Pokemontypes';
 import React from 'react';
@@ -12,9 +11,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Link } from '@/i18n/navigation';
 import { Provider } from 'react-redux';
 import { store } from '../lib/store';
+import { PokemonDetails } from '@/types/PokemonApiTypes';
 
 interface PagedlistProps {
   filteredPokeList: Array<PokeItem>;
+  sendDetailsUp: (data: PokemonDetails) => void;
 }
 
 export default function Pagedlist(props: PagedlistProps) {
@@ -112,7 +113,7 @@ export default function Pagedlist(props: PagedlistProps) {
   return (
     <div>
       <Provider store={store}>
-        <Cardlist pagedList={data} />
+        <Cardlist pagedList={data} sendDetailsUp={props.sendDetailsUp} />
         <Pagination
           page={currentPage}
           sendPageUp={(page) => {

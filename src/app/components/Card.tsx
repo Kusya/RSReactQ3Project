@@ -2,20 +2,20 @@
 import { PokemonCheckbox } from './PokemonCheckbox';
 import type { PokeItem } from './../../types/Pokemontypes';
 import type { PokemonDetails } from './../../types/PokemonApiTypes';
-import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Link } from '@/i18n/navigation';
+import React, { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { fetchPokemon } from './../actions/fetchPokemon';
 
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
 interface PokemonCardProps {
   item: PokeItem;
+  sendDetailsUp: (data: PokemonDetails) => void;
 }
 
 export default function PokemonCard(props: PokemonCardProps) {
   const searchParams = useSearchParams();
   const [details, setDetails] = useState({} as PokemonDetails);
-  const search = searchParams?.get('search');
 
   useEffect(() => {
     const loadData = async () => {
@@ -25,17 +25,29 @@ export default function PokemonCard(props: PokemonCardProps) {
     loadData();
   }, [props.item.name]);
 
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams?.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const setDetailsInQueryString = () => {
+    router.push(pathname + '?' + createQueryString('details', props.item.name));
+    props.sendDetailsUp(details);
+  };
+
   if (!details) return 'no loaded data';
 
   return (
     <li key={details.name} className="card-list-item">
       <PokemonCheckbox pokemon={details}></PokemonCheckbox>
-      <Link
-        href={{
-          pathname: `details/${details.name}`,
-          search: search?.toString(),
-        }}
-      >
+      <button onClick={setDetailsInQueryString}>
         {details.imageUrl ? (
           <Image
             width={30}
@@ -47,7 +59,7 @@ export default function PokemonCard(props: PokemonCardProps) {
           <p>...</p>
         )}
         <strong>{props.item.name}</strong>
-      </Link>
+      </button>
     </li>
   );
 }
