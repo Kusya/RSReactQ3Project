@@ -1,17 +1,16 @@
-import CardList from './CardList';
+import PokemonListPanel from './PokemonListPanel';
 import './CardList.css';
 import React from 'react';
 
 import PokeApiService from '@service/api';
 
 export default async function PokemonSearchPage() {
-  const searchData = '';
-  const data = await PokeApiService.fetchData();
-  const posts = await data.result;
+  const res = await PokeApiService.fetchData();
+  const pokemonList = await res.results;
   return (
     <div className="card-list-layout">
       <div>
-        <CardList searchString={searchData} data={posts} />
+        <PokemonListPanel pokemonList={pokemonList} />
       </div>
     </div>
   );

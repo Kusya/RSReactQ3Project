@@ -14,7 +14,7 @@ import { Link } from '@/i18n/navigation';
 
 interface CardListProps {
   searchString: string;
-  data: Array<object>;
+  pokemonList: Array<PokeItem>;
 }
 
 export default function Cardlist(props: CardListProps) {
@@ -67,10 +67,10 @@ export default function Cardlist(props: CardListProps) {
     setLoading(true);
     const getPageCount = async () => {
       try {
-        const fetchedPokemonData = await PokeApiService.fetchData();
+        const fetchedPokemonData = props.pokemonList;
         const pokemonData = !props.searchString
-          ? fetchedPokemonData.results
-          : fetchedPokemonData.results.filter((pokemon: PokeItem) =>
+          ? fetchedPokemonData
+          : fetchedPokemonData.filter((pokemon: PokeItem) =>
               pokemon.name.includes(props.searchString.toLowerCase())
             );
 
@@ -91,8 +91,8 @@ export default function Cardlist(props: CardListProps) {
       try {
         let resultData: Array<PokeItem> = [];
         if (props.searchString) {
-          const data = await PokeApiService.fetchData();
-          resultData = data.results.filter((item: PokeItem) =>
+          const data = props.pokemonList;
+          resultData = data.filter((item: PokeItem) =>
             item.name.includes(props.searchString.toLowerCase())
           );
           const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;

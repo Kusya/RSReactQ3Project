@@ -4,14 +4,14 @@ import React from 'react';
 
 interface SearchComponentProps {
   searchStr: string;
-  //sendSearchUp: (data: string) => void;
+  sendSearchUp: (data: string) => void;
 }
 
 export default function Search(props: SearchComponentProps) {
   const [searchString, setsearchString] = useState(props.searchStr);
 
   const handleInputSearchValue = () => {
-    //props.sendSearchUp(searchString);
+    props.sendSearchUp(searchString);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
