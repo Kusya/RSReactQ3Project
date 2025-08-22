@@ -1,7 +1,11 @@
 import { useRef, type FormEvent } from 'react';
 import CustomInput from './CustomInput';
+import { addItem } from './../store/authorizationDataSlice';
+import { useAppDispatch } from './../store/hooks';
+import { type User } from './../types/User';
 
 export default function UncontrolledForm() {
+  const dispatch = useAppDispatch();
   const nameInputRef = useRef<HTMLInputElement | null>(null);
   const ageInputRef = useRef<HTMLInputElement | null>(null);
   const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -13,7 +17,26 @@ export default function UncontrolledForm() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = nameInputRef?.current?.value;
-    console.log(name);
+    const age = ageInputRef?.current?.value;
+
+    const email = emailInputRef?.current?.value;
+    const pass1 = pass1InputRef?.current?.value;
+    const pass2 = pass2InputRef?.current?.value;
+    const gender = genderInputRef?.current?.value;
+    const accept = acceptInputRef?.current?.checked;
+
+    const user: User = {
+      id: name + '-id',
+      name: name || '',
+      age: parseInt(age || '1', 10),
+      email: email || '',
+      password: pass1 || '',
+      password2: pass2 || '',
+      gender: gender || '',
+      acceptRules: accept || false,
+    };
+
+    dispatch(addItem(user));
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -29,7 +52,7 @@ export default function UncontrolledForm() {
           fieldName="Age"
           ref={ageInputRef}
           type="number"
-          fieldId="lastname"
+          fieldId="age"
           placeholderText="Enter your last name"
         />
         <CustomInput
