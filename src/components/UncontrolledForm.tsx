@@ -3,6 +3,7 @@ import CustomInput from './CustomInput';
 import { addItem } from './../store/authorizationDataSlice';
 import { useAppDispatch } from './../store/hooks';
 import { type User } from './../types/User';
+import RadioInput from './RadioInput';
 
 export default function UncontrolledForm() {
   const dispatch = useAppDispatch();
@@ -11,9 +12,9 @@ export default function UncontrolledForm() {
   const emailInputRef = useRef<HTMLInputElement | null>(null);
   const pass1InputRef = useRef<HTMLInputElement | null>(null);
   const pass2InputRef = useRef<HTMLInputElement | null>(null);
-  const genderInputRef = useRef<HTMLInputElement | null>(null);
   const acceptInputRef = useRef<HTMLInputElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -23,8 +24,11 @@ export default function UncontrolledForm() {
     const email = emailInputRef?.current?.value;
     const pass1 = pass1InputRef?.current?.value;
     const pass2 = pass2InputRef?.current?.value;
-    const gender = genderInputRef?.current?.value;
     const accept = acceptInputRef?.current?.checked;
+    const genderElement = formRef?.current?.elements?.namedItem(
+      'gender'
+    ) as HTMLInputElement;
+    const gender = genderElement.value;
 
     const selectedFile = imageRef?.current?.files
       ? imageRef?.current?.files[0]
@@ -45,7 +49,7 @@ export default function UncontrolledForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={formRef}>
       <div className="absolute  inset-x-16 top-16 h-128 w-84  border border-solid rounded-md p-4">
         <CustomInput
           fieldName="Name"
@@ -82,32 +86,7 @@ export default function UncontrolledForm() {
           fieldId="password2"
           placeholderText="Enter the same Password second time"
         />
-        <div>
-          <CustomInput
-            fieldName="Gender"
-            ref={genderInputRef}
-            fieldLabel="Male"
-            type="radio"
-            fieldId="gender"
-            placeholderText="Enter the same Password second time"
-          />
-          <CustomInput
-            fieldName="Gender"
-            ref={genderInputRef}
-            fieldLabel="Female"
-            type="radio"
-            fieldId="gender"
-            placeholderText="Enter the same Password second time"
-          />
-          <CustomInput
-            fieldName="Gender"
-            ref={genderInputRef}
-            fieldLabel="Other"
-            type="radio"
-            fieldId="gender"
-            placeholderText="Enter the same Password second time"
-          />
-        </div>
+        <RadioInput name="gender" values={['Male', 'Female', 'Other']} />
         <CustomInput
           fieldName="accept Terms and Conditions agreement"
           ref={acceptInputRef}
