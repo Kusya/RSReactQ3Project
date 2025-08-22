@@ -13,6 +13,7 @@ export default function UncontrolledForm() {
   const pass2InputRef = useRef<HTMLInputElement | null>(null);
   const genderInputRef = useRef<HTMLInputElement | null>(null);
   const acceptInputRef = useRef<HTMLInputElement | null>(null);
+  const imageRef = useRef<HTMLInputElement | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,6 +26,10 @@ export default function UncontrolledForm() {
     const gender = genderInputRef?.current?.value;
     const accept = acceptInputRef?.current?.checked;
 
+    const selectedFile = imageRef?.current?.files
+      ? imageRef?.current?.files[0]
+      : undefined;
+
     const user: User = {
       id: name + '-id',
       name: name || '',
@@ -34,10 +39,11 @@ export default function UncontrolledForm() {
       password2: pass2 || '',
       gender: gender || '',
       acceptRules: accept || false,
+      image: selectedFile,
     };
-
     dispatch(addItem(user));
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="absolute  inset-x-16 top-16 h-128 w-84  border border-solid rounded-md p-4">
@@ -109,7 +115,9 @@ export default function UncontrolledForm() {
           fieldId="accept"
           placeholderText="Enter the same Password second time"
         />
-        <div>Picture</div>
+        <div>
+          <input type="file" ref={imageRef} className="filetype" />
+        </div>
         <div>Country</div>
         <button>Reset</button>
         <button type="submit">Submit</button>

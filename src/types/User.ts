@@ -7,4 +7,5 @@ export type User = {
   password2: string;
   gender: string;
   acceptRules: boolean;
+  image?: File;
 };
