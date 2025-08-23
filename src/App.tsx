@@ -1,12 +1,35 @@
+import { useState } from 'react';
 import './App.css';
-import ControlledForm from './components/ControlledForm';
-import UncontrolledForm from './components/UncontrolledForm';
+import Modal from './components/Modal';
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
+  const [isControllable, setControllable] = useState(false);
   return (
     <>
-      <UncontrolledForm />
-      <ControlledForm />
+      <button
+        onClick={() => {
+          setShowModal(true);
+          setControllable(true);
+        }}
+      >
+        Authorize Controlled
+      </button>
+
+      <button
+        onClick={() => {
+          setShowModal(true);
+          setControllable(false);
+        }}
+      >
+        Authorize Uncontrolled
+      </button>
+      {showModal && (
+        <Modal
+          onClose={() => setShowModal(false)}
+          isControllable={isControllable}
+        />
+      )}
     </>
   );
 }

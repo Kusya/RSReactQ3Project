@@ -38,7 +38,8 @@ export default function UncontrolledForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="absolute  inset-x-144 top-16 h-128 w-100  border border-solid rounded-md p-4">
+      <h2>Controlled</h2>
+      <div className="inset-x-144 top-16 h-128 w-100  border border-solid rounded-md p-4">
         <CustomInput
           fieldName="Name"
           type="text"
