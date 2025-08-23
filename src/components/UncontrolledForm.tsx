@@ -8,34 +8,21 @@ import SelectInput from './SelectInput';
 
 export default function UncontrolledForm() {
   const dispatch = useAppDispatch();
-  const nameInputRef = useRef<HTMLInputElement | null>(null);
-  const ageInputRef = useRef<HTMLInputElement | null>(null);
-  const emailInputRef = useRef<HTMLInputElement | null>(null);
-  const pass1InputRef = useRef<HTMLInputElement | null>(null);
-  const pass2InputRef = useRef<HTMLInputElement | null>(null);
-  const acceptInputRef = useRef<HTMLInputElement | null>(null);
-  const imageRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const name = nameInputRef?.current?.value;
-    const age = ageInputRef?.current?.value;
-
-    const email = emailInputRef?.current?.value;
-    const pass1 = pass1InputRef?.current?.value;
-    const pass2 = pass2InputRef?.current?.value;
-    const accept = acceptInputRef?.current?.checked;
-    const genderElement = formRef?.current?.elements?.namedItem(
-      'gender'
-    ) as HTMLInputElement;
-    const gender = genderElement.value;
-    const country = selectRef?.current?.value;
-
-    const selectedFile = imageRef?.current?.files
-      ? imageRef?.current?.files[0]
-      : undefined;
+    const formEls = formRef?.current?.elements;
+    const name = (formEls?.namedItem('name') as HTMLInputElement).value;
+    const age = (formEls?.namedItem('age') as HTMLInputElement).value;
+    const email = (formEls?.namedItem('email') as HTMLInputElement).value;
+    const pass1 = (formEls?.namedItem('password') as HTMLInputElement).value;
+    const pass2 = (formEls?.namedItem('password2') as HTMLInputElement).value;
+    const accept = (formEls?.namedItem('accept') as HTMLInputElement).value;
+    const gender = (formEls?.namedItem('gender') as HTMLInputElement).value;
+    const country = (formEls?.namedItem('countries') as HTMLInputElement).value;
+    const files = (formEls?.namedItem('image') as HTMLInputElement).files;
+    const selectedFile = files ? files[0] : undefined;
 
     const user: User = {
       id: name + '-id',
@@ -45,7 +32,7 @@ export default function UncontrolledForm() {
       password: pass1 || '',
       password2: pass2 || '',
       gender: gender || '',
-      acceptRules: accept || false,
+      acceptRules: accept === 'true' || false,
       image: selectedFile,
       country: country || '',
     };
@@ -57,52 +44,42 @@ export default function UncontrolledForm() {
       <div className="absolute  inset-x-16 top-16 h-128 w-84  border border-solid rounded-md p-4">
         <CustomInput
           fieldName="Name"
-          ref={nameInputRef}
           type="text"
-          fieldId="name"
           placeholderText="Enter your name"
         />
         <CustomInput
           fieldName="Age"
-          ref={ageInputRef}
           type="number"
-          fieldId="age"
           placeholderText="Enter your last name"
         />
         <CustomInput
-          fieldName="Enter Email"
-          ref={emailInputRef}
+          fieldName="Email"
           type="text"
-          fieldId="email"
           placeholderText="Enter email"
         />
         <CustomInput
           fieldName="Password"
-          ref={pass1InputRef}
           type="password"
-          fieldId="password"
           placeholderText="Enter Password"
         />
         <CustomInput
-          fieldName="Password(second enter)"
-          ref={pass2InputRef}
+          fieldName="Password2"
+          fieldLabel="Password(repeat)"
           type="password"
-          fieldId="password2"
           placeholderText="Enter the same Password second time"
         />
         <RadioInput name="gender" values={['Male', 'Female', 'Other']} />
         <CustomInput
-          fieldName="accept Terms and Conditions agreement"
-          ref={acceptInputRef}
+          fieldName="accept"
+          fieldLabel="accept Terms and Conditions agreement"
           type="checkbox"
-          fieldId="accept"
           placeholderText="Enter the same Password second time"
         />
         <div>
-          <input type="file" ref={imageRef} className="filetype" />
+          <input type="file" id="image" className="filetype" />
         </div>
         <div>
-          <SelectInput name="Country" ref={selectRef} />
+          <SelectInput name="Country" />
         </div>
         <button>Reset</button>
         <button type="submit">Submit</button>
