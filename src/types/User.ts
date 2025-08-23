@@ -8,4 +8,5 @@ export type User = {
   gender: string;
   acceptRules: boolean;
   image?: File;
+  country: string;
 };

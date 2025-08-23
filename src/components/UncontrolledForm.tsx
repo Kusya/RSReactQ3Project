@@ -4,6 +4,7 @@ import { addItem } from './../store/authorizationDataSlice';
 import { useAppDispatch } from './../store/hooks';
 import { type User } from './../types/User';
 import RadioInput from './RadioInput';
+import SelectInput from './SelectInput';
 
 export default function UncontrolledForm() {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export default function UncontrolledForm() {
   const acceptInputRef = useRef<HTMLInputElement | null>(null);
   const imageRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
+  const selectRef = useRef<HTMLSelectElement | null>(null);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,6 +31,7 @@ export default function UncontrolledForm() {
       'gender'
     ) as HTMLInputElement;
     const gender = genderElement.value;
+    const country = selectRef?.current?.value;
 
     const selectedFile = imageRef?.current?.files
       ? imageRef?.current?.files[0]
@@ -44,6 +47,7 @@ export default function UncontrolledForm() {
       gender: gender || '',
       acceptRules: accept || false,
       image: selectedFile,
+      country: country || '',
     };
     dispatch(addItem(user));
   };
@@ -97,7 +101,9 @@ export default function UncontrolledForm() {
         <div>
           <input type="file" ref={imageRef} className="filetype" />
         </div>
-        <div>Country</div>
+        <div>
+          <SelectInput name="Country" ref={selectRef} />
+        </div>
         <button>Reset</button>
         <button type="submit">Submit</button>
       </div>
