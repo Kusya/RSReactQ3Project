@@ -4,7 +4,7 @@ import { fetchData } from '../service/CountriesApi';
 
 interface InputProps {
   name: string;
-  ref: React.RefObject<HTMLSelectElement | null>;
+  ref: React.RefObject<HTMLInputElement | null>;
 }
 
 export default function SelectInput(props: InputProps) {
@@ -22,16 +22,23 @@ export default function SelectInput(props: InputProps) {
   }, []);
   return (
     <div className="flex m-2">
-      <label className="mr-4 flex-1">
-        {props.name}
-        <select ref={props.ref}>
-          {options.map((country: Country) => (
-            <option key={country.name.common} value={country.name.common}>
-              {country.name.common}
-            </option>
-          ))}
-        </select>
+      <label className="mr-4 flex-1" htmlFor="countries-input">
+        {props.name}:
       </label>
+      <input
+        list="countries"
+        id="countries-input"
+        name="countries"
+        ref={props.ref}
+      />
+
+      <datalist id="countries">
+        {options.map((country: Country) => (
+          <option key={country.name.common} value={country.name.common}>
+            {country.name.common}
+          </option>
+        ))}
+      </datalist>
     </div>
   );
 }
