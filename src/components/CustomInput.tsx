@@ -3,9 +3,11 @@ interface InputProps {
   placeholderText: string;
   type: string;
   fieldLabel?: string;
+  sendChangeUp?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export default function Input(props: InputProps) {
   const name = props.fieldName.toLocaleLowerCase();
+
   return (
     <div className="flex m-2">
       <label className="mr-4 flex-none" htmlFor={name}>
@@ -15,6 +17,7 @@ export default function Input(props: InputProps) {
           type={props.type}
           name={name}
           placeholder={props.placeholderText}
+          onChange={props.sendChangeUp}
         />
       </label>
     </div>

@@ -18,11 +18,10 @@ export default function UncontrolledForm() {
     const email = (formEls?.namedItem('email') as HTMLInputElement).value;
     const pass1 = (formEls?.namedItem('password') as HTMLInputElement).value;
     const pass2 = (formEls?.namedItem('password2') as HTMLInputElement).value;
-    const accept = (formEls?.namedItem('accept') as HTMLInputElement).value;
+    const accept = (formEls?.namedItem('accept') as HTMLInputElement).checked;
     const gender = (formEls?.namedItem('gender') as HTMLInputElement).value;
     const country = (formEls?.namedItem('countries') as HTMLInputElement).value;
     const files = (formEls?.namedItem('image') as HTMLInputElement).files;
-    const selectedFile = files ? files[0] : undefined;
 
     const user: User = {
       id: name + '-id',
@@ -32,8 +31,8 @@ export default function UncontrolledForm() {
       password: pass1 || '',
       password2: pass2 || '',
       gender: gender || '',
-      acceptRules: accept === 'true' || false,
-      image: selectedFile,
+      acceptRules: accept,
+      image: files ? URL.createObjectURL(files[0]) : '',
       country: country || '',
     };
     dispatch(addItem(user));

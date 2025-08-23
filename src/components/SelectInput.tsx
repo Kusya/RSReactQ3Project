@@ -4,6 +4,7 @@ import { fetchData } from '../service/CountriesApi';
 
 interface InputProps {
   name: string;
+  sendChangeUp?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function SelectInput(props: InputProps) {
@@ -24,7 +25,12 @@ export default function SelectInput(props: InputProps) {
       <label className="mr-4 flex-1" htmlFor="countries-input">
         {props.name}:
       </label>
-      <input list="countries" id="countries-input" name="countries" />
+      <input
+        list="countries"
+        id="countries-input"
+        name="countries"
+        onChange={props.sendChangeUp}
+      />
 
       <datalist id="countries">
         {options.map((country: Country) => (

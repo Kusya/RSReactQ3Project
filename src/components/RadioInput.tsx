@@ -1,6 +1,7 @@
 interface RadioInputProps {
   name: string;
   values: string[];
+  sendChangeUp?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export default function RadioInput(props: RadioInputProps) {
   const name = props.name.toLocaleLowerCase();
@@ -13,6 +14,7 @@ export default function RadioInput(props: RadioInputProps) {
             type="radio"
             name={name}
             value={value}
+            onChange={props.sendChangeUp}
           />
           {value}
         </label>
