@@ -38,7 +38,7 @@ export default function UncontrolledForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="absolute  inset-x-144 top-16 h-128 w-84  border border-solid rounded-md p-4">
+      <div className="absolute  inset-x-144 top-16 h-128 w-100  border border-solid rounded-md p-4">
         <CustomInput
           fieldName="Name"
           type="text"
@@ -67,22 +67,21 @@ export default function UncontrolledForm() {
           fieldName="Password2"
           fieldLabel="Password(repeat)"
           type="password"
-          placeholderText="Enter the same Password second time"
+          placeholderText="Enter the same Password"
           sendChangeUp={(e) => setPass2(e.currentTarget.value)}
         />
         <RadioInput
-          name="gender"
+          name="Gender"
           values={['Male', 'Female', 'Other']}
           sendChangeUp={(e) => setGender(e.currentTarget.value)}
         />
         <CustomInput
           fieldName="accept"
-          fieldLabel="accept Terms and Conditions agreement"
+          fieldLabel="Accept Terms and Conditions agreement"
           type="checkbox"
-          placeholderText="Enter the same Password second time"
           sendChangeUp={(e) => setAccept(e.currentTarget.checked)}
         />
-        <div>
+        <div className="bg-gray-700 border border-gray-700 rounded-md flex p-4">
           <input
             type="file"
             id="image"
@@ -90,14 +89,16 @@ export default function UncontrolledForm() {
             onChange={(e) => setFiles(e.currentTarget.files)}
           />
         </div>
-        <div>
-          <SelectInput
-            name="Country"
-            sendChangeUp={(e) => setCountry(e.currentTarget.value)}
-          />
+        <SelectInput
+          name="Country"
+          sendChangeUp={(e) => setCountry(e.currentTarget.value)}
+        />
+        <div className="m-4">
+          <button className="m-4">Reset</button>
+          <button className="m-4" type="submit">
+            Submit
+          </button>
         </div>
-        <button>Reset</button>
-        <button type="submit">Submit</button>
       </div>
     </form>
   );

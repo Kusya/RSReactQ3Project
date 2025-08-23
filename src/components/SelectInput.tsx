@@ -21,11 +21,12 @@ export default function SelectInput(props: InputProps) {
     fetchOptions();
   }, []);
   return (
-    <div className="flex m-2">
-      <label className="mr-4 flex-1" htmlFor="countries-input">
+    <div className="flex m-3">
+      <label className="mr-4 flex-none" htmlFor="countries-input">
         {props.name}:
       </label>
       <input
+        className="flex-1 bg-gray-700 border border-gray-500 border-solid rounded-md px-2"
         list="countries"
         id="countries-input"
         name="countries"
