@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import CustomInput from './CustomInput';
@@ -23,20 +23,9 @@ export default function ControlledForm() {
     criteriaMode: 'all',
     shouldFocusError: true,
   });
-  const [files, setFiles] = useState<FileList | null>();
+  const [filestring, setFS] = useState<string>();
 
   const onSubmit = (data: AuthFormData) => {
-    const file = files ? files[0] : null;
-
-    let fileBase64 = '';
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        fileBase64 = base64String.split(',')[1];
-      };
-    }
-
     const user = {
       id: data.name + '-id',
       name: data.name,
@@ -46,10 +35,30 @@ export default function ControlledForm() {
       password2: data.password2,
       gender: data.gender,
       acceptRules: data.acceptRules,
-      image: fileBase64 ?? '',
+      image: filestring ?? '',
       country: data.country,
     };
     dispatch(addItem(user));
+  };
+
+  const convertToBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        setFS(fileReader.result as string);
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files ? event?.target?.files[0] : null; // Get the first selected file
+    if (file) {
+      convertToBase64(file);
+    }
   };
 
   return (
@@ -110,7 +119,7 @@ export default function ControlledForm() {
             type="file"
             id="image"
             className="filetype"
-            onChange={(e) => setFiles(e.currentTarget.files)}
+            onChange={handleFileChange}
           />
         </div>
         <SelectInput

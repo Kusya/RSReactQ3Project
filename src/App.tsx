@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Modal from './components/Modal';
+import UserGrid from './components/UserGrid';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
@@ -30,6 +31,7 @@ function App() {
           isControllable={isControllable}
         />
       )}
+      <UserGrid></UserGrid>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import CustomInput from './CustomInput';
 import { addItem } from './../store/authorizationDataSlice';
 import { useAppDispatch } from './../store/hooks';
@@ -6,40 +6,53 @@ import RadioInput from './RadioInput';
 import SelectInput from './SelectInput';
 import { authSchema } from '../validation/authSchema';
 import type { AuthFormData } from '../types/AuthFormData';
+import { string } from 'zod';
 
 export default function UncontrolledForm() {
   const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  let filestring = '';
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!formRef.current) return;
 
-    const formData = new FormData(formRef.current);
+    //const formData = new FormData(formRef.current);
+    const formEls = formRef?.current?.elements;
+    // const name = (formEls?.namedItem('name') as HTMLInputElement).value;
+    // const age = (formEls?.namedItem('age') as HTMLInputElement).value;
+    // const email = (formEls?.namedItem('email') as HTMLInputElement).value;
+    // const pass1 = (formEls?.namedItem('password') as HTMLInputElement).value;
+    // const pass2 = (formEls?.namedItem('password2') as HTMLInputElement).value;
+    // const accept = (formEls?.namedItem('accept') as HTMLInputElement).checked;
+    // const gender = (formEls?.namedItem('gender') as HTMLInputElement).value;
+    // const country = (formEls?.namedItem('countries') as HTMLInputElement).value;
+    // const files = (formEls?.namedItem('image') as HTMLInputElement).files;
 
     const rawData: AuthFormData = {
-      name: String(formData.get('name') || ''),
-      age: Number(formData.get('age') || 0),
-      email: String(formData.get('email') || ''),
-      password: String(formData.get('password') || ''),
-      password2: String(formData.get('password2') || ''),
-      gender: formData.get('gender') as 'male' | 'female' | 'other',
-      acceptRules: formData.get('acceptRules') === 'on',
-      country: String(formData.get('country') || ''),
+      name: String(
+        (formEls?.namedItem('name') as HTMLInputElement).value || ''
+      ),
+      age: Number((formEls?.namedItem('age') as HTMLInputElement).value || 0),
+      email: String(
+        (formEls?.namedItem('email') as HTMLInputElement).value || ''
+      ),
+      password: String(
+        (formEls?.namedItem('password') as HTMLInputElement).value || ''
+      ),
+      password2: String(
+        (formEls?.namedItem('password2') as HTMLInputElement).value || ''
+      ),
+      gender: (
+        formEls?.namedItem('gender') as HTMLInputElement
+      ).value.toLocaleLowerCase() as 'male' | 'female' | 'other',
+      acceptRules: (formEls?.namedItem('accept') as HTMLInputElement).checked,
+      country: String(
+        (formEls?.namedItem('countries') as HTMLInputElement).value || ''
+      ),
       image: undefined as string | undefined,
     };
-
-    const file = (
-      formRef.current.elements.namedItem('image') as HTMLInputElement
-    )?.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        rawData.image = base64String.split(',')[1];
-      };
-    }
 
     const result = authSchema.safeParse(rawData);
 
@@ -63,10 +76,30 @@ export default function UncontrolledForm() {
       password2: rawData.password2,
       gender: rawData.gender,
       acceptRules: rawData.acceptRules,
-      image: rawData.image ?? '',
+      image: filestring ?? '',
       country: rawData.country,
     };
     dispatch(addItem(user));
+  };
+
+  const convertToBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        filestring = fileReader.result as string;
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event?.target?.files ? event?.target?.files[0] : null; // Get the first selected file
+    if (file) {
+      convertToBase64(file);
+    }
   };
 
   return (
@@ -122,6 +155,7 @@ export default function UncontrolledForm() {
             name="image"
             className="filetype"
             accept="image/png,image/jpeg"
+            onChange={handleFileChange}
           />
           {errors.image && (
             <p className="text-red-500 text-xs">{errors.image}</p>
