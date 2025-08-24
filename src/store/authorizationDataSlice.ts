@@ -41,4 +41,3 @@ export const selectCount = (state: RootState) => state.authorizationData;
 export default authorizationDataSlice.reducer;
 
 export const selectUsers = (state: RootState) => state.authorizationData.users;
-

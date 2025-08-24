@@ -11,9 +11,9 @@ export default function AuthModal(props: AuthModalProps) {
 
   let form;
   if (props.isControllable) {
-    form = <ControlledForm />;
+    form = <ControlledForm onClose={props.onClose} />;
   } else {
-    form = <UncontrolledForm />;
+    form = <UncontrolledForm onClose={props.onClose} />;
   }
   return ReactDOM.createPortal(
     <div className="modal-overlay">

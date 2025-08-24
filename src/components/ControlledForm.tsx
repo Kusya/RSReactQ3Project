@@ -9,7 +9,10 @@ import SelectInput from './SelectInput';
 import { authSchema } from '../validation/authSchema';
 import type { AuthFormData } from '../types/AuthFormData';
 
-export default function ControlledForm() {
+interface ControlledFormProps {
+  onClose: () => void;
+}
+export default function ControlledForm({ onClose }: ControlledFormProps) {
   const dispatch = useAppDispatch();
 
   const {
@@ -39,6 +42,7 @@ export default function ControlledForm() {
       country: data.country,
     };
     dispatch(addItem(user));
+    onClose();
   };
 
   const convertToBase64 = (file: File) => {
@@ -133,6 +137,7 @@ export default function ControlledForm() {
           </button>
           <button
             type="submit"
+            //disabled={!isValid}
             className={`m-3 px-4 py-2 rounded ${
               isValid
                 ? 'bg-blue-500 text-white cursor-pointer'

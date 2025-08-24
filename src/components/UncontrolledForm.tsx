@@ -6,9 +6,12 @@ import RadioInput from './RadioInput';
 import SelectInput from './SelectInput';
 import { authSchema } from '../validation/authSchema';
 import type { AuthFormData } from '../types/AuthFormData';
-import { string } from 'zod';
 
-export default function UncontrolledForm() {
+interface UncontrolledFormProps {
+  onClose: () => void;
+}
+
+export default function UncontrolledForm({ onClose }: UncontrolledFormProps) {
   const dispatch = useAppDispatch();
   const formRef = useRef<HTMLFormElement | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -18,17 +21,7 @@ export default function UncontrolledForm() {
     event.preventDefault();
     if (!formRef.current) return;
 
-    //const formData = new FormData(formRef.current);
     const formEls = formRef?.current?.elements;
-    // const name = (formEls?.namedItem('name') as HTMLInputElement).value;
-    // const age = (formEls?.namedItem('age') as HTMLInputElement).value;
-    // const email = (formEls?.namedItem('email') as HTMLInputElement).value;
-    // const pass1 = (formEls?.namedItem('password') as HTMLInputElement).value;
-    // const pass2 = (formEls?.namedItem('password2') as HTMLInputElement).value;
-    // const accept = (formEls?.namedItem('accept') as HTMLInputElement).checked;
-    // const gender = (formEls?.namedItem('gender') as HTMLInputElement).value;
-    // const country = (formEls?.namedItem('countries') as HTMLInputElement).value;
-    // const files = (formEls?.namedItem('image') as HTMLInputElement).files;
 
     const rawData: AuthFormData = {
       name: String(
@@ -80,6 +73,7 @@ export default function UncontrolledForm() {
       country: rawData.country,
     };
     dispatch(addItem(user));
+    onClose();
   };
 
   const convertToBase64 = (file: File) => {

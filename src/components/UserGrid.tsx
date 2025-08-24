@@ -1,12 +1,14 @@
-import { useSelector } from "react-redux";
-import { selectUsers } from "../store/authorizationDataSlice";
-import UserTile from "./UserTile";
+import { useSelector } from 'react-redux';
+import { selectUsers } from '../store/authorizationDataSlice';
+import UserTile from './UserTile';
 
 export default function UserGrid() {
   const users = useSelector(selectUsers);
 
   if (users.length === 0) {
-    return <p className="text-center text-gray-400 mt-8">No users submitted yet.</p>;
+    return (
+      <p className="text-center text-gray-400 mt-8">No users submitted yet.</p>
+    );
   }
 
   return (

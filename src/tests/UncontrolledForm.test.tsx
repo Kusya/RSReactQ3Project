@@ -10,7 +10,7 @@ describe('UncontrolledForm integration', () => {
   afterAll(() => server.close());
 
   it('submits valid form data and updates Redux store', async () => {
-    renderWithProviders(<UncontrolledForm />);
+    renderWithProviders(<UncontrolledForm onClose={() => {}} />);
     const user = userEvent.setup();
 
     await user.type(screen.getByPlaceholderText(/enter your name/i), 'Alice');
@@ -38,7 +38,7 @@ describe('UncontrolledForm integration', () => {
   });
 
   it('renders validation errors when submitting empty form', async () => {
-    renderWithProviders(<UncontrolledForm />);
+    renderWithProviders(<UncontrolledForm onClose={() => {}} />);
     const user = userEvent.setup();
     await user.click(screen.getByRole('button', { name: /submit/i }));
     expect(await screen.findAllByText(/required/i)).not.toHaveLength(0);
