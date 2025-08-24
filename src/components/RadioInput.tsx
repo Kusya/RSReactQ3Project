@@ -18,16 +18,17 @@ export default function RadioInput({
       <label className="mr-4">{name}</label>
       {values.map((value: string) => (
         <>
-          <label key={value} className="flex-none italic ">
+          <label key={value} className="flex-none italic " htmlFor={value}>
             {value}
+            <input
+              className="flex-1 mr-2 bg-gray-700 border border-gray-500 border-solid rounded-md px-2"
+              type="radio"
+              name={name}
+              id={value}
+              value={value}
+              {...register}
+            />
           </label>
-          <input
-            className="flex-1 mr-2 bg-gray-700 border border-gray-500 border-solid rounded-md px-2"
-            type="radio"
-            name={name}
-            value={value}
-            {...register}
-          />
         </>
       ))}
       {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
