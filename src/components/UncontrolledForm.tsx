@@ -82,7 +82,7 @@ export default function UncontrolledForm() {
         <CustomInput
           fieldName="Age"
           type="number"
-          placeholderText="Enter your last name"
+          placeholderText="Enter your age"
           error={errors.age}
         />
         <CustomInput
@@ -99,9 +99,9 @@ export default function UncontrolledForm() {
         />
         <CustomInput
           fieldName="Password2"
-          fieldLabel="Password(repeat)"
+          fieldLabel="Confirm password"
           type="password"
-          placeholderText="Enter the same Password"
+          placeholderText="Confirm Password"
           error={errors.password2}
         />
         <RadioInput
