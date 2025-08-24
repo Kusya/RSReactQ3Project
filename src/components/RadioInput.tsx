@@ -1,14 +1,22 @@
+import type { UseFormRegisterReturn } from 'react-hook-form';
+
 interface RadioInputProps {
   name: string;
   values: string[];
-  sendChangeUp?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: UseFormRegisterReturn;
+  error?: string;
 }
-export default function RadioInput(props: RadioInputProps) {
-  const name = props.name.toLocaleLowerCase();
+export default function RadioInput({
+  name,
+  values,
+  register,
+  error,
+}: RadioInputProps) {
+  name = name.toLocaleLowerCase();
   return (
     <div className="flex m-3">
-      <label className="mr-4">{props.name}</label>
-      {props.values.map((value: string) => (
+      <label className="mr-4">{name}</label>
+      {values.map((value: string) => (
         <>
           <label key={value} className="flex-none italic ">
             {value}
@@ -18,10 +26,11 @@ export default function RadioInput(props: RadioInputProps) {
             type="radio"
             name={name}
             value={value}
-            onChange={props.sendChangeUp}
+            {...register}
           />
         </>
       ))}
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 }

@@ -1,86 +1,109 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import CustomInput from './CustomInput';
 import { addItem } from '../store/authorizationDataSlice';
 import { useAppDispatch } from '../store/hooks';
-import { type User } from '../types/User';
 import RadioInput from './RadioInput';
 import SelectInput from './SelectInput';
+import { authSchema } from '../validation/authSchema';
+import type { AuthFormData } from '../types/AuthFormData';
 
-export default function UncontrolledForm() {
+export default function ControlledForm() {
   const dispatch = useAppDispatch();
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [email, setEmail] = useState('');
-  const [pass1, setPass1] = useState('');
-  const [pass2, setPass2] = useState('');
-  const [accept, setAccept] = useState(false);
-  const [gender, setGender] = useState('');
-  const [country, setCountry] = useState('');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    criteriaMode: 'all',
+    shouldFocusError: true,
+  });
   const [files, setFiles] = useState<FileList | null>();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const onSubmit = (data: AuthFormData) => {
+    const file = files ? files[0] : null;
 
-    const user: User = {
-      id: name + '-id',
-      name: name || '',
-      age: parseInt(age || '1', 10),
-      email: email || '',
-      password: pass1 || '',
-      password2: pass2 || '',
-      gender: gender || '',
-      acceptRules: accept,
-      image: files ? URL.createObjectURL(files[0]) : '',
-      country: country || '',
+    let fileBase64 = '';
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        fileBase64 = base64String.split(',')[1];
+      };
+    }
+
+    const user = {
+      id: data.name + '-id',
+      name: data.name,
+      age: data.age,
+      email: data.email,
+      password: data.password,
+      password2: data.password2,
+      gender: data.gender,
+      acceptRules: data.acceptRules,
+      image: fileBase64 ?? '',
+      country: data.country,
     };
     dispatch(addItem(user));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <h2>Authorization Controlled</h2>
-      <div className="inset-x-144 top-16 h-128 w-100  border border-solid rounded-md p-4">
+      <div className="w-128 border border-solid rounded-md">
         <CustomInput
           fieldName="Name"
           type="text"
           placeholderText="Enter your name"
-          sendChangeUp={(e) => setName(e.currentTarget.value)}
+          register={register('name')}
+          error={errors.name?.message}
         />
         <CustomInput
           fieldName="Age"
           type="number"
-          placeholderText="Enter your last name"
-          sendChangeUp={(e) => setAge(e.currentTarget.value)}
+          placeholderText="Enter your age"
+          register={register('age', { valueAsNumber: true })}
+          error={errors.age?.message}
         />
         <CustomInput
           fieldName="Email"
           type="text"
           placeholderText="Enter email"
-          sendChangeUp={(e) => setEmail(e.currentTarget.value)}
+          register={register('email')}
+          error={errors.email?.message}
         />
         <CustomInput
           fieldName="Password"
           type="password"
           placeholderText="Enter Password"
-          sendChangeUp={(e) => setPass1(e.currentTarget.value)}
+          register={register('password')}
+          error={errors.password?.message}
         />
         <CustomInput
           fieldName="Password2"
-          fieldLabel="Password(repeat)"
+          fieldLabel="Password (repeat)"
           type="password"
           placeholderText="Enter the same Password"
-          sendChangeUp={(e) => setPass2(e.currentTarget.value)}
+          register={register('password2')}
+          error={errors.password2?.message}
         />
         <RadioInput
           name="Gender"
-          values={['Male', 'Female', 'Other']}
-          sendChangeUp={(e) => setGender(e.currentTarget.value)}
+          values={['male', 'female', 'other']}
+          register={register('gender')}
+          error={errors.gender?.message}
         />
         <CustomInput
-          fieldName="accept"
+          fieldName="acceptRules"
           fieldLabel="Accept Terms and Conditions agreement"
           type="checkbox"
-          sendChangeUp={(e) => setAccept(e.currentTarget.checked)}
+          register={register('acceptRules')}
+          error={errors.acceptRules?.message}
         />
         <div className="bg-gray-700 border border-gray-700 rounded-md flex p-4">
           <input
@@ -92,11 +115,21 @@ export default function UncontrolledForm() {
         </div>
         <SelectInput
           name="Country"
-          sendChangeUp={(e) => setCountry(e.currentTarget.value)}
+          register={register('country')}
+          error={errors.country?.message}
         />
         <div className="m-4">
-          <button className="m-4">Reset</button>
-          <button className="m-4" type="submit">
+          <button className="m-3" type="reset">
+            Reset
+          </button>
+          <button
+            type="submit"
+            className={`m-3 px-4 py-2 rounded ${
+              isValid
+                ? 'bg-blue-500 text-white cursor-pointer'
+                : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+            }`}
+          >
             Submit
           </button>
         </div>

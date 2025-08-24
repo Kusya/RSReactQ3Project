@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import type { Country } from '../types/Country';
 import { fetchData } from '../service/CountriesApi';
+import type { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps {
   name: string;
-  sendChangeUp?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  register?: UseFormRegisterReturn;
+  error?: string;
 }
 
-export default function SelectInput(props: InputProps) {
+export default function SelectInput({ name, register, error }: InputProps) {
   const [options, setOptions] = useState<Country[]>([]);
   useEffect(() => {
     const fetchOptions = async () => {
       try {
         const response = await fetchData();
         setOptions(response);
-      } catch (error) {
-        console.error('Error fetching options:', error);
+      } catch (err) {
+        console.error('Error fetching options:', err);
       }
     };
     fetchOptions();
@@ -23,14 +25,14 @@ export default function SelectInput(props: InputProps) {
   return (
     <div className="flex m-3">
       <label className="mr-4 flex-none" htmlFor="countries-input">
-        {props.name}:
+        {name}:
       </label>
       <input
         className="flex-1 bg-gray-700 border border-gray-500 border-solid rounded-md px-2"
         list="countries"
         id="countries-input"
         name="countries"
-        onChange={props.sendChangeUp}
+        {...register}
       />
 
       <datalist id="countries">
@@ -40,6 +42,7 @@ export default function SelectInput(props: InputProps) {
           </option>
         ))}
       </datalist>
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
     </div>
   );
 }
