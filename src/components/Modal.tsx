@@ -18,7 +18,6 @@ export default function AuthModal(props: AuthModalProps) {
   return ReactDOM.createPortal(
     <div className="modal-overlay">
       <div className="modal-content">
-        <h2>Authorization</h2>
         {form}
         <button onClick={props.onClose}>Close</button>
       </div>

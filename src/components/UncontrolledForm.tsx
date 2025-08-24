@@ -40,7 +40,7 @@ export default function UncontrolledForm() {
 
   return (
     <form onSubmit={handleSubmit} ref={formRef}>
-      <h2>Uncontrolled</h2>
+      <h2>Authorization Uncontrolled</h2>
       <div className="inset-x-16 top-16 h-128 w-100 border border-solid rounded-md p-4">
         <CustomInput
           fieldName="Name"
