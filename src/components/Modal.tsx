@@ -16,7 +16,7 @@ export default function AuthModal(props: AuthModalProps) {
     form = <UncontrolledForm onClose={props.onClose} />;
   }
   return ReactDOM.createPortal(
-    <div className="modal-overlay">
+    <div className="modal-overlay" data-testid="modal">
       <div className="modal-content">
         {form}
         <button onClick={props.onClose}>Close</button>
