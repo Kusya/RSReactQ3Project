@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ParsedCountry, RawCountry } from '../types/Country';
+import CountryTableSkeleton from './CountrySkeletonTable';
 
 export default function CountryTable() {
   const [countries, setCountries] = useState<ParsedCountry[]>([]);
@@ -41,7 +42,7 @@ export default function CountryTable() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">🌍 Country Population Table</h1>
       {loading ? (
-        <p className="text-gray-500">Loading data...</p>
+        <CountryTableSkeleton></CountryTableSkeleton>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full border border-gray-300 text-sm">
