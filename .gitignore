@@ -32,3 +32,6 @@ coverage/*
 next-env.d.ts
 dist
 .vercel
+
+#temp json file
+owid-co2-data.json
