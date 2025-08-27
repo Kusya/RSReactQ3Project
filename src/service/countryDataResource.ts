@@ -1,22 +1,24 @@
 import { createResource } from './createResource';
-import { type OwidCo2Data, type OwidYearlyData } from './../types/Country';
+import type { OWIDDataMap, ParsedCountry } from '../types/Country';
 
-function parseCountries(json: object) {
+function parseCountries(json: OWIDDataMap): ParsedCountry[] {
   return Object.entries(json).map(([country, data]) => {
-    const countryData = data as OwidCo2Data;
-    const { iso_code, data: yearlyData } = countryData;
+    const latestPopulation = [...data.data]
+      .reverse()
+      .find((entry) => entry.population !== undefined)?.population;
 
-    const populations = yearlyData
-      .map((year: OwidYearlyData) => ({
-        year: year.year,
-        population: year.population,
-      }))
-      .sort((a, b) => a.year - b.year)
-      .pop();
     return {
       name: country,
-      isoCode: iso_code,
-      population: populations?.population,
+      isoCode: data.iso_code,
+      details: data.data
+        .map((entry) => ({
+          year: entry.year,
+          population: entry.population,
+          co2: entry.co2,
+          co2_per_capita: entry.co2_per_capita,
+        }))
+        .reverse(),
+      latestPopulation,
     };
   });
 }
@@ -25,7 +27,7 @@ export const countryDataResource = createResource(
   (async () => {
     const res = await fetch('../../owid-co2-data.json');
     if (!res.ok) throw new Error(`Failed to load JSON: ${res.status}`);
-    const json = await res.json();
+    const json: OWIDDataMap = await res.json();
     return parseCountries(json);
   })()
 );

@@ -1,8 +1,15 @@
 import type { ParsedCountry } from '../types/Country';
 import { countryDataResource } from '../service/countryDataResource';
+import { useState } from 'react';
+import CountryDetails from './CountryDetails';
 
 export default function CountryTable() {
   const countries = countryDataResource.read() as ParsedCountry[];
+  const [expanded, setExpanded] = useState<string | null>(null);
+
+  const toggleRow = (isoCode: string) => {
+    setExpanded((prev) => (prev === isoCode ? null : isoCode));
+  };
 
   return (
     <div className="overflow-x-auto">
@@ -15,14 +22,24 @@ export default function CountryTable() {
           </tr>
         </thead>
         <tbody>
-          {countries.map((c) => (
-            <tr key={c.name} className="hover:bg-gray-50">
-              <td className="px-4 py-2 border">{c.name}</td>
-              <td className="px-4 py-2 border">
-                {c.population?.toLocaleString() ?? '—'}
-              </td>
-              <td className="px-4 py-2 border">{c.isoCode ?? '—'}</td>
-            </tr>
+          {countries.map((country) => (
+            <>
+              <tr
+                key={country.isoCode}
+                onClick={() => toggleRow(country.isoCode ?? country.name)}
+                className="hover:bg-blue-100 cursor-pointer"
+              >
+                <td className="px-4 py-2 border">{country.name}</td>
+                <td className="px-4 py-2 border">
+                  {country.latestPopulation?.toLocaleString() ?? '—'}
+                </td>
+                <td className="px-4 py-2 border">{country.isoCode ?? '—'}</td>
+              </tr>
+
+              {(expanded === country.isoCode || expanded === country.name) && (
+                <CountryDetails country={country} />
+              )}
+            </>
           ))}
         </tbody>
       </table>
