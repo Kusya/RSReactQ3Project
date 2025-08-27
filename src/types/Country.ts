@@ -1,12 +1,24 @@
 export type ParsedCountry = {
   name: string;
   isoCode?: string;
+  details: YearlyRecord[];
+  latestPopulation?: number;
+};
+
+export type YearlyRecord = {
+  year: number;
   population?: number;
+  co2?: number;
+  co2_per_capita?: number;
 };
-export type RawCountry = {
+
+export type CountryDataset = {
+  country: string;
   iso_code?: string;
-  data: { year: number; population?: number }[];
+  data: YearlyRecord[];
 };
+
+export type OWIDDataMap = Record<string, CountryDataset>;
 
 export type OwidCo2Data = {
   iso_code?: string;
