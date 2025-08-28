@@ -1,3 +1,4 @@
+import { NO_VALUE } from '../assets/const';
 import type { ParsedCountry } from '../types/Country';
 
 interface CountryDetailsProps {
@@ -6,8 +7,8 @@ interface CountryDetailsProps {
 export default function CountryDetails({ country }: CountryDetailsProps) {
   return (
     <tr>
-      <td colSpan={3} className="p-0 border">
-        <div className="bg-gray-50 p-4">
+      <td colSpan={4} className="p-0 border">
+        <div className="bg-gray-50 p-4 max-h-80 overflow-auto">
           <table className="min-w-full border text-xs">
             <thead className="bg-gray-200">
               <tr>
@@ -22,13 +23,13 @@ export default function CountryDetails({ country }: CountryDetailsProps) {
                 <tr key={detail.year}>
                   <td className="px-2 py-1 border">{detail.year}</td>
                   <td className="px-2 py-1 border">
-                    {detail.population?.toLocaleString() ?? '—'}
+                    {detail.population?.toLocaleString() ?? NO_VALUE}
                   </td>
                   <td className="px-2 py-1 border">
-                    {detail.co2?.toLocaleString() ?? '—'}
+                    {detail.co2?.toLocaleString() ?? NO_VALUE}
                   </td>
                   <td className="px-2 py-1 border">
-                    {detail.co2_per_capita?.toLocaleString() ?? '—'}
+                    {detail.co2_per_capita?.toLocaleString() ?? NO_VALUE}
                   </td>
                 </tr>
               ))}
