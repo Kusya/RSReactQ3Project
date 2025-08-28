@@ -1,4 +1,4 @@
-import type { ParsedCountry } from '../types/Country';
+import type { ParsedCountry, SortDirection, SortKey } from '../types/Country';
 import { countryDataResource } from '../service/countryDataResource';
 import { useEffect, useState } from 'react';
 import CountryDetails from './CountryDetails';
@@ -14,7 +14,17 @@ export default function CountryTable() {
   const [selectedYear, setSelectedYear] = useState<number>(allYears[0]);
 
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set());
+  const [sortKey, setSortKey] = useState<SortKey>('name');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
 
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) {
+      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
+    } else {
+      setSortKey(key);
+      setSortDirection('asc');
+    }
+  }
   const toggleRow = (isoCode: string) => {
     setExpanded((prev) => (prev === isoCode ? null : isoCode));
   };
@@ -25,6 +35,30 @@ export default function CountryTable() {
     return () => clearTimeout(timer);
   }, [selectedYear, countries]);
 
+  const sortedCountries = [...countries].sort((a, b) => {
+    let aVal: string | number | undefined;
+    let bVal: string | number | undefined;
+
+    if (sortKey === 'name') {
+      aVal = a.name;
+      bVal = b.name;
+      return sortDirection === 'asc'
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    }
+
+    if (sortKey === 'population') {
+      const yearDataA = a.details.find((d) => d.year === selectedYear);
+      const yearDataB = b.details.find((d) => d.year === selectedYear);
+      aVal = yearDataA?.population ?? 0;
+      bVal = yearDataB?.population ?? 0;
+      return sortDirection === 'asc'
+        ? (aVal as number) - (bVal as number)
+        : (bVal as number) - (aVal as number);
+    }
+
+    return 0;
+  });
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -45,15 +79,33 @@ export default function CountryTable() {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-2 py-2 border w-6"></th>
-              <th className="px-4 py-2 border text-left">Name</th>
               <th className="px-4 py-2 border text-left">
-                Population ({selectedYear})
+                <button
+                  onClick={() => toggleSort('name')}
+                  className="flex items-center gap-1 select-none"
+                >
+                  Name
+                  {sortKey === 'name' && (
+                    <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </button>
+              </th>
+              <th className="px-4 py-2 border text-left">
+                <button
+                  onClick={() => toggleSort('population')}
+                  className="flex items-center gap-1 select-none"
+                >
+                  Population ({selectedYear})
+                  {sortKey === 'population' && (
+                    <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
+                  )}
+                </button>
               </th>
               <th className="px-4 py-2 border text-left">ISO Code</th>
             </tr>
           </thead>
           <tbody>
-            {countries.map((country) => {
+            {sortedCountries.map((country) => {
               const isOpen =
                 expanded === country.isoCode || expanded === country.name;
               const yearData = country.details.find(

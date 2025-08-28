@@ -25,6 +25,9 @@ export type CountryDataset = {
 
 export type OWIDDataMap = Record<string, CountryDataset>;
 
+export type SortKey = 'name' | 'population';
+export type SortDirection = 'asc' | 'desc';
+
 export type OwidCo2Data = {
   iso_code?: string;
   data: OwidYearlyData[];
