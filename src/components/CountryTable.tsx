@@ -1,6 +1,6 @@
 import type { ParsedCountry } from '../types/Country';
 import { countryDataResource } from '../service/countryDataResource';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CountryDetails from './CountryDetails';
 import { NO_VALUE } from '../assets/const';
 
@@ -13,9 +13,17 @@ export default function CountryTable() {
   ).sort((a, b) => b - a);
   const [selectedYear, setSelectedYear] = useState<number>(allYears[0]);
 
+  const [highlighted, setHighlighted] = useState<Set<string>>(new Set());
+
   const toggleRow = (isoCode: string) => {
     setExpanded((prev) => (prev === isoCode ? null : isoCode));
   };
+  useEffect(() => {
+    const ids = new Set(countries.map((c) => c.isoCode ?? c.name));
+    setHighlighted(ids);
+    const timer = setTimeout(() => setHighlighted(new Set()), 800);
+    return () => clearTimeout(timer);
+  }, [selectedYear, countries]);
 
   return (
     <div className="p-6">
@@ -39,7 +47,7 @@ export default function CountryTable() {
               <th className="px-2 py-2 border w-6"></th>
               <th className="px-4 py-2 border text-left">Name</th>
               <th className="px-4 py-2 border text-left">
-                Population (Latest)
+                Population ({selectedYear})
               </th>
               <th className="px-4 py-2 border text-left">ISO Code</th>
             </tr>
@@ -69,7 +77,9 @@ export default function CountryTable() {
                       </span>
                     </td>
                     <td className="px-4 py-2 border">{country.name}</td>
-                    <td className="px-4 py-2 border">
+                    <td
+                      className={`px-4 py-2 border ${highlighted.has(country.isoCode ?? country.name) ? 'highlight' : ''}`}
+                    >
                       {yearData?.population?.toLocaleString() ?? NO_VALUE}
                     </td>
                     <td className="px-4 py-2 border">

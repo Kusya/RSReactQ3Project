@@ -55,6 +55,19 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+@keyframes flashBg {
+  0% {
+    background-color: #c4ecff;
+  } /* light blue */
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlight {
+  animation: flashBg 0.8s ease-out;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
