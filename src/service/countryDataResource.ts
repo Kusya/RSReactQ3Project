@@ -16,6 +16,11 @@ function parseCountries(json: OWIDDataMap): ParsedCountry[] {
           population: entry.population,
           co2: entry.co2,
           co2_per_capita: entry.co2_per_capita,
+          cumulative_co2: entry.cumulative_co2,
+          oil_co2: entry.oil_co2,
+          primary_energy_consumption: entry.primary_energy_consumption,
+          nitrous_oxide: entry.nitrous_oxide,
+          methane: entry.methane,
         }))
         .reverse(),
       latestPopulation,

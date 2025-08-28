@@ -14,7 +14,7 @@ export type YearlyRecord = {
   nitrous_oxide?: number;
   primary_energy_consumption?: number;
   oil_co2?: number;
-  consumption_co2?: number;
+  cumulative_co2?: number;
 };
 
 export type CountryDataset = {
