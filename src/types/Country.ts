@@ -10,6 +10,11 @@ export type YearlyRecord = {
   population?: number;
   co2?: number;
   co2_per_capita?: number;
+  methane?: number;
+  nitrous_oxide?: number;
+  primary_energy_consumption?: number;
+  oil_co2?: number;
+  consumption_co2?: number;
 };
 
 export type CountryDataset = {
