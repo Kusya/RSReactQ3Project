@@ -35,26 +35,23 @@ export default function CountryDetails({
 
   return (
     <tr>
-      <td colSpan={4} className="p-0 border">
-        <div className="bg-gray-50 p-4 max-h-80 overflow-auto">
-          <table className="min-w-full border text-xs">
-            <thead className="bg-gray-200">
+      <td colSpan={4} className="p-0 ">
+        <div className="p-1 max-h-80 overflow-auto border-gray-400 border-b-1">
+          <table className="min-w-full text-xs">
+            <thead>
               <tr>
-                <th className="px-2 py-1 border">Year</th>
-                <th className="px-2 py-1 border">Population</th>
+                <th className="px-2 py-1">Year</th>
+                <th className="px-2 py-1">Population</th>
 
                 {visibleCols.map((col) => (
-                  <th key={col} className="px-2 py-1 border">
+                  <th key={col} className="px-2 py-1">
                     {columns.find((c) => c.key === col)?.label}
                   </th>
                 ))}
-                <th
-                  className="px-2 py-1 border text-right relative"
-                  ref={menuRef}
-                >
+                <th className="px-2 py-1 w-16" ref={menuRef}>
                   <button
                     onClick={() => setMenuOpen((o) => !o)}
-                    className="text-gray-600 bg-transparent hover:text-gray-900 px-1"
+                    className="bg-transparent  px-1"
                   >
                     ☰
                   </button>
@@ -71,28 +68,28 @@ export default function CountryDetails({
             </thead>
             <tbody>
               {country.details.map((detail) => (
-                <tr key={detail.year}>
-                  <td className="px-2 py-1 border">{detail.year}</td>
-                  <td className="px-2 py-1 border">
+                <tr
+                  key={detail.year}
+                  className={highlight === detail.year ? 'selected' : ''}
+                >
+                  <td className="px-2 py-1">{detail.year}</td>
+                  <td className="px-2 py-1">
                     <div
                       className={
-                        highlight === detail.year
+                        highlight === detail.year && detail.population
                           ? 'border-2 border-green-500'
                           : ''
                       }
                     >
-                      {detail.population?.toLocaleString()}
+                      {detail.population?.toLocaleString() ?? NO_VALUE}
                     </div>
                   </td>
                   {visibleCols.map((col: keyof YearlyRecord) => (
-                    <td
-                      key={col + '-' + detail.year}
-                      className="px-2 py-1 border"
-                    >
+                    <td key={col + '-' + detail.year} className="px-2 py-1 ">
                       {detail[col]?.toLocaleString() ?? NO_VALUE}
                     </td>
                   ))}
-                  <td className="px-2 py-1 border"></td>
+                  <td className="px-2 py-1" />
                 </tr>
               ))}
             </tbody>

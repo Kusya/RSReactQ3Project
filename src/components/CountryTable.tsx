@@ -76,26 +76,26 @@ export default function CountryTable() {
           className="border border-gray-300 rounded px-2 py-1 text-sm"
         />
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 text-sm">
-          <thead className="bg-gray-100">
+      <div className="overflow-x-auto  rounded">
+        <table className="min-w-full text-sm">
+          <thead>
             <tr>
-              <th className="px-2 py-2 border w-6"></th>
-              <th className="px-4 py-2 border text-left">
+              <th className="px-2 py-2 w-6" />
+              <th className="px-4 py-2">
                 <button
                   onClick={() => toggleSort('name')}
-                  className="flex items-center gap-1 select-none"
+                  className="flex items-center w-full justify-center gap-1 select-none"
                 >
-                  Name
+                  <span>Name</span>
                   {sortKey === 'name' && (
                     <span>{sortDirection === 'asc' ? '▲' : '▼'}</span>
                   )}
                 </button>
               </th>
-              <th className="px-4 py-2 border text-left">
+              <th className="px-4 py-2">
                 <button
                   onClick={() => toggleSort('population')}
-                  className="flex items-center gap-1 select-none"
+                  className="flex items-center w-full justify-center gap-1 select-none"
                 >
                   Population ({selectedYear})
                   {sortKey === 'population' && (
@@ -103,7 +103,7 @@ export default function CountryTable() {
                   )}
                 </button>
               </th>
-              <th className="px-4 py-2 border text-left">ISO Code</th>
+              <th className="px-4 py-2">ISO Code</th>
             </tr>
           </thead>
           <tbody>
@@ -118,9 +118,9 @@ export default function CountryTable() {
                   <tr
                     key={country.isoCode}
                     onClick={() => toggleRow(country.isoCode ?? country.name)}
-                    className="hover:bg-blue-100 cursor-pointer"
+                    className={`hover:bg-blue-100 cursor-pointer ${isOpen ? 'border-gray-400 border-t-1' : ''}`}
                   >
-                    <td className="px-2 py-2 border text-center align-middle">
+                    <td className="px-2 py-2 text-center align-middle">
                       <span
                         className={`inline-block transform transition-transform duration-200 ${
                           isOpen ? 'rotate-90' : ''
@@ -129,15 +129,19 @@ export default function CountryTable() {
                         ▶
                       </span>
                     </td>
-                    <td className="px-4 py-2 border">{country.name}</td>
+                    <td className="px-4 py-2">{country.name}</td>
                     <td
-                      className={`px-4 py-2 border ${highlighted.has(country.isoCode ?? country.name) ? 'highlight' : ''}`}
+                      className={`px-4 py-2 
+                        ${highlighted.has(country.isoCode ?? country.name) ? 'highlight' : ''}
+                       `}
                     >
-                      {yearData?.population?.toLocaleString() ?? NO_VALUE}
+                      <div
+                        className={isOpen ? 'border-2 border-green-500' : ''}
+                      >
+                        {yearData?.population?.toLocaleString() ?? NO_VALUE}
+                      </div>
                     </td>
-                    <td className="px-4 py-2 border">
-                      {country.isoCode ?? NO_VALUE}
-                    </td>
+                    <td className="px-4 py-2">{country.isoCode ?? NO_VALUE}</td>
                   </tr>
 
                   {isOpen && (

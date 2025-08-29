@@ -25,7 +25,7 @@ export function ColumnMenu({
   }
 
   return (
-    <div className="absolute right-0 mt-1 w-48 bg-white border border-gray-300 rounded shadow-lg z-10 p-2">
+    <div className="absolute right-0 mt-1 w-48 border border-gray-300 rounded shadow-lg z-10 p-2">
       <p className="text-xs font-semibold mb-1">Toggle columns</p>
       {columns.map((col) => (
         <label key={col.key} className="flex items-center gap-2 text-xs py-0.5">

@@ -6,12 +6,10 @@ import CountryTableSkeleton from './components/CountrySkeletonTable';
 function App() {
   return (
     <>
-      <div className="min-h-screen bg-white text-gray-800">
-        <div className="p-6">
-          <Suspense fallback={<CountryTableSkeleton />}>
-            <CountryTable />
-          </Suspense>
-        </div>
+      <div className="min-h-screen">
+        <Suspense fallback={<CountryTableSkeleton />}>
+          <CountryTable />
+        </Suspense>
       </div>
     </>
   );
