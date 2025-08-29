@@ -16,6 +16,7 @@ export default function CountryTable() {
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [searchQuery, setSearchQuery] = useState('');
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) {
@@ -35,28 +36,22 @@ export default function CountryTable() {
     return () => clearTimeout(timer);
   }, [selectedYear, countries]);
 
-  const sortedCountries = [...countries].sort((a, b) => {
-    let aVal: string | number | undefined;
-    let bVal: string | number | undefined;
-
+  const filteredCountries = countries.filter((c) =>
+    c.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const sortedCountries = [...filteredCountries].sort((a, b) => {
     if (sortKey === 'name') {
-      aVal = a.name;
-      bVal = b.name;
       return sortDirection === 'asc'
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
     }
-
     if (sortKey === 'population') {
-      const yearDataA = a.details.find((d) => d.year === selectedYear);
-      const yearDataB = b.details.find((d) => d.year === selectedYear);
-      aVal = yearDataA?.population ?? 0;
-      bVal = yearDataB?.population ?? 0;
-      return sortDirection === 'asc'
-        ? (aVal as number) - (bVal as number)
-        : (bVal as number) - (aVal as number);
+      const aPop =
+        a.details.find((d) => d.year === selectedYear)?.population ?? 0;
+      const bPop =
+        b.details.find((d) => d.year === selectedYear)?.population ?? 0;
+      return sortDirection === 'asc' ? aPop - bPop : bPop - aPop;
     }
-
     return 0;
   });
   return (
@@ -65,7 +60,7 @@ export default function CountryTable() {
         <select
           value={selectedYear}
           onChange={(e) => setSelectedYear(Number(e.target.value))}
-          className="border border-gray-300 rounded px-2 py-1 text-sm"
+          className="border-2 border-green-500 rounded px-2 py-1 text-sm"
         >
           {allYears.map((year) => (
             <option key={year} value={year}>
@@ -73,6 +68,13 @@ export default function CountryTable() {
             </option>
           ))}
         </select>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by name..."
+          className="border border-gray-300 rounded px-2 py-1 text-sm"
+        />
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 text-sm">
@@ -111,7 +113,6 @@ export default function CountryTable() {
               const yearData = country.details.find(
                 (d) => d.year === selectedYear
               );
-
               return (
                 <>
                   <tr
@@ -139,7 +140,12 @@ export default function CountryTable() {
                     </td>
                   </tr>
 
-                  {isOpen && <CountryDetails country={country} />}
+                  {isOpen && (
+                    <CountryDetails
+                      country={country}
+                      highlight={selectedYear}
+                    />
+                  )}
                 </>
               );
             })}
