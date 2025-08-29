@@ -7,7 +7,6 @@ export type DetailColumn = {
 };
 
 export const ALL_DETAILS_COLUMNS: DetailColumn[] = [
-  { key: 'population', label: 'Population' },
   { key: 'co2', label: 'CO₂' },
   { key: 'co2_per_capita', label: 'CO₂ per capita' },
   { key: 'cumulative_co2', label: 'Cumulative CO₂' },

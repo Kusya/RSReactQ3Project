@@ -9,13 +9,16 @@ import { ColumnMenu } from './ColumnMenu';
 
 interface CountryDetailsProps {
   country: ParsedCountry;
+  highlight: number;
 }
 
-export default function CountryDetails({ country }: CountryDetailsProps) {
+export default function CountryDetails({
+  country,
+  highlight,
+}: CountryDetailsProps) {
   const [visibleCols, setVisibleCols] = useState<DetailColumnKey[]>([
     columns[0].key,
     columns[1].key,
-    columns[2].key,
   ]);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLTableCellElement>(null);
@@ -38,6 +41,8 @@ export default function CountryDetails({ country }: CountryDetailsProps) {
             <thead className="bg-gray-200">
               <tr>
                 <th className="px-2 py-1 border">Year</th>
+                <th className="px-2 py-1 border">Population</th>
+
                 {visibleCols.map((col) => (
                   <th key={col} className="px-2 py-1 border">
                     {columns.find((c) => c.key === col)?.label}
@@ -68,6 +73,17 @@ export default function CountryDetails({ country }: CountryDetailsProps) {
               {country.details.map((detail) => (
                 <tr key={detail.year}>
                   <td className="px-2 py-1 border">{detail.year}</td>
+                  <td className="px-2 py-1 border">
+                    <div
+                      className={
+                        highlight === detail.year
+                          ? 'border-2 border-green-500'
+                          : ''
+                      }
+                    >
+                      {detail.population?.toLocaleString()}
+                    </div>
+                  </td>
                   {visibleCols.map((col: keyof YearlyRecord) => (
                     <td
                       key={col + '-' + detail.year}
