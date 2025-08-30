@@ -21,3 +21,5 @@ Loading application with click on sorting by population
 
 ![column menu open. (82.2ms)](image-15.png)
 ![column 'cumulative co2' added to table (109.5ms)](image-16.png)
+
+![sort by population 4 clicks after useMemo and useCallback on sort functions](image-17.png)

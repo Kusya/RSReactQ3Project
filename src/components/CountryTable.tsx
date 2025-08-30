@@ -1,6 +1,6 @@
 import type { ParsedCountry, SortDirection, SortKey } from '../types/Country';
 import { countryDataResource } from '../service/countryDataResource';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import CountryDetails from './CountryDetails';
 import { NO_VALUE } from '../assets/const';
 
@@ -18,14 +18,20 @@ export default function CountryTable() {
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [searchQuery, setSearchQuery] = useState('');
 
-  function toggleSort(key: SortKey) {
-    if (sortKey === key) {
-      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
-    } else {
+  const toggleSort = useCallback(
+    (key: SortKey) => {
+      setSortDirection((prevDir) => {
+        // If clicking the same column, flip direction
+        if (sortKey === key) {
+          return prevDir === 'asc' ? 'desc' : 'asc';
+        }
+        // If clicking a new column, reset to ascending
+        return 'asc';
+      });
       setSortKey(key);
-      setSortDirection('asc');
-    }
-  }
+    },
+    [sortKey]
+  );
   const toggleRow = (isoCode: string) => {
     setExpanded((prev) => (prev === isoCode ? null : isoCode));
   };
@@ -39,21 +45,24 @@ export default function CountryTable() {
   const filteredCountries = countries.filter((c) =>
     c.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  const sortedCountries = [...filteredCountries].sort((a, b) => {
-    if (sortKey === 'name') {
-      return sortDirection === 'asc'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name);
-    }
-    if (sortKey === 'population') {
-      const aPop =
-        a.details.find((d) => d.year === selectedYear)?.population ?? 0;
-      const bPop =
-        b.details.find((d) => d.year === selectedYear)?.population ?? 0;
-      return sortDirection === 'asc' ? aPop - bPop : bPop - aPop;
-    }
-    return 0;
-  });
+  const sortedCountries = useMemo(() => {
+    const sorted = [...filteredCountries].sort((a, b) => {
+      if (sortKey === 'name') {
+        return sortDirection === 'asc'
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      }
+      if (sortKey === 'population') {
+        const aPop =
+          a.details.find((d) => d.year === selectedYear)?.population ?? 0;
+        const bPop =
+          b.details.find((d) => d.year === selectedYear)?.population ?? 0;
+        return sortDirection === 'asc' ? aPop - bPop : bPop - aPop;
+      }
+      return 0;
+    });
+    return sorted;
+  }, [countries, sortKey, sortDirection]);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -116,7 +125,7 @@ export default function CountryTable() {
               return (
                 <>
                   <tr
-                    key={country.isoCode}
+                    key={country.isoCode ?? country.name}
                     onClick={() => toggleRow(country.isoCode ?? country.name)}
                     className={`hover:bg-blue-100 cursor-pointer ${isOpen ? 'border-gray-400 border-t-1' : ''}`}
                   >
