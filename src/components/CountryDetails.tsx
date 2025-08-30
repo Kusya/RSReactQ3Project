@@ -9,7 +9,7 @@ import { ColumnMenu } from './ColumnMenu';
 
 interface CountryDetailsProps {
   country: ParsedCountry;
-  highlight: number;
+  highlight: number | null;
 }
 
 export default function CountryDetails({

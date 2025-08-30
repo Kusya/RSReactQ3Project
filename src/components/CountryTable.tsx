@@ -8,24 +8,32 @@ export default function CountryTable() {
   const countries = countryDataResource.read() as ParsedCountry[];
   const [expanded, setExpanded] = useState<string | null>(null);
 
-  const allYears = Array.from(
-    new Set(countries.flatMap((c) => c.details.map((d) => d.year)))
-  ).sort((a, b) => b - a);
-  const [selectedYear, setSelectedYear] = useState<number>(allYears[0]);
-
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [searchQuery, setSearchQuery] = useState('');
 
+  const allYears = useMemo(() => {
+    const years = new Set<number>();
+    countries.forEach((c) => {
+      c.details.forEach((d) => years.add(d.year));
+    });
+    return Array.from(years).sort((a, b) => b - a);
+  }, [countries]);
+  if (selectedYear === null && allYears.length > 0) {
+    setSelectedYear(allYears[0]);
+  }
+  const handleYearChange = useCallback((year: number) => {
+    setSelectedYear(year);
+  }, []);
+
   const toggleSort = useCallback(
     (key: SortKey) => {
       setSortDirection((prevDir) => {
-        // If clicking the same column, flip direction
         if (sortKey === key) {
           return prevDir === 'asc' ? 'desc' : 'asc';
         }
-        // If clicking a new column, reset to ascending
         return 'asc';
       });
       setSortKey(key);
@@ -67,8 +75,8 @@ export default function CountryTable() {
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
         <select
-          value={selectedYear}
-          onChange={(e) => setSelectedYear(Number(e.target.value))}
+          value={selectedYear ?? ''}
+          onChange={(e) => handleYearChange(Number(e.target.value))}
           className="border-2 border-green-500 rounded px-2 py-1 text-sm"
         >
           {allYears.map((year) => (
