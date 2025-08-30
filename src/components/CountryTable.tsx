@@ -27,6 +27,12 @@ export default function CountryTable() {
   const handleYearChange = useCallback((year: number) => {
     setSelectedYear(year);
   }, []);
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(e.target.value);
+    },
+    []
+  );
 
   const toggleSort = useCallback(
     (key: SortKey) => {
@@ -50,11 +56,22 @@ export default function CountryTable() {
     return () => clearTimeout(timer);
   }, [selectedYear, countries]);
 
-  const filteredCountries = countries.filter((c) =>
-    c.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredCountries = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return countries;
+    return countries.filter((c) => c.name.toLowerCase().includes(query));
+  }, [countries, searchQuery]);
+
+  const yearFilteredCountries = useMemo(() => {
+    if (selectedYear === null) return filteredCountries;
+    return filteredCountries.map((c) => ({
+      ...c,
+      details: c.details.filter((d) => d.year === selectedYear),
+    }));
+  }, [filteredCountries, selectedYear]);
+
   const sortedCountries = useMemo(() => {
-    const sorted = [...filteredCountries].sort((a, b) => {
+    const sorted = [...yearFilteredCountries].sort((a, b) => {
       if (sortKey === 'name') {
         return sortDirection === 'asc'
           ? a.name.localeCompare(b.name)
@@ -70,7 +87,7 @@ export default function CountryTable() {
       return 0;
     });
     return sorted;
-  }, [countries, sortKey, sortDirection]);
+  }, [yearFilteredCountries, sortKey, sortDirection]);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -88,7 +105,7 @@ export default function CountryTable() {
         <input
           type="text"
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={handleSearchChange}
           placeholder="Search by name..."
           className="border border-gray-300 rounded px-2 py-1 text-sm"
         />

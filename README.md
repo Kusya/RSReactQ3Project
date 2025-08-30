@@ -25,3 +25,6 @@ Loading application with click on sorting by population
 ![sort by population 4 clicks after useMemo and useCallback on sort functions](image-17.png)
 
 ![year change 1-2-3 after useMemo implementation](image-18.png)
+![year change 1-2-3 after useMemo for filtering too](image-19.png)
+![sort by population  4 clicks after last changes](image-20.png)
+![filter typing 'bel' after last changes](image-21.png)
