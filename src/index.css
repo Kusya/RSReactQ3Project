@@ -1,3 +1,4 @@
+@import 'tailwindcss';
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -42,7 +43,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -54,9 +54,39 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+@keyframes flashBg {
+  0% {
+    background-color: #acfacc;
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.highlight {
+  animation: flashBg 0.8s ease-out;
+}
+
+th {
+  text-align: center;
+}
+
+.selected {
+  background-color: #acfacc;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
+    background-color: #c9c7c7;
+  }
+  table {
+    background-color: #ffffff;
+  }
+  input {
+    background-color: #ffffff;
+  }
+  select {
     background-color: #ffffff;
   }
   a:hover {
@@ -64,5 +94,62 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+  tr:hover {
+    cursor: pointer;
+    background-color: #eaf1ff;
+  }
+  thead {
+    background-color: #dfdfdf;
+  }
+  div.absolute {
+    background-color: #bbb8b8;
+  }
+  .selected {
+    background-color: #acfacc;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #9ecbf3;
+    background-color: #202020;
+  }
+  table {
+    background-color: #2e2f30;
+  }
+  input {
+    background-color: #302e2e;
+  }
+  select {
+    background-color: #302e2e;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #3e3e3f;
+  }
+  tr:hover {
+    cursor: pointer;
+    background-color: #343a46;
+  }
+  thead {
+    background-color: #29282b;
+  }
+  div.absolute {
+    background-color: #38383a;
+  }
+
+  @keyframes flashBg {
+    0% {
+      background-color: #255236;
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
+  .selected {
+    background-color: #255236;
   }
 }

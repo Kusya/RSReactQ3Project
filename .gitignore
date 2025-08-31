@@ -23,3 +23,15 @@ dist-ssr
 *.sln
 *.sw?
 -w
+*.patch
+#tests
+coverage/*
+
+# Nextjs files
+.next
+next-env.d.ts
+dist
+.vercel
+
+#temp json file
+owid-co2-data.json
