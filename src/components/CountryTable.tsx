@@ -1,12 +1,13 @@
 import type { ParsedCountry, SortDirection, SortKey } from '../types/Country';
 import { countryDataResource } from '../service/countryDataResource';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import CountryDetails from './CountryDetails';
-import { NO_VALUE } from '../assets/const';
+import { CountryRow } from './CountryRow';
 
 export default function CountryTable() {
-  const countries = countryDataResource.read() as ParsedCountry[];
-  const [expanded, setExpanded] = useState<string | null>(null);
+  const countries = useMemo(
+    () => countryDataResource.read() as ParsedCountry[],
+    []
+  );
 
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const [highlighted, setHighlighted] = useState<Set<string>>(new Set());
@@ -46,9 +47,7 @@ export default function CountryTable() {
     },
     [sortKey]
   );
-  const toggleRow = (isoCode: string) => {
-    setExpanded((prev) => (prev === isoCode ? null : isoCode));
-  };
+
   useEffect(() => {
     const ids = new Set(countries.map((c) => c.isoCode ?? c.name));
     setHighlighted(ids);
@@ -59,19 +58,15 @@ export default function CountryTable() {
   const filteredCountries = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     if (!query) return countries;
-    return countries.filter((c) => c.name.toLowerCase().includes(query));
+    return countries.filter((c) => {
+      const nameMatch = c.name.toLowerCase().includes(query);
+      const isoMatch = (c.isoCode ?? '').toLowerCase().includes(query);
+      return nameMatch || isoMatch;
+    });
   }, [countries, searchQuery]);
 
-  const yearFilteredCountries = useMemo(() => {
-    if (selectedYear === null) return filteredCountries;
-    return filteredCountries.map((c) => ({
-      ...c,
-      details: c.details.filter((d) => d.year === selectedYear),
-    }));
-  }, [filteredCountries, selectedYear]);
-
   const sortedCountries = useMemo(() => {
-    const sorted = [...yearFilteredCountries].sort((a, b) => {
+    const sorted = [...filteredCountries].sort((a, b) => {
       if (sortKey === 'name') {
         return sortDirection === 'asc'
           ? a.name.localeCompare(b.name)
@@ -87,7 +82,7 @@ export default function CountryTable() {
       return 0;
     });
     return sorted;
-  }, [yearFilteredCountries, sortKey, sortDirection]);
+  }, [filteredCountries, sortKey, sortDirection, selectedYear]);
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-4">
@@ -141,52 +136,14 @@ export default function CountryTable() {
             </tr>
           </thead>
           <tbody>
-            {sortedCountries.map((country) => {
-              const isOpen =
-                expanded === country.isoCode || expanded === country.name;
-              const yearData = country.details.find(
-                (d) => d.year === selectedYear
-              );
-              return (
-                <>
-                  <tr
-                    key={country.isoCode ?? country.name}
-                    onClick={() => toggleRow(country.isoCode ?? country.name)}
-                    className={`hover:bg-blue-100 cursor-pointer ${isOpen ? 'border-gray-400 border-t-1' : ''}`}
-                  >
-                    <td className="px-2 py-2 text-center align-middle">
-                      <span
-                        className={`inline-block transform transition-transform duration-200 ${
-                          isOpen ? 'rotate-90' : ''
-                        }`}
-                      >
-                        ▶
-                      </span>
-                    </td>
-                    <td className="px-4 py-2">{country.name}</td>
-                    <td
-                      className={`px-4 py-2 
-                        ${highlighted.has(country.isoCode ?? country.name) ? 'highlight' : ''}
-                       `}
-                    >
-                      <div
-                        className={isOpen ? 'border-2 border-green-500' : ''}
-                      >
-                        {yearData?.population?.toLocaleString() ?? NO_VALUE}
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">{country.isoCode ?? NO_VALUE}</td>
-                  </tr>
-
-                  {isOpen && (
-                    <CountryDetails
-                      country={country}
-                      highlight={selectedYear}
-                    />
-                  )}
-                </>
-              );
-            })}
+            {sortedCountries.map((country) => (
+              <CountryRow
+                key={country.isoCode ?? country.name + '-fragment'}
+                country={country}
+                selectedYear={selectedYear}
+                highlighted={highlighted}
+              />
+            ))}
           </tbody>
         </table>
       </div>

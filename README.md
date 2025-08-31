@@ -28,3 +28,8 @@ Loading application with click on sorting by population
 ![year change 1-2-3 after useMemo for filtering too(144.7, 140.7, 26.8 ms)](image-19.png)
 ![sort by population  4 clicks after last changes(136.4, 152.2, 153.4, 164.4 ms)](image-20.png)
 ![filter typing 'bel' after last changes(42.6, 26.2, 20.7 ms)](image-21.png)
+
+implement React.Memo
+![sorting by population 4 times(38.7, 35.3, 35.8, 37.3ms)](image-22.png)
+![year change(208.2, 182, 185.3ms)](image-23.png)
+![filter typing 'bel'(26.6, 23.5, 22.8ms)](image-24.png)
