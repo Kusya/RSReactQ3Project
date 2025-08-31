@@ -30,7 +30,9 @@ function parseCountries(json: OWIDDataMap): ParsedCountry[] {
 
 export const countryDataResource = createResource(
   (async () => {
-    const res = await fetch('../../owid-co2-data.json');
+    const res = await fetch(
+      'https://nyc3.digitaloceanspaces.com/owid-public/data/co2/owid-co2-data.json'
+    );
     if (!res.ok) throw new Error(`Failed to load JSON: ${res.status}`);
     const json: OWIDDataMap = await res.json();
     return parseCountries(json);
